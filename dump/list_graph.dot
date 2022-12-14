@@ -1,0 +1,8 @@
+digraph structs {    
+rankdir = TB;        
+graph [dpi = 200];   
+ranksep = 1.5;       
+edge[penwidth = 10]; 
+cell0 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (4) | 770.45} " ];                         
+cell0 cell0 }

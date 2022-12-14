@@ -1,0 +1,68 @@
+
+//simplify_mul_div_one
+
+COND_DEF(((IS_OP (curr_node, MUL)  ||
+           IS_OP (curr_node, DIV)) &&
+           IS_ONE (RIGHT_NODE)    ),
+{
+    ASSIGN_LEFT (curr_node);
+})
+
+COND_DEF(((IS_OP (curr_node, MUL)  ||
+           IS_OP (curr_node, DIV)) &&
+           IS_ONE (LEFT_NODE)    ),
+{
+    ASSIGN_RIGHT (curr_node);
+})
+
+//simplify_pow
+
+COND_DEF((IS_OP (curr_node, PO) &&
+          IS_ONE (RIGHT_NODE)  ),
+{
+    ASSIGN_LEFT (curr_node);
+})
+
+COND_DEF((IS_OPP  (curr_node) &&
+          IS_NULL (RIGHT_NODE)  ),
+{
+    ASSIGN_NUM (curr_node, 1);
+})
+
+//simplify_add_sub_null
+
+COND_DEF(((IS_OPA (curr_node)  ||
+           IS_OPS (curr_node)) &&
+           IS_NULL (LEFT_NODE)   ),
+{
+    ASSIGN_RIGHT (curr_node);
+})
+
+COND_DEF(((IS_OPA (curr_node)  ||
+           IS_OPS (curr_node)) &&
+           IS_NULL (RIGHT_NODE)  ),
+{
+    ASSIGN_LEFT (curr_node);
+})
+
+//simplify_mul_div_null
+
+COND_DEF((IS_OPM (curr_node)  &&
+         (IS_NULL (LEFT_NODE) ||
+          IS_NULL (RIGHT_NODE)  )),
+{
+    ASSIGN_NUM (curr_node, 0);
+
+    tree_dtor (LEFT_NODE);
+    tree_dtor (RIGHT_NODE);
+})
+
+COND_DEF((IS_OPD (curr_node) &&
+          IS_NULL (LEFT_NODE)  ),
+{
+    ASSIGN_NUM (curr_node, 0);
+
+    tree_dtor (LEFT_NODE);
+    tree_dtor (RIGHT_NODE);
+})
+
