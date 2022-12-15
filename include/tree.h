@@ -108,6 +108,9 @@ Node      *create_root        (int type, value val, Tree_info *info);
 
 void       print_tree_inorder (Node *curr_node, Tree_info *info);
 
+void       check_bracketing_conditions (Node *curr_node,        Tree_info *info,
+                                        bool *round_bracketing, bool      *figure_bracketing);
+
 void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
@@ -119,6 +122,8 @@ void       convert_to_pdf     (Tree_info *info);
 Node      *copy_tree          (Node *orig_root, Tree_info *info);
 
 Node      *copy_node          (Node *curr_node, Tree_info *info);
+
+void       print_values       (Node *curr_node, Tree_info *info);
 
 void       create_cell        (Node *root, Tree_info *info);
 

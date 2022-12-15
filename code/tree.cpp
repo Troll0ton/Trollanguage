@@ -12,9 +12,9 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 
     fclose (info->file_in);
 
-    info->line     = line;
-    info->log_file = log_file;
-    info->root     = NULL;
+    info->line      = line;
+    info->log_file  = log_file;
+    info->root      = NULL;
     info->var_value = DELETED_PAR;
 
     info->graph_num = 0;
@@ -42,7 +42,7 @@ void tree_info_dtor (Tree_info *info)
     info->line      = DELETED_PAR;
     info->curr_line = DELETED_PAR;
     info->curr_cell = DELETED_PAR;
-    info->var_value  = DELETED_PAR;
+    info->var_value = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------
@@ -127,26 +127,21 @@ Node *create_root (int type, value val, Tree_info *info)
 //-----------------------------------------------------------------------------
 
 #define PARENT curr_node->parent
+
 void print_tree_inorder (Node *curr_node, Tree_info *info)
 {
     bool round_bracketing = false;
     bool figure_bracketing = false;
 
-    if(PARENT &&
-      (PARENT->priority > curr_node->priority ||
-      (PARENT->priority == curr_node->priority &&
-       PARENT->right == curr_node &&
-      (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
-    {
-        round_bracketing = true;
+    check_bracketing_conditions (curr_node, info, &round_bracketing, &figure_bracketing);
 
+    if(round_bracketing)
+    {
         txprint ("(");
     }
 
-    if(IS_OP (curr_node, DIV) || IS_OP (curr_node, POW))
+    if(figure_bracketing)
     {
-        figure_bracketing = true;
-
         txprint ("{");
     }
 
@@ -165,7 +160,59 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
         }
     }
 
-    if(curr_node->type == OP)
+    print_values (curr_node, info);
+
+    if(curr_node->right)
+    {
+        if(figure_bracketing)
+        {
+            txprint ("{");
+        }
+
+        print_tree_inorder (curr_node->right, info);
+
+        if(figure_bracketing)
+        {
+            txprint ("}");
+        }
+    }
+
+    if(figure_bracketing)
+    {
+        txprint ("}");
+    }
+
+    if(round_bracketing)
+    {
+        txprint (")");
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void check_bracketing_conditions (Node *curr_node,        Tree_info *info,
+                                  bool *round_bracketing, bool      *figure_bracketing)
+{
+    if(PARENT &&
+      (PARENT->priority > curr_node->priority ||
+      (PARENT->priority == curr_node->priority &&
+       PARENT->right == curr_node &&
+      (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
+    {
+        *round_bracketing = true;
+    }
+
+    if(IS_OP (curr_node, DIV) || IS_OP (curr_node, POW))
+    {
+        *figure_bracketing = true;
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void print_values (Node *curr_node, Tree_info *info)
+{
+    if(IS_TYPE (curr_node, OP))
     {
         #define CMD_DEF(cmd, cmd_name, code, ...) \
         case(cmd):                                \
@@ -192,12 +239,12 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
         #undef CMD_DEF
     }
 
-    else if(curr_node->type == NUM)
+    else if(IS_TYPE (curr_node, NUM))
     {
         txprint ("%lg", curr_node->val.num);
     }
 
-    else if(curr_node->type == VAR)
+    else if(IS_TYPE (curr_node, VAR))
     {
         txprint ("%c", curr_node->val.var);
     }
@@ -205,31 +252,6 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
     else
     {
         printf ("UNKNOWN VALUE!\n");
-    }
-
-    if(curr_node->right)
-    {
-        if(figure_bracketing)
-        {
-            txprint ("{");
-        }
-
-        print_tree_inorder (curr_node->right, info);
-
-        if(figure_bracketing)
-        {
-            txprint ("}");
-        }
-    }
-
-    if(figure_bracketing)
-    {
-        txprint ("}");
-    }
-
-    if(round_bracketing)
-    {
-        txprint (")");
     }
 }
 
@@ -313,7 +335,7 @@ void create_cell (Node *root, Tree_info *info)
     dot_print ("cell%d [style = filled, color = black, shape=record, \n",
                CURR_CELL);
 
-    if(root->type == OP)
+    if(IS_TYPE (root, OP))
     {
         dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
                    root->priority);
@@ -343,13 +365,13 @@ void create_cell (Node *root, Tree_info *info)
         #undef CMD_DEF
     }
 
-    else if(root->type == NUM)
+    else if(IS_TYPE (root, NUM))
     {
         dot_print ("fillcolor = coral2, label = \" { <ptr> TYPE: NUMERIC (%d) | %lg",
                    root->priority,root->val.num);
     }
 
-    else if(root->type == VAR)
+    else if(IS_TYPE (root, VAR))
     {
         dot_print ("fillcolor = darkolivegreen2, label = \" { <ptr> TYPE: VARIABLE (%d) | %c",
                    root->priority, root->val.var);
@@ -439,12 +461,11 @@ void create_latex_file (Tree_info *info)
 
 void convert_to_pdf (Tree_info *info)
 {
-    char ending_lines[] = R"(
+    char end_document[] = R"(
         End of the file
-        \end{document}
-    )";
+        \end{document})";
 
-    txprint ("%s\n", ending_lines);
+    txprint ("%s\n", end_document);
 
     fclose (info->file_tex);
 

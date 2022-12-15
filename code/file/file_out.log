@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2022.12.7)  15 DEC 2022 01:13
+This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2022.12.7)  15 DEC 2022 11:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -309,81 +309,81 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 30.
+(amsmath)                 on input line 32.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--112
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--138
 
  []
 
 [1
 
-] [2] [3]
+] [2] [3] [4]
 (C:\Users\ASUS_TUF_GAMING\Desktop\Git_Hub\Differentiator\code\file\file_out.aux
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
 .
@@ -393,11 +393,11 @@ File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 Here is how much of TeX's memory you used:
  4146 strings out of 410532
  66955 string characters out of 2811269
- 416726 words of memory out of 3000000
+ 419726 words of memory out of 3000000
  25278 multiletter control sequences out of 15000+600000
  479475 words of font info for 61 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  58i,6n,63p,237b,215s stack positions out of 10000i,1000n,20000p,200000b,80000s
 
 Output written on C:\Users\ASUS_TUF_GAMING\Desktop\Git_Hub\Differentiator\code\
-file\file_out.pdf (3 pages).
+file\file_out.pdf (4 pages).

@@ -12,9 +12,9 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 
     fclose (info->file_in);
 
-    info->line     = line;
-    info->log_file = log_file;
-    info->root     = NULL;
+    info->line      = line;
+    info->log_file  = log_file;
+    info->root      = NULL;
     info->var_value = DELETED_PAR;
 
     info->graph_num = 0;
@@ -42,7 +42,7 @@ void tree_info_dtor (Tree_info *info)
     info->line      = DELETED_PAR;
     info->curr_line = DELETED_PAR;
     info->curr_cell = DELETED_PAR;
-    info->var_value  = DELETED_PAR;
+    info->var_value = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------
@@ -132,23 +132,11 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
     bool round_bracketing = false;
     bool figure_bracketing = false;
 
-    if(PARENT &&
-      (PARENT->priority > curr_node->priority ||
-      (PARENT->priority == curr_node->priority &&
-       PARENT->right == curr_node &&
-      (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
-    {
-        round_bracketing = true;
+    check_bracketing_conditions (curr_node, info, round_bracketing);
 
-        txprint ("(");
-    }
+txprint ("(");
 
-    if(IS_OP (curr_node, DIV) || IS_OP (curr_node, POW))
-    {
-        figure_bracketing = true;
-
-        txprint ("{");
-    }
+txprint ("{");
 
     if(curr_node->left)
     {
@@ -165,6 +153,58 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
         }
     }
 
+    print_values (curr_node, info);
+
+    if(curr_node->right)
+    {
+        if(figure_bracketing)
+        {
+            txprint ("{");
+        }
+
+        print_tree_inorder (curr_node->right, info);
+
+        if(figure_bracketing)
+        {
+            txprint ("}");
+        }
+    }
+
+    if(figure_bracketing)
+    {
+        txprint ("}");
+    }
+
+    if(round_bracketing)
+    {
+        txprint (")");
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void check_bracketing_conditions (Node *curr_node,        Tree_info *info,
+                                  bool *round_bracketing, bool      *figure_bracketing)
+{
+    if(PARENT &&
+      (PARENT->priority > curr_node->priority ||
+      (PARENT->priority == curr_node->priority &&
+       PARENT->right == curr_node &&
+      (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
+    {
+        *round_bracketing = true;
+    }
+
+    if(IS_OP (curr_node, DIV) || IS_OP (curr_node, POW))
+    {
+        *figure_bracketing = true;
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void print_values (Node *curr_node, Tree_info *info)
+{
     if(curr_node->type == OP)
     {
         #define CMD_DEF(cmd, cmd_name, code, ...) \
@@ -205,31 +245,6 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
     else
     {
         printf ("UNKNOWN VALUE!\n");
-    }
-
-    if(curr_node->right)
-    {
-        if(figure_bracketing)
-        {
-            txprint ("{");
-        }
-
-        print_tree_inorder (curr_node->right, info);
-
-        if(figure_bracketing)
-        {
-            txprint ("}");
-        }
-    }
-
-    if(figure_bracketing)
-    {
-        txprint ("}");
-    }
-
-    if(round_bracketing)
-    {
-        txprint (")");
     }
 }
 
