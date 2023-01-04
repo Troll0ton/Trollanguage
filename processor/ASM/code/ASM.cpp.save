@@ -1,0 +1,408 @@
+#include "../include/ASM.h"
+
+//-----------------------------------------------------------------------------
+
+int assembler_ctor (Assembler *asm, char *argv[])
+{                                   //INITIALIZING
+    asm->code.array  = (char*) calloc (CODE_SIZE,  sizeof (char));
+    asm->label.array = (int*)  calloc (LABEL_SIZE, sizeof (int));
+
+    if(asm->code.array == NULL)
+    {
+        printf ("|ERROR - Null pointer, code array|\n");
+
+        return ERROR_CTOR;
+    }
+
+    if(asm->label.array == NULL)
+    {
+        printf ("|ERROR - Null pointer, label array|\n");
+
+        return ERROR_CTOR;
+    }
+                        //OFFSET
+    asm->code.size      = O(CODE_SIGNATURE);
+    asm->code.capacity  = CODE_SIZE;
+
+    asm->label.size     = O(LABEL_SIGNATURE);
+    asm->label.capacity = LABEL_SIZE;
+
+    asm->curr_pos = O(CODE_SIGNATURE);
+    asm->offset  = 0;
+
+    asm->info      = { 0 };
+    asm->curr_line = { 0 };
+
+    return asm_info_ctor (&asm->info, argv);
+}
+
+//-----------------------------------------------------------------------------
+
+#define DOUBLE_PASS (info->double_pass)
+
+int asm_info_ctor (Asm_info *info, char *argv[])
+{
+    info->code_signature = SIGNATURE;
+
+    info->file_in   = fopen ((char*) argv[1],         "rb");
+    info->code_file = fopen ("COMMON/files/code.bin", "wb");
+
+    DOUBLE_PASS = false;
+
+    if(info->file_in == NULL)
+    {
+        printf ("|ERROR - file_in opening|\n");
+
+        return ERROR_CTOR;
+    }
+
+    if(info->code_file == NULL)
+    {
+        printf ("|ERROR - code_file opening|\n");
+
+        return ERROR_CTOR;
+    }
+
+    return 0;
+}
+
+#undef DOUBLE_PASS
+
+//-----------------------------------------------------------------------------
+
+void assembling (Assembler *asm)
+{
+    File *File_input = file_reader (asm->info.file_in);
+    Line *Text = lines_separator (File_input);
+
+    parse_text (asm, Text, File_input);
+
+    write_res_sums (asm);
+
+    clear_mem (Text, File_input);
+
+    fwrite (asm->code.array, sizeof(char), asm->code.size, asm->info.code_file);
+}
+
+//-----------------------------------------------------------------------------
+
+#define DOUBLE_PASS (asm->info.double_pass)
+
+void parse_text (Assembler *asm, Line *Text, File *File_input)
+{
+    DOUBLE_PASS = false;
+
+    for(int i = 0; i < File_input->num_of_lines; i++)
+    {
+        Command cmd  = { 0 };
+        Argument arg = { 0 };
+
+        asm->curr_line = Text[i];
+
+        parse_line (asm, &cmd, &arg);
+
+        write_in_code (asm, cmd, arg);
+    }
+
+    asm->code.size = asm->curr_pos;
+    asm->curr_pos   = O(CODE_SIGNATURE);
+
+    if(DOUBLE_PASS) 
+    {
+        parse_text (asm, Text, File_input);
+    }
+}
+
+#undef DOUBLE_PASS
+
+//-----------------------------------------------------------------------------
+
+void parse_line (Assembler *asm, Command *cmd, Argument *arg)
+{
+    parse_label (asm, arg);
+
+    parse_cmd   (asm, cmd, arg);
+
+    parse_arg   (asm, cmd, arg);
+}
+
+//-----------------------------------------------------------------------------
+
+void parse_label (Assembler *asm, Argument *arg)
+{
+    if(lscan(":%lg", &arg->value) == 1)
+    {
+        if(arg->value > asm->label.size)
+        {
+            asm->label.size = (int) arg->value;
+        }
+
+        arg->is_label = true;
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void parse_cmd (Assembler *asm, Command *cmd, Argument *arg)
+{
+    char cmd_name[MAX_LEN] = "";
+
+    if(!arg->is_label && lscan("%20s", cmd_name) == 1)
+    {
+        char *cmd_names[] =
+        {
+            #define CMD_DEF(cmd, name, code, ...) \
+            name,
+
+            //-----------------------------------------------------------------------------
+
+            #include "../../COMMON/include/codegen/codegen.h"
+
+            //-----------------------------------------------------------------------------
+
+            #undef CMD_DEF
+        };
+
+        for(int num_cmd = 0; num_cmd < N(SUPPORTED_CMD); num_cmd++)
+        {
+            if(stricmp (cmd_name, cmd_names[num_cmd]) == 0)
+            {
+                cmd->code = num_cmd;
+                cmd->is_label = true;
+
+                break;
+            }
+        }
+
+        if(!cmd->is_label) asm->info.code_signature = SIGNATURE_DESTROYED;
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+#define DOUBLE_PASS (asm->info.double_pass)
+
+void parse_arg (Assembler *asm, Command *cmd, Argument *arg)
+{
+    if(cmd->is_label)
+    {
+        char unexpected_line[MAX_LEN] = "";
+
+        if(strchr (asm->curr_line.begin_line, ':') != NULL)
+        {
+            if(lscan("%*s %lg", &arg->value) == 1)
+            {
+                cmd->mask |= MASK_IMM;
+
+                search_label (asm, arg);
+            }
+
+            else
+            {
+                asm->info.code_signature = SIGNATURE_DESTROYED;
+            }
+        }
+
+        #define PARSE_ARG(num, name_msk, format, ...) \
+        else if(lscan(format, __VA_ARGS__) == num)    \
+        {                                             \
+            cmd->mask |= name_msk;                    \
+        }
+
+        //-----------------------------------------------------------------------------
+
+        #include "../../COMMON/include/codegen/asm_codegen.h"
+
+        //-----------------------------------------------------------------------------
+
+        #undef PARSE_ARG
+
+        else if(lscan("%*s %20s", unexpected_line) == 1)
+        {
+            printf ("ERROR - UNEXPECTED LINE!\n");
+
+            asm->info.code_signature = SIGNATURE_DESTROYED;
+        }
+    }
+}
+
+#undef DOUBLE_PASS
+
+//-----------------------------------------------------------------------------
+
+#define DOUBLE_PASS (asm->info.double_pass)
+
+void search_label (Assembler *asm, Argument *arg)
+{
+    if(arg->value > asm->label.size || asm->label.array[(int) arg->value] <= 0)
+    {
+        arg->value = NOT_FOUND;
+
+        DOUBLE_PASS = true;
+    }
+
+    else
+    {
+        arg->value = asm->label.array[(int) arg->value];
+    }
+}
+
+#undef DOUBLE_PASS
+
+//-----------------------------------------------------------------------------
+
+void write_in_code (Assembler *asm, Command cmd, Argument arg)
+{
+    if(asm->curr_pos + SIZE_DIFFERENCE > asm->code.capacity)
+    {
+        asm->code.capacity *= PAR_INCREASE;
+
+        asm->code.array = (char*) recalloc (asm->code.array,
+                                            asm->code.capacity,
+                                            asm->curr_pos,
+                                            sizeof (char)      );
+    }
+
+    if(!cmd.is_label && arg.is_label)
+    {
+        write_in_label (asm, arg);
+    }
+
+    else if(cmd.is_label)
+    {
+        asm->code.array[asm->curr_pos] = (char) (cmd.code |= cmd.mask);
+        asm->curr_pos += O(cmd);
+
+        write_in_arg (asm, cmd, arg);
+    }
+
+    *(elem_t*)(asm->code.array) = asm->code.size;
+    *(elem_t*)(asm->code.array + O(arg)) = asm->info.code_signature;
+}
+
+//-----------------------------------------------------------------------------
+
+void write_in_label (Assembler *asm, Argument arg)
+{
+    if(asm->label.size + SIZE_DIFFERENCE > asm->label.capacity)
+    {
+        asm->label.capacity *= 2;
+
+        asm->label.array = (int*) recalloc (asm->label.array,
+                                            asm->label.capacity,
+                                            asm->label.size,
+                                            sizeof (int)        );
+    }
+
+    if(arg.value > asm->label.size)
+    {
+        asm->label.size = (int) arg.value;
+    }
+
+    asm->label.array[(int) arg.value] = asm->curr_pos;
+}
+
+//-----------------------------------------------------------------------------
+
+void write_in_arg (Assembler *asm, Command cmd, Argument arg)
+{
+    if(cmd.code & MASK_REG)
+    {
+        *(elem_t*)(asm->code.array + asm->curr_pos) = (elem_t) (arg.reg_sym - 'a');
+
+        asm->curr_pos += O(arg);
+    }
+
+    if(cmd.code & MASK_IMM)
+    {
+        *(elem_t*)(asm->code.array + asm->curr_pos) = (elem_t) arg.value;
+
+        asm->curr_pos += O(arg);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void assembler_dtor (Assembler *asm)
+{
+    free (asm->code.array);
+    free (asm->label.array);
+
+    asm->code.size      = DELETED_PAR;
+    asm->code.capacity  = DELETED_PAR;
+    asm->label.size     = DELETED_PAR;
+    asm->label.capacity = DELETED_PAR;
+
+    asm_info_dtor (&asm->info);
+}
+
+//-----------------------------------------------------------------------------
+
+void asm_info_dtor (Asm_info *info)
+{
+    info->code_signature = SIGNATURE_DESTROYED;
+
+    fclose (info->file_in);
+    fclose (info->code_file);
+}
+
+//-----------------------------------------------------------------------------
+
+void write_res_sums (Assembler *asm)
+{
+    *(elem_t*)(asm->code.array + 0)          = asm->code.size;
+    *(elem_t*)(asm->code.array + O(arg)) = asm->info.code_signature;
+
+    asm->label.array[0] = asm->label.size;
+}
+
+//-----------------------------------------------------------------------------
+
+void asm_dump (Assembler *asm)
+{
+    FILE *code_dmp_file = fopen ("asm/dump/code_asm_dump.txt", "w+");
+
+    int i = 1;
+
+    fprintf (code_dmp_file, "%d - size, %x - signature\n",
+                            (int) *(elem_t*)(asm->code.array + 0),
+                            (int) *(elem_t*)(asm->code.array + O(arg)));
+
+    for(int curr_pos = O(CODE_SIGNATURE); curr_pos < asm->code.size; curr_pos++)
+    {
+        char curr_cmd = *(asm->code.array + curr_pos);
+        int  offset   = 0;
+
+        fprintf (code_dmp_file, "%06d - logic pos, %06d - phys pos || %d\n",
+                                i++, curr_pos, (int) asm->code.array[curr_pos]);
+
+        if(curr_cmd & MASK_REG)
+        {
+            fprintf (code_dmp_file, "%06d - logic pos, %06d - phys pos || %lg\n",
+                                    i++, curr_pos + O(cmd),
+                                    *(elem_t*)(asm->code.array + curr_pos + O(cmd)));
+
+            offset += O(arg);
+        }
+
+        if(curr_cmd & MASK_IMM)
+        {
+            // UB
+            i++;
+
+            fprintf (code_dmp_file, "%06d - logic pos, %06d - phys pos || %lg\n",
+                                    i, curr_pos + O(cmd) + offset,
+                                    *(elem_t*)(asm->code.array + curr_pos + O(cmd) + offset));
+
+            offset += O(arg);
+        }
+
+        curr_pos += offset;
+    }
+
+    fclose (code_dmp_file);
+}
+
+//-----------------------------------------------------------------------------
+
+

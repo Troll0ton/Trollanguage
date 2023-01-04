@@ -1,0 +1,131 @@
+
+//{----------------------------------------------------------------------------
+//!                       OPERATIONS WITH PRIORITY 4
+//}----------------------------------------------------------------------------
+
+CMD_DEF(SIN, "sin",
+{
+    Node *right_node_c = COPY_RIGHT;
+
+    val.op = COS;
+
+    INIT_NODE (new_node_1, NULL, right_node_c, NULL, OP, val, 4);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, new_node_1, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+    return curr_node;
+})
+
+CMD_DEF(COS, "cos",
+{
+    Node *right_node_c = COPY_RIGHT;
+
+    val.op = SIN;
+
+    INIT_NODE (new_node_sin, NULL, right_node_c, NULL, OP, val, 4);
+
+    val.num = -1;
+
+    INIT_NODE (node_one, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = MUL;
+
+    INIT_NODE (new_node_1, node_one, new_node_sin, NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, new_node_1, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+    return curr_node;
+})
+
+CMD_DEF(LN, "ln",
+{
+    Node *right_node_c = COPY_RIGHT;
+
+    val.num = 1;
+
+    INIT_NODE (one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = DIV;
+
+    INIT_NODE (div_node, one_node, right_node_c, NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, div_node, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+    return curr_node;
+})
+
+CMD_DEF(TG, "tg",
+{
+    Node *right_node_c = COPY_RIGHT;
+
+    val.num = 2;
+
+    INIT_NODE (two_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = COS;
+
+    INIT_NODE (cos_node, NULL, right_node_c, NULL, OP, val, 4);
+
+    val.op = POW;
+
+    INIT_NODE (pow_node, cos_node, two_node, NULL, OP, val, 3);
+
+    val.num = 1;
+
+    INIT_NODE (one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = DIV;
+
+    INIT_NODE (div_node, one_node, pow_node, NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, div_node, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+    return curr_node;
+})
+
+CMD_DEF(CTG, "ctg",
+{
+    Node *right_node_c = COPY_RIGHT;
+
+    val.num = 2;
+
+    INIT_NODE (two_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = SIN;
+
+    INIT_NODE (cos_node, NULL, right_node_c, NULL, OP, val, 4);
+
+    val.op = POW;
+
+    INIT_NODE (pow_node, cos_node, two_node, NULL, OP, val, 3);
+
+    val.num = 1;
+
+    INIT_NODE (one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = DIV;
+
+    INIT_NODE (div_node, one_node, pow_node, NULL, OP, val, 2);
+
+    val.num = -1;
+
+    INIT_NODE (neg_one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = MUL;
+
+    INIT_NODE (new_node_2, div_node, CALC_DRV (RIGHT_NODE), NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, new_node_2, neg_one_node, curr_node->parent, OP, val, 2);
+
+    return curr_node;
+})

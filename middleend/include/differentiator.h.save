@@ -1,0 +1,34 @@
+//! @file differentiator.h
+
+#ifndef DIFFERENTIATOR_H
+#define DIFFERENTIATOR_H
+
+//-----------------------------------------------------------------------------
+
+#include "../include/tree.h"
+#include "../include/frontend.h"
+#include "../include/middleend.h"
+#include "../include/common.h"
+
+//-----------------------------------------------------------------------------
+
+enum MODES
+{
+    CALC_POINT,
+    CALC_DERIV,
+    CALC_DERIV_POINT,
+};
+
+//-----------------------------------------------------------------------------
+
+void  print_expression      (Tree_info *info);
+
+void  print_derivative      (Tree_info *info);
+
+void  print_simplified      (Tree_info *info);
+
+bool  choose_mode           ();
+
+//-----------------------------------------------------------------------------
+
+#endif //DIFFERENTIATOR_H
