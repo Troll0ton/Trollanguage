@@ -8,11 +8,23 @@ int main ()
 
     tree_info_ctor (&info);
 
-    create_latex_file (&info);
+    #define CURR_LINE    &(&info->Text[line].begin_line)
+    #define NUM_OF_LINES &info->File_input->num_of_lines
 
-    choose_mode (&info);
+    nullify_tree_pars (&info);
 
-    convert_to_pdf (&info);
+    info->root = get_grammar (CURR_LINE);
+
+    simplify_tree (&info->root, &info);
+
+    save_tree (info->root, &info);
+
+    tree_dump (&info);
+
+    tree_dtor (&info->root);
+
+    #undef CURR_LINE
+    #undef NUM_OF_LINES
 
     tree_info_dtor (&info);
 

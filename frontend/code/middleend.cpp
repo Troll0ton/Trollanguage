@@ -1,3 +1,7 @@
+//{----------------------------------------------------------------------------
+//!                         OPTIMIZATION
+//}----------------------------------------------------------------------------
+
 #include "../include/middleend.h"
 
 //-----------------------------------------------------------------------------
@@ -6,72 +10,10 @@
 #define COPY_RIGHT copy_tree (curr_node->right, info)
 #define LEFT_NODE curr_node->left
 #define RIGHT_NODE curr_node->right
-#define CALC_DRV(node) calc_derivative (node, info)
-
-Node *calc_derivative (Node *curr_node, Tree_info *info)
-{
-    value val = { 0 };
-
-    switch(curr_node->type)
-    {
-        case NUM:
-        {
-            curr_node->val.num = 0;
-
-            return curr_node;
-        }
-
-        case VAR:
-        {
-            curr_node->type = NUM;
-            curr_node->val.num = 1;
-
-            return curr_node;
-        }
-
-        case OP:
-        {
-            #define CMD_DEF(cmd, cmd_name, ...) \
-            case cmd:                           \
-            {                                   \
-                __VA_ARGS__                     \
-            }
-
-            switch(curr_node->val.op)
-            {
-                //-----------------------------------------------------------------------------
-
-                #include "../include/codegen/op_1.h"
-                #include "../include/codegen/op_2.h"
-                #include "../include/codegen/op_3.h"
-                #include "../include/codegen/op_4.h"
-
-                //-----------------------------------------------------------------------------
-
-                default:
-                {
-                    printf ("UNKNOWN FUNCTION!\n");
-                }
-            }
-
-            #undef CMD_DEF
-
-            return NULL;
-        }
-
-        default:
-        {
-            printf ("MIDDLEEND - UNKNOWN TYPE!: %d\n", curr_node->type);
-
-            return NULL;
-        }
-    }
-}
-
-//-----------------------------------------------------------------------------
 
 #define LEFT_NUM  curr_node->left->val.num
 #define RIGHT_NUM curr_node->right->val.num
+#define DETECTED return true
 #define OLD_VAL                         \
         Node *old_right = RIGHT_NODE;   \
         Node *old_left  = LEFT_NODE;
@@ -79,16 +21,18 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
         if(old_right) free (old_right); \
         if(old_left) free (old_left);
 
+//-----------------------------------------------------------------------------
+
 bool simplify_tree (Node *curr_node, Tree_info *info)
 {
-    if(curr_node->left)
+    if(LEFT_NODE)
     {
-        while(simplify_tree (curr_node->left, info))  { }
+        while(simplify_tree (LEFT_NODE, info))  { }
     }
 
-    if(curr_node->right)
+    if(RIGHT_NODE)
     {
-        while(simplify_tree (curr_node->right, info)) { }
+        while(simplify_tree (RIGHT_NODE, info)) { }
     }
 
     simplify_node (curr_node, info);
@@ -102,7 +46,8 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 {
     if(simplify_const (curr_node, info))
     {
-         return true;
+        // return true;
+         DETECTED;
     }
 
     #define COND_DEF(condition, ...) \
@@ -114,7 +59,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
                                      \
         FREE_OLD;                    \
                                      \
-        return true;                 \
+        DETECTED;                    \
     }
 
     //-----------------------------------------------------------------------------
@@ -129,7 +74,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
     {
          ASSIGN_NUM (curr_node, info->var_value);
 
-         return true;
+         DETECTED;
     }
 
     return false;
@@ -139,8 +84,8 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 
 bool simplify_const (Node *curr_node, Tree_info *info)
 {
-    if(IS_TYPE (curr_node, OP)                &&
-       IS_TYPE (RIGHT_NODE, NUM)              &&
+    if(IS_TYPE (curr_node, OP) &&
+       IS_TYPE (RIGHT_NODE, NUM) &&
      ((LEFT_NODE && IS_TYPE (LEFT_NODE, NUM)) ||
       !LEFT_NODE))
     {
@@ -181,7 +126,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
             tree_dtor (RIGHT_NODE);
         }
 
-        return true;
+        DETECTED;
     }
 
     return false;

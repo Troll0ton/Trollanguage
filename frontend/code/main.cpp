@@ -1,6 +1,9 @@
-#include "../include/differentiator.h"
+#include "../include/frontend.h"
+#include "../include/middleend.h"
 
 //-----------------------------------------------------------------------------
+
+//NUM_OF_LINES &info->File_input->num_of_lines
 
 int main ()
 {
@@ -8,11 +11,17 @@ int main ()
 
     tree_info_ctor (&info);
 
-    create_latex_file (&info);
+    nullify_tree_pars (&info);
 
-    choose_mode (&info);
+    info.root = get_grammar (&info.Text[0].begin_line);
 
-    convert_to_pdf (&info);
+    simplify_tree (info.root, &info);
+
+    save_tree (info.root, &info);
+
+    tree_dump (&info);
+
+    tree_dtor (info.root);
 
     tree_info_dtor (&info);
 

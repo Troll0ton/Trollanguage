@@ -167,6 +167,7 @@ Node *get_str (char **grammar)
         return get_funct (grammar, name);
     }
 
+
     val.var = *name;
 
     INIT_VAR (val);
@@ -240,89 +241,5 @@ Node *get_bottom (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-void save_tree (Node *Curr_node, Tree_info *Info)
-{
-    value val = { 0 };
-
-    switch(curr_node->type)
-    {
-        case NUM:
-        {
-            curr_node->val.num = 0;
-
-            return curr_node;
-        }
-
-        case VAR:
-        {
-            curr_node->type = NUM;
-            curr_node->val.num = 1;
-
-            return curr_node;
-        }
-
-        case OP:
-        {
-            #define CMD_DEF(cmd, cmd_name, ...) \
-            case cmd:                           \
-            {                                   \
-                __VA_ARGS__                     \
-            }
-
-            switch(curr_node->val.op)
-            {
-                //-----------------------------------------------------------------------------
-
-                #include "../include/codegen/op_1.h"
-                #include "../include/codegen/op_2.h"
-                #include "../include/codegen/op_3.h"
-                #include "../include/codegen/op_4.h"
-
-                //-----------------------------------------------------------------------------
-
-                default:
-                {
-                    printf ("UNKNOWN FUNCTION!\n");
-                }
-            }
-
-            #undef CMD_DEF
-
-            return NULL;
-        }
-
-        default:
-        {
-            printf ("MIDDLEEND - UNKNOWN TYPE!: %d\n", curr_node->type);
-
-            return NULL;
-        }
-    }
-
-    trprint("{%s", Curr_node->name);
-
-    if(Curr_node->Left || Curr_node->Right)
-    {
-        trprint("\n");
-
-        if(Curr_node->Left)
-        {
-            save_tree (Curr_node->Left, Info);
-        }
-
-        else trprint("{NULL}\n");
-
-        if(Curr_node->Right)
-        {
-            save_tree (Curr_node->Right, Info);
-        }
-
-        else trprint("{NULL}\n");
-    }
-
-    trprint("}\n");
-}
-
-//-----------------------------------------------------------------------------
 
 

@@ -4,12 +4,12 @@
 
 void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 {
-    info->file_dump = fopen ("../dump/tree_dump.html", "w+");
-    info->file_in = fopen ("../files/task1.txt", "rb");
+    info->file_dump = fopen ("frontend/dump/tree_dump.html", "w+");
+    info->file_tree = fopen ("COMMON/files/tree.txt",        "w+");
 
+    info->file_in   = fopen ("frontend/files/input.txt", "rb");
     info->File_input = file_reader (info->file_in);
     info->Text = lines_separator (info->File_input);
-
     fclose (info->file_in);
 
     info->line      = line;
@@ -35,6 +35,7 @@ void nullify_tree_pars (Tree_info *info)
 void tree_info_dtor (Tree_info *info)
 {
     fclose (info->file_dump);
+    fclose (info->file_tree);
 
     clear_mem (info->Text, info->File_input);
 
@@ -70,7 +71,8 @@ Node *create_node ()
 
 Node *copy_tree (Node *orig_root, Tree_info *info)
 {
-    INIT_NODE (new_root, NULL, NULL, orig_root->parent, orig_root->type, orig_root->val, orig_root->priority);
+    INIT_NODE (new_root, NULL, NULL, orig_root->parent,
+               orig_root->type, orig_root->val, orig_root->priority);
 
     info->curr_parent = new_root;
 
@@ -93,7 +95,8 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
 
 Node *copy_node (Node *curr_node, Tree_info *info)
 {
-    INIT_NODE (new_node, NULL, NULL, info->curr_parent, curr_node->type, curr_node->val, curr_node->priority);
+    INIT_NODE (new_node, NULL, NULL, info->curr_parent,
+               curr_node->type, curr_node->val, curr_node->priority);
 
     info->curr_parent = new_node;
 
@@ -119,93 +122,39 @@ Node *create_root (int type, value val, Tree_info *info)
     Node *root = create_node ();
     info->root = root;
     root->type = type;
-    root->val = val;
+    root->val  = val;
 
     return root;
 }
 
 //-----------------------------------------------------------------------------
 
-#define PARENT curr_node->parent
-
-void print_tree_inorder (Node *curr_node, Tree_info *info)
+void save_tree (Node *curr_node, Tree_info *info)
 {
-    bool round_bracketing = false;
-    bool figure_bracketing = false;
-
-    check_bracketing_conditions (curr_node, info, &round_bracketing, &figure_bracketing);
-
-    if(round_bracketing)
-    {
-        txprint ("(");
-    }
-
-    if(figure_bracketing)
-    {
-        txprint ("{");
-    }
-
-    if(curr_node->left)
-    {
-        if(figure_bracketing)
-        {
-            txprint ("{");
-        }
-
-        print_tree_inorder (curr_node->left, info);
-
-        if(figure_bracketing)
-        {
-            txprint ("}");
-        }
-    }
+    trprint("{");
 
     print_values (curr_node, info);
 
-    if(curr_node->right)
+    if(curr_node->left || curr_node->right)
     {
-        if(figure_bracketing)
+        trprint("\n");
+
+        if(curr_node->left)
         {
-            txprint ("{");
+            save_tree (curr_node->left, info);
         }
 
-        print_tree_inorder (curr_node->right, info);
+        else trprint("{NULL}\n");
 
-        if(figure_bracketing)
+        if(curr_node->right)
         {
-            txprint ("}");
+            save_tree (curr_node->right, info);
         }
+
+        else trprint("{NULL}\n");
     }
 
-    if(figure_bracketing)
-    {
-        txprint ("}");
-    }
-
-    if(round_bracketing)
-    {
-        txprint (")");
-    }
-}
-
-//-----------------------------------------------------------------------------
-
-void check_bracketing_conditions (Node *curr_node,        Tree_info *info,
-                                  bool *round_bracketing, bool      *figure_bracketing)
-{
-    if(PARENT &&
-      (PARENT->priority > curr_node->priority ||
-      (PARENT->priority == curr_node->priority &&
-       PARENT->right == curr_node &&
-      (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
-    {
-        *round_bracketing = true;
-    }
-
-    if(IS_OP (curr_node, DIV) || IS_OP (curr_node, POW))
-    {
-        *figure_bracketing = true;
-    }
+    trprint("}\n");
 }
 
 //-----------------------------------------------------------------------------
@@ -214,10 +163,12 @@ void print_values (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP))
     {
+        trprint ("OP_");
+
         #define CMD_DEF(cmd, cmd_name, code, ...) \
         case(cmd):                                \
         {                                         \
-            txprint (cmd_name);                   \
+            trprint (cmd_name);                   \
                                                   \
             break;                                \
         }                                         \
@@ -241,12 +192,12 @@ void print_values (Node *curr_node, Tree_info *info)
 
     else if(IS_TYPE (curr_node, NUM))
     {
-        txprint ("%lg", curr_node->val.num);
+        trprint ("NUM_%lg", curr_node->val.num);
     }
 
     else if(IS_TYPE (curr_node, VAR))
     {
-        txprint ("%c", curr_node->val.var);
+        trprint ("VAR_%c", curr_node->val.var);
     }
 
     else
@@ -279,7 +230,7 @@ void tree_dump (Tree_info *info)
 
 void create_tree_graph (Tree_info *info)
 {
-    info->file_dot = fopen ("../dump/list_graph.dot", "w+");
+    info->file_dot = fopen ("frontend/dump/list_graph.dot", "w+");
 
     dot_print ("digraph structs {    \n"
                "rankdir = TB;        \n"
@@ -317,7 +268,7 @@ void create_tree_graph (Tree_info *info)
     char dot_name[MAX_LEN] = "";
 
     sprintf (img_name, "<img width=\"1400px\" src=\"../dump/graph%d.png\">   \n", info->graph_num);
-    sprintf (dot_name, "dot -Tpng ../dump/list_graph.dot -o ../dump/graph%d.png", info->graph_num);
+    sprintf (dot_name, "dot -Tpng frontend/dump/list_graph.dot -o frontend/dump/graph%d.png", info->graph_num);
 
     info->graph_num++;
 
@@ -426,51 +377,6 @@ void build_connections (Node *root, Tree_info *info)
 }
 
 #undef CURR_CELL
-
-//-----------------------------------------------------------------------------
-
-void create_latex_file (Tree_info *info)
-{
-    info->file_tex = fopen ("../files/file_out.tex", "w+");
-
-    const char header[] = R"(
-    \documentclass[12pt]{article}
-    \usepackage[utf8]{inputenc}
-    \usepackage{cmap}
-    \usepackage{amsmath}
-    \usepackage{amssymb}
-    \usepackage{mathtools}
-    \usepackage{mathtext}
-
-    \usepackage[english, russian]{babel}
-
-    \title{DIFFERENTIATOR}
-    \author{Anton}
-    \date{12 november 2022}
-
-    \begin{document}
-
-    \maketitle
-    Your input: \\
-    )";
-
-    txprint ("%s\n", header);
-}
-
-//-----------------------------------------------------------------------------
-
-void convert_to_pdf (Tree_info *info)
-{
-    char end_document[] = R"(
-        End of the file
-        \end{document})";
-
-    txprint ("%s\n", end_document);
-
-    fclose (info->file_tex);
-
-    system ("run_tex.bat");
-}
 
 //-----------------------------------------------------------------------------
 

@@ -13,8 +13,6 @@
 
 #define trprint(...) fprintf (info->file_tree, __VA_ARGS__)
 
-#define txprint(...) fprintf (info->file_tex, __VA_ARGS__)
-
 #define dot_print(...) fprintf (info->file_dot, __VA_ARGS__)
 
 //-----------------------------------------------------------------------------
@@ -48,7 +46,7 @@ typedef struct Node
     Node *right;
     char  priority;
     int   type;
-    union value val;
+    value val;
 } Node;
 
 //-----------------------------------------------------------------------------
@@ -71,8 +69,8 @@ typedef struct Tree_info
 {
     FILE  *file_in;
     FILE  *file_dump;
-    FILE  *file_tex;
     FILE  *file_dot;
+    FILE  *file_tree;
     Line  *Text;
     File  *File_input;
     Node  *root;
@@ -96,40 +94,33 @@ enum SIDES
 
 //-----------------------------------------------------------------------------
 
-void       tree_info_ctor_    (Tree_info *info, const char* log_file, int line);
+void  tree_info_ctor_   (Tree_info *info, const char* log_file, int line);
 
-void       nullify_tree_pars  (Tree_info *info);
+void  nullify_tree_pars (Tree_info *info);
 
-void       tree_info_dtor     (Tree_info *info);
+void  tree_info_dtor    (Tree_info *info);
 
-Node      *create_node        ();
+Node *create_node       ();
 
-Node      *create_root        (int type, value val, Tree_info *info);
+Node *create_root       (int type, value val, Tree_info *info);
 
-void       print_tree_inorder (Node *curr_node, Tree_info *info);
+void  tree_dump         (Tree_info *info);
 
-void       check_bracketing_conditions (Node *curr_node,        Tree_info *info,
-                                        bool *round_bracketing, bool      *figure_bracketing);
+void  save_tree         (Node *curr_node, Tree_info *info);
 
-void       tree_dump          (Tree_info *info);
+void  create_tree_graph (Tree_info *info);
 
-void       create_tree_graph  (Tree_info *info);
+Node *copy_tree         (Node *orig_root, Tree_info *info);
 
-void       create_latex_file  (Tree_info *info);
+Node *copy_node         (Node *curr_node, Tree_info *info);
 
-void       convert_to_pdf     (Tree_info *info);
+void  print_values      (Node *curr_node, Tree_info *info);
 
-Node      *copy_tree          (Node *orig_root, Tree_info *info);
+void  create_cell       (Node *root, Tree_info *info);
 
-Node      *copy_node          (Node *curr_node, Tree_info *info);
+void  build_connections (Node *root, Tree_info *info);
 
-void       print_values       (Node *curr_node, Tree_info *info);
-
-void       create_cell        (Node *root, Tree_info *info);
-
-void       build_connections  (Node *root, Tree_info *info);
-
-void       tree_dtor          (Node *curr_node);
+void  tree_dtor         (Node *curr_node);
 
 //-----------------------------------------------------------------------------
 
