@@ -27,8 +27,8 @@ int processor_ctor (Processor *cpu)
 
 int Cpu_info_ctor (Cpu_info *info)
 {
-    info->code_file = fopen ("COMMON/files/code.bin", "rb");
-    info->file_out  = fopen ("CPU/dump/log.txt",      "w+");
+    info->code_file = fopen ("processor/COMMON/files/code.bin", "rb");
+    info->file_out  = fopen ("processor/CPU/dump/log.txt",      "w+");
 
     if(info->code_file == NULL ||
        info->file_out  == NULL   )
@@ -185,7 +185,7 @@ void execute_cmd (int curr_cmd,  double    *curr_arg, double arg_value,
 
 void cpu_dump (Processor *cpu)
 {
-    FILE *code_dmp_file = fopen ("CPU/dump/code_cpu_dump.txt", "w+");
+    FILE *code_dmp_file = fopen ("processor/CPU/dump/code_cpu_dump.txt", "w+");
 
     fprintf (code_dmp_file, "%d - size, %x - signature\n", (int) *(elem_t*)(cpu->code + 0),
                                                            (int) *(elem_t*)(cpu->code + O(ARG)));

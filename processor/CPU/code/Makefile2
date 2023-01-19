@@ -3,7 +3,7 @@ CFLAGS=-c -Wall
 LDFLAGS=
 SOURCES=main.cpp CPU.cpp stack.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=../../cpu
+EXECUTABLE=../../../cpu
 
 all: $(SOURCES) $(EXECUTABLE)
 	

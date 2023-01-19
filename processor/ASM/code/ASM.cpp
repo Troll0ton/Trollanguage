@@ -44,8 +44,8 @@ int Asm_info_ctor (Asm_info *info, char *argv[])
 {
     info->code_signature = SIGNATURE;
 
-    info->file_in   = fopen ((char*) argv[1],         "rb");
-    info->code_file = fopen ("COMMON/files/code.bin", "wb");
+    info->file_in   = fopen ("COMMON/files/input.asm",          "rb");
+    info->code_file = fopen ("processor/COMMON/files/code.bin", "wb");
 
     DOUBLE_PASS = false;
 
@@ -360,7 +360,7 @@ void write_res_sums (Assembler *Asm)
 
 void Asm_dump (Assembler *Asm)
 {
-    FILE *code_dmp_file = fopen ("Asm/dump/code_Asm_dump.txt", "w+");
+    FILE *code_dmp_file = fopen ("processor/ASM/dump/code_Asm_dump.txt", "w+");
 
     int i = 1;
 

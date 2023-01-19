@@ -3,7 +3,7 @@ CFLAGS=-c -Wall
 LDFLAGS=
 SOURCES=main.cpp ASM.cpp lines_handle.cpp input_output.cpp stack.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=../../asm
+EXECUTABLE=../../../asm
 
 all: $(SOURCES) $(EXECUTABLE)
 	
