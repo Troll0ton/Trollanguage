@@ -4,5 +4,17 @@ graph [dpi = 200];
 ranksep = 1.5;       
 edge[penwidth = 10]; 
 cell0 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (4) | 311.523} " ];                         
-cell0 cell0 }
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | SUB} " ];                         
+cell1 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | ADD} " ];                         
+cell2 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (4) | 698} " ];                         
+cell3 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (4) | 556} " ];                         
+cell4 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (4) | 323} " ];                         
+cell0 -> cell1;
+cell1 -> cell2;
+cell1 -> cell3;
+cell0 -> cell4;
+}

@@ -1,0 +1,34 @@
+#include "../include/differentiator.h"
+
+//-----------------------------------------------------------------------------
+
+int main ()
+{
+    Tree_info info = { 0 };
+
+    tree_info_ctor (&info);
+
+    #define CURR_LINE    &(&info->Text[line].begin_line)
+    #define NUM_OF_LINES &info->File_input->num_of_lines
+
+    nullify_tree_pars (&info);
+
+    info->root = get_grammar (CURR_LINE);
+
+    simplify_tree (&info->root, &info);
+
+    save_tree (info->root, &info);
+
+    tree_dump (&info);
+
+    tree_dtor (&info->root);
+
+    #undef CURR_LINE
+    #undef NUM_OF_LINES
+
+    tree_info_dtor (&info);
+
+    return 0;
+}
+
+//-----------------------------------------------------------------------------

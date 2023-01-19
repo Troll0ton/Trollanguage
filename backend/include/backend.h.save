@@ -1,0 +1,30 @@
+//! @file backend.h
+
+#ifndef BACK_END
+#define BACK_END
+
+//-----------------------------------------------------------------------------
+
+#include "../include/tree.h"
+#include <math.h>
+
+//-----------------------------------------------------------------------------
+
+#define OFFSET_TYPE 1
+
+//-----------------------------------------------------------------------------
+
+Node *read_tree          (Tree_info *info);
+
+Node *init_node          (Tree_info *info);
+
+Node *handle_branch_node (Tree_info *info, Node *new_node);
+
+Node *handle_end_node    (Tree_info *info, Node *new_node);
+
+void  transform_to_asm   (Tree_info *info);
+
+//-----------------------------------------------------------------------------
+
+#endif //BACK_END
+

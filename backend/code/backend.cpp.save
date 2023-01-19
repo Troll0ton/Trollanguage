@@ -1,0 +1,182 @@
+#include "../include/backend.h"
+
+//-----------------------------------------------------------------------------
+
+#define CURR_LINE info->Text[info->curr_line].begin_line
+
+Node *read_tree (Tree_info *info)
+{
+    char sym = 0;
+
+    sscanf (CURR_LINE, "%c", &sym);
+
+    if(sym == '{')
+    {
+        Node *new_node = init_node (info);
+
+        char *parenth_pos = strchr (CURR_LINE, '}');
+
+        if(parenth_pos == NULL)
+        {
+            return handle_branch_node (info, new_node);
+        }
+
+        else
+        {
+            *parenth_pos = '\0';
+
+            return handle_end_node (info, new_node);
+        }
+    }
+
+    else
+    {
+        printf ("unidentified symbol;\n");
+    }
+
+    return NULL;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *init_node (Tree_info *info)
+{
+    char type = 0;
+
+    value val = { 0 };
+
+    sscanf (CURR_LINE + OFFSET_PARENTHESES, "%c", &type);
+
+    type -= '0';
+
+    switch((int) type)
+    {
+        case NUM:
+        {
+            sscanf (CURR_LINE + OFFSET_PARENTHESES + OFFSET_TYPE, "%lg", &val.num);
+
+            break;
+        }
+
+        case VAR:
+        {
+            sscanf (CURR_LINE + OFFSET_PARENTHESES + OFFSET_TYPE, "%c", &val.var);
+
+            break;
+        }
+
+        case OP:
+        {
+            sscanf (CURR_LINE + OFFSET_PARENTHESES + OFFSET_TYPE, "%d", &val.op);
+
+            break;
+        }
+
+        case NUL:
+        {
+            return NULL;
+        }
+
+        default:
+        {
+            printf ("UNKNOWN TYPE!\n");
+        }
+    }
+
+    INIT_NODE (new_node, NULL, NULL, NULL, type, val, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *handle_branch_node (Tree_info *info, Node *new_node)
+{
+    if(!info->root)
+    {
+        info->root = new_node;
+    }
+
+    else
+    {
+        new_node->parent = info->curr_parent;
+    }
+
+    info->curr_parent = new_node;
+
+    info->curr_line++;
+
+    new_node->left  = read_tree (info);
+    new_node->right = read_tree (info);
+
+    info->curr_line++;
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *handle_end_node (Tree_info *info, Node *new_node)
+{
+    if(new_node)
+    {
+        new_node->parent = info->curr_parent;
+    }
+
+    info->curr_line++;
+
+    return new_node;
+}
+
+#undef CURR_LINE
+
+//-----------------------------------------------------------------------------
+
+void convert_to_asm (Node *curr_node, Tree_info *info)
+{
+    if(curr_node->left || curr_node->right)
+    {
+        if(curr_node->left)
+        {
+            save_tree (curr_node->left, info);
+        }
+                                            
+        if(curr_node->right)
+        {
+            save_tree (curr_node->right, info);
+        }
+    }
+    
+    print_values (curr_node, info);
+    
+    trprint ("%d", curr_node->type);
+}
+
+//-----------------------------------------------------------------------------
+
+void print_values (Node *curr_node, Tree_info *info)
+{
+    trprint ("%d", curr_node->type);
+
+    if(IS_TYPE (curr_node, OP))
+    {
+        trprint ("%d", curr_node->val.op);
+    }
+
+    else if(IS_TYPE (curr_node, NUM))
+    {
+        trprint ("%lg", curr_node->val.num);
+    }
+
+    else if(IS_TYPE (curr_node, VAR))
+    {
+        trprint ("%c", curr_node->val.var);
+    }
+
+    else
+    {
+        printf ("UNKNOWN VALUE!\n");
+    }
+}
+
+//-----------------------------------------------------------------------------

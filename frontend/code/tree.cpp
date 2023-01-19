@@ -144,14 +144,14 @@ void save_tree (Node *curr_node, Tree_info *info)
             save_tree (curr_node->left, info);
         }
 
-        else trprint("{NULL}\n");
+        else trprint("{3}\n");
 
         if(curr_node->right)
         {
             save_tree (curr_node->right, info);
         }
 
-        else trprint("{NULL}\n");
+        else trprint("{3}\n");
     }
 
     trprint("}\n");
@@ -161,43 +161,21 @@ void save_tree (Node *curr_node, Tree_info *info)
 
 void print_values (Node *curr_node, Tree_info *info)
 {
+    trprint ("%d", curr_node->type);
+
     if(IS_TYPE (curr_node, OP))
     {
-        trprint ("OP_");
-
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
-        case(cmd):                                \
-        {                                         \
-            trprint (cmd_name);                   \
-                                                  \
-            break;                                \
-        }                                         \
-
-        switch(curr_node->val.op)
-        {
-            //-----------------------------------------------------------------------------
-
-            #include "../include/codegen/calc.h"
-
-            //-----------------------------------------------------------------------------
-
-            default:
-            {
-                printf ("UNKNOWN FUNCTION!\n");
-            }
-        }
-
-        #undef CMD_DEF
+        trprint ("%d", curr_node->val.op);
     }
 
     else if(IS_TYPE (curr_node, NUM))
     {
-        trprint ("NUM_%lg", curr_node->val.num);
+        trprint ("%lg", curr_node->val.num);
     }
 
     else if(IS_TYPE (curr_node, VAR))
     {
-        trprint ("VAR_%c", curr_node->val.var);
+        trprint ("%c", curr_node->val.var);
     }
 
     else

@@ -1,0 +1,20 @@
+digraph structs {    
+rankdir = TB;        
+graph [dpi = 200];   
+ranksep = 1.5;       
+edge[penwidth = 10]; 
+cell0 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | sub} " ];                         
+cell1 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | add} " ];                         
+cell2 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 698} " ];                         
+cell3 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 556} " ];                         
+cell4 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 323} " ];                         
+cell0 -> cell1;
+cell1 -> cell2;
+cell1 -> cell3;
+cell0 -> cell4;
+}
