@@ -1,4 +1,4 @@
-#include "../include/cpu.h"
+#include "../include/CPU.h"
 
 //-----------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ int processor_ctor (Processor *cpu)
     stack_ctor (&cpu->Stk_call, SIZE_OF_STK);
 
     cpu->regs = (double*) calloc (N(REGS), sizeof (double));
-    cpu->ram  = (double*) calloc (SZ(RAM), sizeof (double));
+    cpu->ram  = (double*) calloc (SIZE_OF_RAM, sizeof (double));
 
     if(cpu->regs == NULL || cpu->ram == NULL)
     {
@@ -25,10 +25,10 @@ int processor_ctor (Processor *cpu)
 
 //-----------------------------------------------------------------------------
 
-int cpu_info_ctor (cpu_info *info)
+int cpu_info_ctor (Cpu_info *info)
 {
-    info->code_file = fopen ("COMMON/files/code.bin", "rb");
-    info->file_out  = fopen ("CPU/dump/log.txt",      "w+");
+    info->code_file = fopen ("processor/COMMON/files/code.bin", "rb");
+    info->file_out  = fopen ("processor/CPU/dump/log.txt",      "w+");
 
     if(info->code_file == NULL ||
        info->file_out  == NULL   )
@@ -55,7 +55,7 @@ void processor_dtor (Processor *cpu)
 
 //-----------------------------------------------------------------------------
 
-void cpu_info_dtor (cpu_info *info)
+void cpu_info_dtor (Cpu_info *info)
 {
     fclose (info->code_file);
     fclose (info->file_out);
@@ -185,13 +185,13 @@ void execute_cmd (int curr_cmd,  double    *curr_arg, double arg_value,
 
 void cpu_dump (Processor *cpu)
 {
-    FILE *code_dmp_file = fopen ("cpu/dump/code_cpu_dump.txt", "w+");
+    FILE *code_dmp_file = fopen ("processor/CPU/dump/code_cpu_dump.txt", "w+");
 
     fprintf (code_dmp_file, "%d - size, %x - signature\n", (int) *(elem_t*)(cpu->code + 0),
                                                            (int) *(elem_t*)(cpu->code + O(ARG)));
     int i = 1;
 
-    for(int curr_pos = O(CODE_SIGNATURE); curr_pos < cpu->CODE_SIZE; curr_pos++)
+    for(int curr_pos = O(CODE_SIGNATURE); curr_pos < cpu->code_size; curr_pos++)
     {
         char curr_cmd = cpu->code[curr_pos];
         int  offset   = 0;

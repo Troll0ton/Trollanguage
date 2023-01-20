@@ -8,13 +8,19 @@ fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | sub} " ];
 cell1 [style = filled, color = black, shape=record, 
 fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | add} " ];                         
 cell2 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 698} " ];                         
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 877} " ];                         
 cell3 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 556} " ];                         
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
 cell4 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 323} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | mul} " ];                         
+cell5 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | y} " ];                         
+cell6 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 787} " ];                         
 cell0 -> cell1;
 cell1 -> cell2;
 cell1 -> cell3;
 cell0 -> cell4;
+cell4 -> cell5;
+cell4 -> cell6;
 }

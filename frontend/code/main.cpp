@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------------
 
-//NUM_OF_LINES &info->File_input->num_of_lines
+//NUM_OF_LINES &info->File_input->num_of_lines       //sequence - SEQ (последовательность )
 
 int main ()
 {
@@ -15,7 +15,7 @@ int main ()
 
     info.root = get_grammar (&info.Text[0].begin_line);
 
-    //simplify_tree (info.root, &info);
+    simplify_tree (info.root, &info);
 
     save_tree (info.root, &info);
 

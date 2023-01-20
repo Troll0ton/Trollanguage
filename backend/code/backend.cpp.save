@@ -118,7 +118,12 @@ Node *handle_branch_node (Tree_info *info, Node *new_node)
 
 Node *handle_end_node (Tree_info *info, Node *new_node)
 {
-    if(new_node)
+    if(!info->root)
+    {
+        info->root = new_node;
+    }
+    
+    else if(new_node)
     {
         new_node->parent = info->curr_parent;
     }
@@ -138,39 +143,59 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
     {
         if(curr_node->left)
         {
-            save_tree (curr_node->left, info);
+            convert_to_asm (curr_node->left, info);
         }
-                                            
+
         if(curr_node->right)
         {
-            save_tree (curr_node->right, info);
+            convert_to_asm (curr_node->right, info);
         }
     }
-    
+
     print_values (curr_node, info);
-    
-    trprint ("%d", curr_node->type);
+
+    trprint ("\n");
 }
 
 //-----------------------------------------------------------------------------
 
 void print_values (Node *curr_node, Tree_info *info)
 {
-    trprint ("%d", curr_node->type);
-
     if(IS_TYPE (curr_node, OP))
     {
-        trprint ("%d", curr_node->val.op);
+        #define CMD_DEF(cmd, cmd_name)            \
+        case(cmd):                                \
+        {                                         \
+            trprint (cmd_name);                   \
+                                                  \
+            break;                                \
+        }                                         \
+
+        switch(curr_node->val.op)
+        {
+            //-----------------------------------------------------------------------------
+
+            #include "../include/codegen/op_def.h"
+
+            //-----------------------------------------------------------------------------
+
+            default:
+            {
+                printf ("UNKNOWN FUNCTION!\n");
+            }
+        }
+
+        #undef CMD_DEF
     }
 
     else if(IS_TYPE (curr_node, NUM))
     {
-        trprint ("%lg", curr_node->val.num);
+        trprint ("push %lg", curr_node->val.num);
     }
 
     else if(IS_TYPE (curr_node, VAR))
     {
-        trprint ("%c", curr_node->val.var);
+        trprint ("push %c", curr_node->val.var);
     }
 
     else

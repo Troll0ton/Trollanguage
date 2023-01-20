@@ -13,7 +13,7 @@ int main (int argc, char *argv[])
 
     assembling (&Asm);
 
-    Asm_dump (&Asm);
+    asm_dump (&Asm);
 
     assembler_dtor (&Asm);
 

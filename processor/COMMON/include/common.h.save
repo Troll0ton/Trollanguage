@@ -94,9 +94,9 @@ enum POISONS
 enum codeS_OF_ERROR
 {
     ERROR_CTOR  = 1,
-    ERROR_Asm   = 2,
+    ERROR_ASM   = 2,
     ERROR_CPU   = 3,
-    ERROR_dasm  = 4,
+    ERROR_DASM  = 4,
 };
 
 //-----------------------------------------------------------------------------

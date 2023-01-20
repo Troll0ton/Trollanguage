@@ -23,8 +23,15 @@
 
 enum CMD_INFO
 {
-    N(SUPPORTED_CMD) = 19,
-    MAX_LEN          = 20,
+    //{----------------------------------------------------------------------------
+    //!
+    //}----------------------------------------------------------------------------
+                                NUM_OF_SUPPORTED_CMD = 21,
+    //{----------------------------------------------------------------------------
+    //!
+    //}----------------------------------------------------------------------------
+
+    MAX_LEN = 20,
 };
 
 //-----------------------------------------------------------------------------
@@ -101,7 +108,7 @@ typedef struct Assembler
 
 int  assembler_ctor (Assembler *Asm, char *argv[]);
 
-int  Asm_info_ctor  (Asm_info *info, char *argv[]);
+int  asm_info_ctor  (Asm_info *info, char *argv[]);
 
 void assembling     (Assembler *Asm);
 
@@ -125,11 +132,11 @@ void write_in_label (Assembler *Asm, Argument arg);
 
 void assembler_dtor (Assembler *Asm);
 
-void Asm_info_dtor  (Asm_info  *info);
+void asm_info_dtor  (Asm_info  *info);
 
 void write_res_sums (Assembler *Asm);
 
-void Asm_dump       (Assembler *Asm);
+void asm_dump       (Assembler *Asm);
 
 //-----------------------------------------------------------------------------
 

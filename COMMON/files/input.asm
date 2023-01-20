@@ -1,6 +1,8 @@
-push 698
-push 556
+push 877
+push rxx
 add
-push 323
+push ryx
+push 787
+mul
 sub
 out

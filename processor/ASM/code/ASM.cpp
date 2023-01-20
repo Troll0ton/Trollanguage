@@ -33,14 +33,14 @@ int assembler_ctor (Assembler *Asm, char *argv[])
     Asm->info      = { 0 };
     Asm->curr_line = { 0 };
 
-    return Asm_info_ctor (&Asm->info, argv);
+    return asm_info_ctor (&Asm->info, argv);
 }
 
 //-----------------------------------------------------------------------------
 
 #define DOUBLE_PASS (info->double_pass)
 
-int Asm_info_ctor (Asm_info *info, char *argv[])
+int asm_info_ctor (Asm_info *info, char *argv[])
 {
     info->code_signature = SIGNATURE;
 
@@ -333,12 +333,12 @@ void assembler_dtor (Assembler *Asm)
     Asm->label.size     = DELETED_PAR;
     Asm->label.capacity = DELETED_PAR;
 
-    Asm_info_dtor (&Asm->info);
+    asm_info_dtor (&Asm->info);
 }
 
 //-----------------------------------------------------------------------------
 
-void Asm_info_dtor (Asm_info *info)
+void asm_info_dtor (Asm_info *info)
 {
     info->code_signature = SIGNATURE_DESTROYED;
 
@@ -358,9 +358,9 @@ void write_res_sums (Assembler *Asm)
 
 //-----------------------------------------------------------------------------
 
-void Asm_dump (Assembler *Asm)
+void asm_dump (Assembler *Asm)
 {
-    FILE *code_dmp_file = fopen ("processor/ASM/dump/code_Asm_dump.txt", "w+");
+    FILE *code_dmp_file = fopen ("processor/ASM/dump/code_asm_dump.txt", "w+");
 
     int i = 1;
 

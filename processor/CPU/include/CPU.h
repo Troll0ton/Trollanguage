@@ -61,11 +61,11 @@ typedef struct Processor
 
 int  processor_ctor  (Processor *cpu);
 
-int  Cpu_info_ctor   (Cpu_info *info);
+int  cpu_info_ctor   (Cpu_info *info);
 
 void processor_dtor  (Processor *cpu);
 
-void Cpu_info_dtor   (Cpu_info *info);
+void cpu_info_dtor   (Cpu_info *info);
 
 void read_code_file  (Processor *cpu);
 
@@ -75,7 +75,6 @@ bool is_equal        (double a, double b);
 
 void execute_cmd     (int curr_cmd,  double    *curr_arg, double arg_value,
                       int *curr_ptr, Processor *cpu                        );
-
 
 void cpu_dump        (Processor *cpu);
 

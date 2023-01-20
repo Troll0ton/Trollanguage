@@ -269,7 +269,7 @@ void create_cell (Node *root, Tree_info *info)
         dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
                    root->priority);
 
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        #define OP_DEF(cmd, cmd_name, code, ...) \
         case(cmd):                                \
         {                                         \
             dot_print (cmd_name);                 \
@@ -281,7 +281,7 @@ void create_cell (Node *root, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/calc.h"
+            #include "../include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
@@ -291,7 +291,7 @@ void create_cell (Node *root, Tree_info *info)
             }
         }
 
-        #undef CMD_DEF
+        #undef OP_DEF
     }
 
     else if(IS_TYPE (root, NUM))

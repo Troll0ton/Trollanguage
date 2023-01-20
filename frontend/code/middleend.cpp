@@ -92,7 +92,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
         curr_node->type = NUM;
         curr_node->priority = 4;
 
-        #define CMD_DEF(cmd, cmd_name, ...) \
+        #define OP_DEF(cmd, cmd_name, ...)  \
         case cmd:                           \
         {                                   \
             __VA_ARGS__                     \
@@ -104,7 +104,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/calc.h"
+            #include "../include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
@@ -114,7 +114,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
             }
         }
 
-        #undef CMD_DEF
+        #undef OP_DEF
 
         if(LEFT_NODE)
         {

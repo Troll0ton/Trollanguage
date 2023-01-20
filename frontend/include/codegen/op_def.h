@@ -1,54 +1,54 @@
 
 //{----------------------------------------------------------------------------
-//!                       CALCULATIONS CODEGEN
+//!                       OPERATIONS CODEGEN
 //}----------------------------------------------------------------------------
 
-CMD_DEF(ADD, "ADD",
+OP_DEF(ADD, "+",
 {
     curr_node->val.num = LEFT_NUM + RIGHT_NUM;
 })
 
-CMD_DEF(SUB, "SUB",
+OP_DEF(SUB, "-",
 {
     curr_node->val.num = LEFT_NUM - RIGHT_NUM;
 })
 
-CMD_DEF(MUL, "MUL",
+OP_DEF(MUL, "*",
 {
     curr_node->val.num = LEFT_NUM * RIGHT_NUM;
 })
 
-CMD_DEF(DIV, "DIV",
+OP_DEF(DIV, "/",
 {
     curr_node->val.num = LEFT_NUM / RIGHT_NUM;
 })
 
-CMD_DEF(POW, "POW",
+OP_DEF(POW, "^",
 {
     curr_node->val.num = pow (LEFT_NUM, RIGHT_NUM);
 })
 
-CMD_DEF(SIN, "SIN",
+OP_DEF(SIN, "sin",
 {
     curr_node->val.num = sin (RIGHT_NUM);
 })
 
-CMD_DEF(COS, "COS",
+OP_DEF(COS, "cos",
 {
     curr_node->val.num = cos (RIGHT_NUM);
 })
 
-CMD_DEF(LN, "LOG",
+OP_DEF(LN, "ln",
 {
     curr_node->val.num = log (RIGHT_NUM);
 })
 
-CMD_DEF(TG, "TAN",
+OP_DEF(TG, "tg",
 {
     curr_node->val.num = tan (RIGHT_NUM);
 })
 
-CMD_DEF(CTG, "CTN",
+OP_DEF(CTG, "ctg",
 {
     curr_node->val.num = 1 / tan (RIGHT_NUM);
 })

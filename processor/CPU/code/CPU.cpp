@@ -20,12 +20,12 @@ int processor_ctor (Processor *cpu)
         return ERROR_CTOR;
     }
 
-    return (Cpu_info_ctor (&cpu->info));
+    return (cpu_info_ctor (&cpu->info));
 }
 
 //-----------------------------------------------------------------------------
 
-int Cpu_info_ctor (Cpu_info *info)
+int cpu_info_ctor (Cpu_info *info)
 {
     info->code_file = fopen ("processor/COMMON/files/code.bin", "rb");
     info->file_out  = fopen ("processor/CPU/dump/log.txt",      "w+");
@@ -50,12 +50,12 @@ void processor_dtor (Processor *cpu)
     free (cpu->ram);
     free (cpu->code);
 
-    Cpu_info_dtor (&cpu->info);
+    cpu_info_dtor (&cpu->info);
 }
 
 //-----------------------------------------------------------------------------
 
-void Cpu_info_dtor (Cpu_info *info)
+void cpu_info_dtor (Cpu_info *info)
 {
     fclose (info->code_file);
     fclose (info->file_out);

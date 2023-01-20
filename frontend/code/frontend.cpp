@@ -25,8 +25,8 @@ Node *get_mul_div (char **grammar)
 
         Node *right_node = get_mul_div (grammar);
 
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
-        if(curr_op == cmd_name)                   \
+        #define OP_DEF(cmd, cmd_name, code, ...)  \
+        if(curr_op == cmd_name[0])                \
         {                                         \
             INIT (cmd, 2);                        \
                                                   \
@@ -36,11 +36,11 @@ Node *get_mul_div (char **grammar)
 
         //-----------------------------------------------------------------------------
 
-        #include "../include/codegen/op_2.h"
+        #include "../include/codegen/op_def.h"
 
         //-----------------------------------------------------------------------------
 
-        #undef CMD_DEF
+        #undef OP_DEF
 
         //else
         printf ("UNKOWN COMMAND - PRIORITY 1!\n");
@@ -109,8 +109,8 @@ Node *get_expression (char **grammar)
 
         Node *right_node = get_mul_div (grammar);
 
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
-        if(curr_op == cmd_name)                   \
+        #define OP_DEF(cmd, cmd_name, code, ...)  \
+        if(curr_op == cmd_name[0])                \
         {                                         \
             INIT (cmd, 1);                        \
                                                   \
@@ -120,14 +120,34 @@ Node *get_expression (char **grammar)
 
         //-----------------------------------------------------------------------------
 
-        #include "../include/codegen/op_1.h"
+        #include "../include/codegen/op_def.h"
 
         //-----------------------------------------------------------------------------
 
-        #undef CMD_DEF
+        #undef OP_DEF
 
         //else
         printf ("UNKOWN COMMAND - PRIORITY 1!\n");
+    }
+
+    return left_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_assignment (char **grammar)
+{
+    Node *left_node = get_str (grammar);
+
+    Node *right_node = get_expression (grammar);
+
+    if(**grammar == '=')
+    {
+        (*grammar)++;
+
+        INIT (ASG, 0);
+
+        return new_node;
     }
 
     return left_node;
@@ -164,9 +184,8 @@ Node *get_str (char **grammar)
 
     if(IS_('('))
     {
-        return get_funct (grammar, name);
+        return get_math_funct (grammar, name);
     }
-
 
     val.var = *name;
 
@@ -177,12 +196,12 @@ Node *get_str (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-Node *get_funct (char **grammar, char *name)
+Node *get_math_funct (char **grammar, char *name)
 {
     Node *right_node = get_brackets (grammar);
     Node *left_node = NULL;
 
-    #define CMD_DEF(cmd, cmd_name, code, ...) \
+    #define OP_DEF(cmd, cmd_name, code, ...)  \
     if(stricmp (name, cmd_name) == 0)         \
     {                                         \
         INIT (cmd, 4);                        \
@@ -192,11 +211,11 @@ Node *get_funct (char **grammar, char *name)
 
     //-----------------------------------------------------------------------------
 
-    #include "../include/codegen/op_4.h"
+    #include "../include/codegen/op_def.h"
 
     //-----------------------------------------------------------------------------
 
-    #undef CMD_DEF
+    #undef OP_DEF
 
     else
     {

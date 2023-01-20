@@ -1,7 +1,7 @@
-//! @file cpu.h
+//! @file CPU.h
 
-#ifndef   cpu_H
-#define   cpu_H
+#ifndef   CPU_H
+#define   CPU_H
 
 //-----------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
 
 //-----------------------------------------------------------------------------
 
-enum cpu_INFO
+enum CPU_INFO
 {
     SIZE_OF_STK = 2,
 };
@@ -25,29 +25,29 @@ enum cpu_INFO
 
 enum REG_INFO
 {
-    N(REGS) = 5,
+    NUM_OF_REGS = 5,
 };
 
 //-----------------------------------------------------------------------------
 
 enum RAM_INFO
 {
-    SZ(RAM) = 300,
+    SIZE_OF_RAM = 300,
 };
 
 //-----------------------------------------------------------------------------
 
-typedef struct cpu_info
+typedef struct Cpu_info
 {
     FILE *code_file;
     FILE *file_out;
-} cpu_info;
+} Cpu_info;
 
 //-----------------------------------------------------------------------------
 
 typedef struct Processor
 {
-    cpu_info info;
+    Cpu_info info;
     double  *regs;
     double  *ram;
     char    *code;
@@ -61,11 +61,11 @@ typedef struct Processor
 
 int  processor_ctor  (Processor *cpu);
 
-int  cpu_info_ctor   (cpu_info *info);
+int  cpu_info_ctor   (Cpu_info *info);
 
 void processor_dtor  (Processor *cpu);
 
-void cpu_info_dtor   (cpu_info *info);
+void cpu_info_dtor   (Cpu_info *info);
 
 void read_code_file  (Processor *cpu);
 
@@ -76,9 +76,8 @@ bool is_equal        (double a, double b);
 void execute_cmd     (int curr_cmd,  double    *curr_arg, double arg_value,
                       int *curr_ptr, Processor *cpu                        );
 
-
 void cpu_dump        (Processor *cpu);
 
 //-----------------------------------------------------------------------------
 
-#endif //cpu_H
+#endif //CPU_H

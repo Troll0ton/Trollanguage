@@ -118,7 +118,12 @@ Node *handle_branch_node (Tree_info *info, Node *new_node)
 
 Node *handle_end_node (Tree_info *info, Node *new_node)
 {
-    if(new_node)
+    if(!info->root)
+    {
+        info->root = new_node;
+    }
+
+    else if(new_node)
     {
         new_node->parent = info->curr_parent;
     }
@@ -158,7 +163,7 @@ void print_values (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP))
     {
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        #define CMD_DEF(cmd, cmd_name)            \
         case(cmd):                                \
         {                                         \
             trprint (cmd_name);                   \
@@ -170,7 +175,7 @@ void print_values (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/calc.h"
+            #include "../include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
@@ -190,7 +195,7 @@ void print_values (Node *curr_node, Tree_info *info)
 
     else if(IS_TYPE (curr_node, VAR))
     {
-        trprint ("push %c", curr_node->val.var);
+        trprint ("push r%cx", curr_node->val.var);
     }
 
     else
