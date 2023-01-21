@@ -23,7 +23,7 @@ OP_DEF(TG, "tg")
 
 OP_DEF(CTG, "ctg")
 
-OP_DEF(ASG, "pop")
+OP_DEF(ASG, "assignment")
 
-OP_DEF(SEQ, "seq")
+OP_DEF(SEQ, "sequence")
 

@@ -161,9 +161,12 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
             }
         }
 
-        print_values (curr_node, info);
+        if(!IS_OP(curr_node, SEQ))
+        {
+            print_values (curr_node, info);
 
-        trprint ("\n");
+            trprint ("\n");
+        }
     }
 }
 

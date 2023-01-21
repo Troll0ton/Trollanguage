@@ -1,0 +1,32 @@
+digraph structs {    
+rankdir = TB;        
+graph [dpi = 200];   
+ranksep = 1.5;       
+edge[penwidth = 10]; 
+cell0 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | seq} " ];                         
+cell1 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | pop} " ];                         
+cell2 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
+cell3 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | sub} " ];                         
+cell4 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 300} " ];                         
+cell5 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 100} " ];                         
+cell6 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | add} " ];                         
+cell7 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
+cell8 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 50} " ];                         
+cell0 -> cell1;
+cell1 -> cell2;
+cell1 -> cell3;
+cell3 -> cell4;
+cell3 -> cell5;
+cell0 -> cell6;
+cell6 -> cell7;
+cell6 -> cell8;
+}
