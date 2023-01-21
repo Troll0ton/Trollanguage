@@ -3,17 +3,16 @@
 
 //-----------------------------------------------------------------------------
 
-//NUM_OF_LINES &info->File_input->num_of_lines       //sequence - SEQ (последовательность )
-
+#define NUM_OF_LINES info.File_input->num_of_lines
+                                                     //sequence - SEQ (последовательность )
+                                                     //&info.Text[0].begin_line
 int main ()
 {
     Tree_info info = { 0 };
 
     tree_info_ctor (&info);
 
-    nullify_tree_pars (&info);
-
-    info.root = get_grammar (&info.Text[0].begin_line);
+    info.root = get_sequence (&info);
 
     //simplify_tree (info.root, &info);
 

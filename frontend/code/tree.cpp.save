@@ -26,7 +26,6 @@ void nullify_tree_pars (Tree_info *info)
 {
     info->curr_line = 0;
     info->curr_cell = 0;
-    info->root = NULL;
     info->curr_parent = NULL;
 }
 
@@ -122,7 +121,7 @@ Node *create_root (int type, value val, Tree_info *info)
     Node *root = create_node ();
     info->root = root;
     root->type = type;
-    root->val = val;
+    root->val  = val;
 
     return root;
 }
@@ -144,14 +143,14 @@ void save_tree (Node *curr_node, Tree_info *info)
             save_tree (curr_node->left, info);
         }
 
-        else trprint("{NULL}\n");
+        else trprint("{3}\n");
 
         if(curr_node->right)
         {
             save_tree (curr_node->right, info);
         }
 
-        else trprint("{NULL}\n");
+        else trprint("{3}\n");
     }
 
     trprint("}\n");
@@ -161,31 +160,11 @@ void save_tree (Node *curr_node, Tree_info *info)
 
 void print_values (Node *curr_node, Tree_info *info)
 {
+    trprint ("%d", curr_node->type);
+
     if(IS_TYPE (curr_node, OP))
     {
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
-        case(cmd):                                \
-        {                                         \
-            trprint (cmd_name);                   \
-                                                  \
-            break;                                \
-        }                                         \
-
-        switch(curr_node->val.op)
-        {
-            //-----------------------------------------------------------------------------
-
-            #include "../include/codegen/calc.h"
-
-            //-----------------------------------------------------------------------------
-
-            default:
-            {
-                printf ("UNKNOWN FUNCTION!\n");
-            }
-        }
-
-        #undef CMD_DEF
+        trprint ("%d", curr_node->val.op);
     }
 
     else if(IS_TYPE (curr_node, NUM))
@@ -228,7 +207,7 @@ void tree_dump (Tree_info *info)
 
 void create_tree_graph (Tree_info *info)
 {
-    info->file_dot = fopen ("./dump/list_graph.dot", "w+");
+    info->file_dot = fopen ("frontend/dump/list_graph.dot", "w+");
 
     dot_print ("digraph structs {    \n"
                "rankdir = TB;        \n"
@@ -266,7 +245,7 @@ void create_tree_graph (Tree_info *info)
     char dot_name[MAX_LEN] = "";
 
     sprintf (img_name, "<img width=\"1400px\" src=\"../dump/graph%d.png\">   \n", info->graph_num);
-    sprintf (dot_name, "dot -Tpng ../dump/list_graph.dot -o ../dump/graph%d.png", info->graph_num);
+    sprintf (dot_name, "dot -Tpng frontend/dump/list_graph.dot -o frontend/dump/graph%d.png", info->graph_num);
 
     info->graph_num++;
 
@@ -289,7 +268,7 @@ void create_cell (Node *root, Tree_info *info)
         dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
                    root->priority);
 
-        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        #define OP_DEF(cmd, cmd_name, code, ...) \
         case(cmd):                                \
         {                                         \
             dot_print (cmd_name);                 \
@@ -301,7 +280,7 @@ void create_cell (Node *root, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/calc.h"
+            #include "../include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
@@ -311,7 +290,7 @@ void create_cell (Node *root, Tree_info *info)
             }
         }
 
-        #undef CMD_DEF
+        #undef OP_DEF
     }
 
     else if(IS_TYPE (root, NUM))

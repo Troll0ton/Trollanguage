@@ -24,9 +24,6 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 
 void nullify_tree_pars (Tree_info *info)
 {
-    info->curr_line = 0;
-    info->curr_cell = 0;
-    info->root = NULL;
     info->curr_parent = NULL;
 }
 

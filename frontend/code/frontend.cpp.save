@@ -139,34 +139,51 @@ Node *get_assignment (char **grammar)
 {
     Node *left_node = get_str (grammar);
 
+    (*grammar)++;
+
     Node *right_node = get_expression (grammar);
 
-    if(**grammar == '=')
-    {
-        (*grammar)++;
+    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
 
-        INIT (ASG, 0);
+    INIT (ASG, 0);
 
-        return new_node;
-    }
-
-    return left_node;
+    return new_node;
 }
 
 //-----------------------------------------------------------------------------
 
 Node *get_grammar (char **grammar)
 {
-    Node *root = get_expression (grammar);
-    
-    if(strchr(*grammar, '='))
+    if(strchr (*grammar, '='))
     {
-        return get_assignment ();
+        return get_assignment (grammar);
     }
+
+    Node *root = get_expression (grammar);
 
     CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
 
     return root;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_sequence (Tree_info *info)
+{
+    Node *left_node = get_grammar (&info.Text[curr_line].begin_line);
+
+    curr_line++;
+
+    while(curr_line < info->File_input->num_of_lines)
+    {
+        Node *right_node = get_sequence (info);
+
+        INIT (SEQ, 0);
+
+        left_node = new_node;
+    }
+
+    return left_node;
 }
 
 //-----------------------------------------------------------------------------

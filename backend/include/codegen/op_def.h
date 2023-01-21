@@ -25,3 +25,5 @@ OP_DEF(CTG, "ctg")
 
 OP_DEF(ASG, "pop")
 
+OP_DEF(SEQ, "seq")
+

@@ -168,6 +168,30 @@ Node *get_grammar (char **grammar)
 
 //-----------------------------------------------------------------------------
 
+Node *get_sequence (Tree_info *info)
+{
+    Node *left_node = get_grammar (&info->Text[info->curr_line].begin_line);
+
+    nullify_tree_pars (info);
+
+    info->curr_line++;
+
+    while(info->curr_line < info->File_input->num_of_lines)
+    {
+        Node *right_node = get_grammar (&info->Text[info->curr_line].begin_line);
+
+        info->curr_line++;
+
+        INIT (SEQ, 0);
+
+        left_node = new_node;
+    }
+
+    return left_node;
+}
+
+//-----------------------------------------------------------------------------
+
 Node *get_str (char **grammar)
 {
     char name[MAX_LEN] = "";

@@ -58,3 +58,8 @@ OP_DEF(ASG, "ASSIGNMENT",
 
 })
 
+OP_DEF(SEQ, "SEQUENCE",
+{
+
+})
+
