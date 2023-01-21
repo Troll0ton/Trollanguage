@@ -138,16 +138,16 @@ Node *get_expression (char **grammar)
 Node *get_assignment (char **grammar)
 {
     Node *left_node = get_str (grammar);
-     
+
+    Node *right_node = get_expression (grammar);
+
     if(**grammar == '=')
     {
         (*grammar)++;
 
-        Node *right_node = get_expression (grammar);
-
         INIT (ASG, 0);
 
-        left_node = new_node;
+        return new_node;
     }
 
     return left_node;
@@ -158,6 +158,11 @@ Node *get_assignment (char **grammar)
 Node *get_grammar (char **grammar)
 {
     Node *root = get_expression (grammar);
+    
+    if(strchr(*grammar, '='))
+    {
+        return get_assignment ();
+    }
 
     CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
 

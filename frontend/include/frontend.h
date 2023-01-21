@@ -23,7 +23,9 @@ Node *get_bottom     (char **grammar);
 
 Node *get_pow        (char **grammar);
 
-Node *get_math_funct      (char **grammar, char *name);
+Node *get_math_funct (char **grammar, char *name);
+
+Node *get_assignment (char **grammar);
 
 //-----------------------------------------------------------------------------
 

@@ -53,3 +53,8 @@ OP_DEF(CTG, "ctg",
     curr_node->val.num = 1 / tan (RIGHT_NUM);
 })
 
+OP_DEF(ASG, "ASSIGNMENT",
+{
+
+})
+

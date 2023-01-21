@@ -85,6 +85,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 bool simplify_const (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP) &&
+       curr_node->priority != 0 &&
        IS_TYPE (RIGHT_NODE, NUM) &&
      ((LEFT_NODE && IS_TYPE (LEFT_NODE, NUM)) ||
       !LEFT_NODE))
@@ -110,7 +111,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
 
             default:
             {
-                printf ("UNKNOWN FUNCTION!\n");
+                printf ("UNKNOWN SIMPLE FUNCTION!\n");
             }
         }
 

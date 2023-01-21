@@ -139,22 +139,32 @@ Node *handle_end_node (Tree_info *info, Node *new_node)
 
 void convert_to_asm (Node *curr_node, Tree_info *info)
 {
-    if(curr_node->left || curr_node->right)
+    if(IS_OP (curr_node, ASG))
     {
-        if(curr_node->left)
-        {
-            convert_to_asm (curr_node->left, info);
-        }
+        convert_to_asm (curr_node->right, info);
 
-        if(curr_node->right)
-        {
-            convert_to_asm (curr_node->right, info);
-        }
+        trprint ("pop r%cx\n", curr_node->left->val.var);
     }
 
-    print_values (curr_node, info);
+    else
+    {
+        if(curr_node->left || curr_node->right)
+        {
+            if(curr_node->left)
+            {
+                convert_to_asm (curr_node->left, info);
+            }
 
-    trprint ("\n");
+            if(curr_node->right)
+            {
+                convert_to_asm (curr_node->right, info);
+            }
+        }
+
+        print_values (curr_node, info);
+
+        trprint ("\n");
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -163,7 +173,7 @@ void print_values (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP))
     {
-        #define CMD_DEF(cmd, cmd_name)            \
+        #define OP_DEF(cmd, cmd_name)             \
         case(cmd):                                \
         {                                         \
             trprint (cmd_name);                   \
@@ -185,7 +195,7 @@ void print_values (Node *curr_node, Tree_info *info)
             }
         }
 
-        #undef CMD_DEF
+        #undef OP_DEF
     }
 
     else if(IS_TYPE (curr_node, NUM))
