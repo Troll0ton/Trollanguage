@@ -154,6 +154,21 @@ Node *get_assignment (char **grammar)
 
 Node *get_grammar (char **grammar)
 {
+    if(!strncmp (*grammar, "if", 2))
+    {
+        (*grammar) += 2;
+
+        Node *left_node = get_brackets (grammar);
+
+        (*grammar)++;
+
+        Node *right_node = get_grammar (grammar);
+
+        INIT (IF, 0);
+
+        return new_node;
+    }
+
     if(strchr (*grammar, '='))
     {
         return get_assignment (grammar);

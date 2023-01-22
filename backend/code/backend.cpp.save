@@ -139,31 +139,42 @@ Node *handle_end_node (Tree_info *info, Node *new_node)
 
 void convert_to_asm (Node *curr_node, Tree_info *info)
 {
+    if(IS_OP (curr_node, IF))
+    {
+        convert_to_asm (curr_node->right, info);
+
+        trprint ("pop r%cx\n", curr_node->left->val.var);
+    }
+    
     if(IS_OP (curr_node, ASG))
     {
         convert_to_asm (curr_node->right, info);
-        
-        trprint ("pop");
+
+        trprint ("pop r%cx\n", curr_node->left->val.var);
     }
-    
-    
-    
-    if(curr_node->left || curr_node->right)
+
+    else
     {
-        if(curr_node->left)
+        if(curr_node->left || curr_node->right)
         {
-            convert_to_asm (curr_node->left, info);
+            if(curr_node->left)
+            {
+                convert_to_asm (curr_node->left, info);
+            }
+
+            if(curr_node->right)
+            {
+                convert_to_asm (curr_node->right, info);
+            }
         }
 
-        if(curr_node->right)
+        if(!IS_OP(curr_node, SEQ))
         {
-            convert_to_asm (curr_node->right, info);
+            print_values (curr_node, info);
+
+            trprint ("\n");
         }
     }
-
-    print_values (curr_node, info);
-
-    trprint ("\n");
 }
 
 //-----------------------------------------------------------------------------

@@ -158,6 +158,8 @@ Node *get_grammar (char **grammar)
     {
         return get_assignment (grammar);
     }
+    
+    if(strm)
 
     Node *root = get_expression (grammar);
 
@@ -170,13 +172,17 @@ Node *get_grammar (char **grammar)
 
 Node *get_sequence (Tree_info *info)
 {
-    Node *left_node = get_grammar (&info.Text[curr_line].begin_line);
+    Node *left_node = get_grammar (&info->Text[info->curr_line].begin_line);
 
-    curr_line++;
+    nullify_tree_pars (info);
 
-    while(curr_line < info->File_input->num_of_lines)
+    info->curr_line++;
+
+    while(info->curr_line < info->File_input->num_of_lines)
     {
-        Node *right_node = get_sequence (info);
+        Node *right_node = get_grammar (&info->Text[info->curr_line].begin_line);
+
+        info->curr_line++;
 
         INIT (SEQ, 0);
 

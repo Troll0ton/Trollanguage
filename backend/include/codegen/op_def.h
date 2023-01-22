@@ -27,3 +27,5 @@ OP_DEF(ASG, "assignment")
 
 OP_DEF(SEQ, "sequence")
 
+OP_DEF(IF, "if")
+

@@ -63,3 +63,8 @@ OP_DEF(SEQ, "SEQUENCE",
 
 })
 
+OP_DEF(IF, "IF",
+{
+
+})
+

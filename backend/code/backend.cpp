@@ -139,7 +139,20 @@ Node *handle_end_node (Tree_info *info, Node *new_node)
 
 void convert_to_asm (Node *curr_node, Tree_info *info)
 {
-    if(IS_OP (curr_node, ASG))
+    if(IS_OP (curr_node, IF))
+    {
+        trprint ("push 0\n");
+
+        convert_to_asm (curr_node->left, info);
+
+        trprint ("je 1:\n");
+
+        convert_to_asm (curr_node->right, info);
+
+        trprint (":1\n");
+    }
+
+    else if(IS_OP (curr_node, ASG))
     {
         convert_to_asm (curr_node->right, info);
 
