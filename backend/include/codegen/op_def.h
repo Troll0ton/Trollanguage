@@ -29,3 +29,5 @@ OP_DEF(SEQ, "sequence")
 
 OP_DEF(IF, "if")
 
+OP_DEF(WHILE, "while")
+

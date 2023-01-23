@@ -68,3 +68,8 @@ OP_DEF(IF, "IF",
 
 })
 
+OP_DEF(WHILE, "WHILE",
+{
+
+})
+

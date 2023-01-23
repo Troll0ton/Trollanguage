@@ -141,12 +141,31 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 {
     if(IS_OP (curr_node, IF))
     {
+        trprint ("push 0\n");
+
+        convert_to_asm (curr_node->left, info);
+
+        trprint ("je 1:\n");
+
         convert_to_asm (curr_node->right, info);
 
-        trprint ("pop r%cx\n", curr_node->left->val.var);
+        trprint (":1\n");
     }
     
-    if(IS_OP (curr_node, ASG))
+    else if(IS_OP (curr_node, WHILE))
+    {
+        trprint ("push 0\n");
+
+        convert_to_asm (curr_node->left, info);
+
+        trprint ("je 1:\n");
+
+        convert_to_asm (curr_node->right, info);
+
+        trprint (":1\n");
+    }
+
+    else if(IS_OP (curr_node, ASG))
     {
         convert_to_asm (curr_node->right, info);
 

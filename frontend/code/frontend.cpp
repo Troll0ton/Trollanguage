@@ -169,6 +169,21 @@ Node *get_grammar (char **grammar)
         return new_node;
     }
 
+    if(!strncmp (*grammar, "while", 5))
+    {
+        (*grammar) += 5;
+
+        Node *left_node = get_brackets (grammar);
+
+        (*grammar)++;
+
+        Node *right_node = get_grammar (grammar);
+
+        INIT (WHILE, 0);
+
+        return new_node;
+    }
+
     if(strchr (*grammar, '='))
     {
         return get_assignment (grammar);

@@ -1,14 +1,14 @@
-push 300
-push 100
-sub
+push 5
 pop rxx
+:2
 push 0
 push rxx
-push 200
+je 3:
+push rxx
+push 1
 sub
-je 1:
-push 159
-pop ryx
-:1
-push ryx
+pop rxx
+jmp 2:
+:3
+push rxx
 out

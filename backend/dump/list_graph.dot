@@ -12,39 +12,33 @@ fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | assignment} 
 cell3 [style = filled, color = black, shape=record, 
 fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
 cell4 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | sub} " ];                         
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 5} " ];                         
 cell5 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 300} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | while} " ];                         
 cell6 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 100} " ];                         
-cell7 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | if} " ];                         
-cell8 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | sub} " ];                         
-cell9 [style = filled, color = black, shape=record, 
 fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
-cell10 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 200} " ];                         
-cell11 [style = filled, color = black, shape=record, 
+cell7 [style = filled, color = black, shape=record, 
 fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | assignment} " ];                         
+cell8 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
+cell9 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | sub} " ];                         
+cell10 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
+cell11 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 1} " ];                         
 cell12 [style = filled, color = black, shape=record, 
-fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | y} " ];                         
-cell13 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (0) | 159} " ];                         
-cell14 [style = filled, color = black, shape=record, 
-fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | y} " ];                         
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (0) | x} " ];                         
 cell0 -> cell1;
 cell1 -> cell2;
 cell2 -> cell3;
 cell2 -> cell4;
-cell4 -> cell5;
-cell4 -> cell6;
-cell1 -> cell7;
+cell1 -> cell5;
+cell5 -> cell6;
+cell5 -> cell7;
 cell7 -> cell8;
-cell8 -> cell9;
-cell8 -> cell10;
-cell7 -> cell11;
-cell11 -> cell12;
-cell11 -> cell13;
-cell0 -> cell14;
+cell7 -> cell9;
+cell9 -> cell10;
+cell9 -> cell11;
+cell0 -> cell12;
 }
