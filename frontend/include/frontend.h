@@ -9,7 +9,11 @@
 
 //-----------------------------------------------------------------------------
 
-Node *get_grammar    (char **grammar);
+Node *get_grammar    (char **grammar, Tree_info *info);
+
+Node *get_condition  (char **grammar, Tree_info *info);
+
+Node *get_cycle      (char **grammar, Tree_info *info);
 
 Node *get_expression (char **grammar);
 

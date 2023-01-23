@@ -1,3 +1,7 @@
 x=5
-while(x) x=x-1
-x
+y=10
+while(x){
+x=x-1
+y=y+1
+}
+y
