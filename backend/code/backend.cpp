@@ -139,47 +139,52 @@ Node *handle_end_node (Tree_info *info, Node *new_node)
 
 void convert_to_asm (Node *curr_node, Tree_info *info)
 {
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+
     if(IS_OP (curr_node, IF))
     {
         trprint ("push 0\n");
 
         convert_to_asm (curr_node->left, info);
 
-        trprint ("je 1:\n");
+        trprint ("je %d:\n", label_1);
 
         convert_to_asm (curr_node->right->left, info);
 
-        trprint ("jmp 4:\n");
+        trprint ("jmp %d:\n", label_2);
 
-        trprint (":1\n");
+        trprint (":%d\n", label_1);
 
         if(curr_node->right->right)
         {
             convert_to_asm (curr_node->right->right, info);
         }
 
-        trprint (":4\n");
+        trprint (":%d\n", label_2);
     }
 
     else if(IS_OP (curr_node, WHILE))
     {
-        trprint (":2\n");
+        trprint (":%d\n", label_1);
 
         trprint ("push 0\n");
 
         convert_to_asm (curr_node->left, info);
 
-        trprint ("je 3:\n");
+        trprint ("je %d:\n", label_2);
 
         convert_to_asm (curr_node->right, info);
 
-        trprint ("jmp 2:\n");
+        trprint ("jmp %d:\n", label_1);
 
-        trprint (":3\n");
+        trprint (":%d\n", label_2);
     }
 
     else if(IS_OP (curr_node, ASG))
     {
+        info->curr_label -= 2;
+
         convert_to_asm (curr_node->right, info);
 
         trprint ("pop r%cx\n", curr_node->left->val.var);
@@ -187,6 +192,8 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
     else
     {
+        info->curr_label -= 2;
+
         if(curr_node->left || curr_node->right)
         {
             if(curr_node->left)

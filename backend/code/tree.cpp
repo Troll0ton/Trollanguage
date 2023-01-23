@@ -17,7 +17,8 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
     info->root      = NULL;
     info->var_value = DELETED_PAR;
 
-    info->graph_num = 0;
+    info->graph_num  = 0;
+    info->curr_label = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -39,11 +40,12 @@ void tree_info_dtor (Tree_info *info)
 
     clear_mem (info->Text, info->File_input);
 
-    info->log_file  = NULL;
-    info->line      = DELETED_PAR;
-    info->curr_line = DELETED_PAR;
-    info->curr_cell = DELETED_PAR;
-    info->var_value = DELETED_PAR;
+    info->log_file   = NULL;
+    info->line       = DELETED_PAR;
+    info->curr_line  = DELETED_PAR;
+    info->curr_cell  = DELETED_PAR;
+    info->var_value  = DELETED_PAR;
+    info->curr_label = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------

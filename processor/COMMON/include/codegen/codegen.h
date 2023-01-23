@@ -132,11 +132,3 @@ CMD_DEF(COS, "cos",
 
     stack_push (&cpu->Stk, cos(value));
 })
-
-CMD_DEF(COS, "cos",
-{
-    double value = stack_pop (&cpu->Stk);
-
-    stack_push (&cpu->Stk, cos(value));
-})
-

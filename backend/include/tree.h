@@ -78,6 +78,7 @@ typedef struct Tree_info
     int    curr_line;
     double var_value;
     int    curr_cell;
+    int    curr_label;
     int    graph_num;
     const char *name;
     const char *log_file;
