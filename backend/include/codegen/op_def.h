@@ -31,3 +31,5 @@ OP_DEF(IF, "if")
 
 OP_DEF(WHILE, "while")
 
+OP_DEF(BODY, "body")
+

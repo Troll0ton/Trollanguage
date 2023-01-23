@@ -182,7 +182,24 @@ Node *get_condition (char **grammar, Tree_info *info)
 {
     (*grammar) += 2;
 
+    //    condition
+    //        V
     Node *left_node = get_brackets (grammar);
+
+    //      body
+    //       V
+    Node *right_node = get_if_body (grammar, info);
+
+    INIT (IF, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_if_body (char **grammar, Tree_info *info)
+{
+    Node *left_node = NULL;
 
     Node *right_node = NULL;
 
@@ -190,19 +207,54 @@ Node *get_condition (char **grammar, Tree_info *info)
     {
         info->curr_line++;
 
-        right_node = get_sequence (info);
+        left_node = get_sequence (info);
     }
 
     else
     {
         (*grammar)++;
 
-        right_node = get_grammar (grammar, info);
+        left_node = get_grammar (grammar, info);
     }
 
-    INIT (IF, 0);
+    info->curr_line++;
+
+    right_node = get_else_body (&info->Text[info->curr_line].begin_line, info);
+
+    INIT (BODY, 0);
 
     return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_else_body (char **grammar, Tree_info *info)
+{
+    if(!strncmp (*grammar, "else", 4))
+    {
+        (*grammar) += 4;
+
+        if(**grammar == '{')
+        {
+            info->curr_line++;
+
+            return get_sequence (info);
+        }
+
+        else
+        {
+            (*grammar)++;
+
+            return get_grammar (grammar, info);
+        }
+    }
+
+    else
+    {
+        info->curr_line--;
+
+        return NULL;
+    }
 }
 
 //-----------------------------------------------------------------------------

@@ -161,17 +161,7 @@ Node *get_grammar (char **grammar, Tree_info *info)
 
     if(!strncmp (*grammar, "while", 5))
     {
-        (*grammar) += 5;
-
-        Node *left_node = get_brackets (grammar);
-
-        (*grammar)++;
-
-        Node *right_node = get_grammar (grammar, info);
-
-        INIT (WHILE, 0);
-
-        return new_node;
+        return get_cycle (grammar, info);
     }
 
     if(strchr (*grammar, '='))
@@ -192,19 +182,13 @@ Node *get_condition (char **grammar, Tree_info *info)
 {
     (*grammar) += 2;
 
+    //    condition
+    //        V
     Node *left_node = get_brackets (grammar);
 
-    (*grammar)++;
-
-    if(**grammar == '{')
-    {
-        Node *right_node = get_sequence (info);
-    }
-
-    else
-    {
-        Node *right_node = get_grammar (grammar);
-    }
+    //      body
+    //       V
+    Node *right_node = get_if_body (grammar, info);
 
     INIT (IF, 0);
 
@@ -213,9 +197,99 @@ Node *get_condition (char **grammar, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
+Node *get_if_body (char **grammar, Tree_info *info)
+{
+    Node *left_node = NULL;
+
+    Node *right_node = NULL;
+
+    if(**grammar == '{')
+    {
+        info->curr_line++;
+
+        left_node = get_sequence (info);
+    }
+
+    else
+    {
+        (*grammar)++;
+
+        left_node = get_grammar (grammar, info);
+    }
+
+    info->curr_line++;
+
+    if(!strncmp (info->Text[info->curr_line].begin_line, "else", 4))
+    {
+        right_node = get_body (&(info->Text[info->curr_line].begin_line + 4), info);
+    }
+
+    else
+    {
+        info->curr_line--;
+    }
+
+    INIT (BODY, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_else_body (char **grammar, Tree_info *info)
+{
+    if(!strncmp (grammar, "else", 4))
+    {
+        if(**grammar == '{')
+        {
+            info->curr_line++;
+
+            return get_sequence (info);
+        }
+
+        else
+        {
+            (*grammar)++;
+
+            return get_grammar (grammar, info);
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_cycle (char **grammar, Tree_info *info)
+{
+    (*grammar) += 5;
+
+    Node *left_node = get_brackets (grammar);
+
+    Node *right_node = NULL;
+
+    if(**grammar == '{')
+    {
+        info->curr_line++;
+
+        right_node = get_sequence (info);
+    }
+
+    else
+    {
+        (*grammar)++;
+
+        right_node = get_grammar (grammar, info);
+    }
+
+    INIT (WHILE, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
 Node *get_sequence (Tree_info *info)
 {
-    Node *left_node = get_grammar (&info->Text[info->curr_line].begin_line);
+    Node *left_node = get_grammar (&info->Text[info->curr_line].begin_line, info);
 
     nullify_tree_pars (info);
 
@@ -223,9 +297,7 @@ Node *get_sequence (Tree_info *info)
 
     while(info->curr_line < info->File_input->num_of_lines && info->Text[info->curr_line].begin_line[0] != '}')
     {
-        Node *right_node = get_grammar (&info->Text[info->curr_line].begin_line);
-        
-        if(info->Text[info->curr_line].begin_line[0] == '}')
+        Node *right_node = get_grammar (&info->Text[info->curr_line].begin_line, info);
 
         info->curr_line++;
 

@@ -1,20 +1,32 @@
-push 5
+push 0
 pop rxx
-push 10
+push 0
 pop ryx
-:2
 push 0
 push rxx
-je 3:
+push 100
+add
+je 1:
 push rxx
 push 1
-sub
+add
 pop rxx
 push ryx
 push 1
 add
 pop ryx
-jmp 2:
-:3
+jmp 4:
+:1
 push ryx
+push 1000
+add
+pop ryx
+push rxx
+push 1600
+add
+pop rxx
+:4
+push rxx
+push ryx
+add
 out

@@ -73,3 +73,8 @@ OP_DEF(WHILE, "WHILE",
 
 })
 
+OP_DEF(BODY, "BODY",
+{
+
+})
+

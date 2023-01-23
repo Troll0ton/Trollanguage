@@ -147,9 +147,18 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
         trprint ("je 1:\n");
 
-        convert_to_asm (curr_node->right, info);
+        convert_to_asm (curr_node->right->left, info);
+
+        trprint ("jmp 4:\n");
 
         trprint (":1\n");
+
+        if(curr_node->right->right)
+        {
+            convert_to_asm (curr_node->right->right, info);
+        }
+
+        trprint (":4\n");
     }
 
     else if(IS_OP (curr_node, WHILE))
