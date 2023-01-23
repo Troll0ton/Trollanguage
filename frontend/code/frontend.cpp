@@ -126,7 +126,8 @@ Node *get_expression (char **grammar)
 
         #undef OP_DEF
 
-        //else
+        //else (IN CODEGEN)
+
         printf ("UNKOWN COMMAND - PRIORITY 1!\n");
     }
 
@@ -154,6 +155,13 @@ Node *get_assignment (char **grammar)
 
 Node *get_grammar (char **grammar, Tree_info *info)
 {
+    if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n')   //handle empty lines
+    {
+        info->curr_line++;
+
+        return get_grammar (&info->Text[info->curr_line].begin_line, info);
+    }
+
     if(!strncmp (*grammar, "if", 2))
     {
         return get_condition (grammar, info);
