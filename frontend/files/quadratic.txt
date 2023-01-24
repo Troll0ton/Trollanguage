@@ -1,0 +1,11 @@
+a=10
+b=0-50
+c=8
+
+d=sqrt(b*b-4*a*c)
+
+x=(0-b+d)/(2*a)
+y=(0-b-d)/(2*a)
+
+print(x)
+print(y)

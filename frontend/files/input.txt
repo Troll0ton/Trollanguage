@@ -1,8 +1,11 @@
-x=n()
+x=900
 
 funct n (){
-y=200
-100
+77
 }
 
-print(x+y)
+funct a (){
+77
+}
+
+print(a()+n())

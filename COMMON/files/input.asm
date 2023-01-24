@@ -1,13 +1,16 @@
-call 1001:
+push 900
 pop rxx
-jmp 1000:
-:1001
-push 200
-pop ryx
-push 100
+jmp 1:
+:210
+push 77
 ret
-:1000
-push rxx
-push ryx
+:1
+jmp 3:
+:197
+push 77
+ret
+:3
+call 197:
+call 210:
 add
 out

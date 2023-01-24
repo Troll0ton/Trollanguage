@@ -163,31 +163,25 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
         trprint (":%d\n", label_2);
     }
-    
-    if(IS_OP (curr_node, FUNCT))
+
+    else if(IS_OP (curr_node, FUNCT))
     {
-        trprint ("jmp 1000:\n");
-        
+        trprint ("jmp %d:\n", );
+
         trprint (":1001\n");
 
-        convert_to_asm (curr_node->left, info);
+        convert_to_asm (curr_node->right->right, info);
 
-        trprint ("je %d:\n", label_1);
+        trprint ("ret\n");
 
-        convert_to_asm (curr_node->right->left, info);
-
-        trprint ("jmp %d:\n", label_2);
-
-        trprint (":%d\n", label_1);
-
-        if(curr_node->right->right)
-        {
-            convert_to_asm (curr_node->right->right, info);
-        }
-
-        trprint (":%d\n", label_2);
-        
         trprint (":1000\n");
+    }
+
+    else if(IS_OP (curr_node, CALL))
+    {
+        int num_of_funct = (int) curr_node->left->val.var;
+        
+        trprint ("call %d:\n", num_of_funct + 1000);
     }
 
     else if(IS_OP (curr_node, WHILE))
