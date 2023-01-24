@@ -1,4 +1,4 @@
-#include "../include/differentiator.h"
+#include "../include/backend.h"
 
 //-----------------------------------------------------------------------------
 
@@ -8,23 +8,15 @@ int main ()
 
     tree_info_ctor (&info);
 
-    #define CURR_LINE    &(&info->Text[line].begin_line)
-    #define NUM_OF_LINES &info->File_input->num_of_lines
-
     nullify_tree_pars (&info);
 
-    info->root = get_grammar (CURR_LINE);
-
-    simplify_tree (&info->root, &info);
-
-    save_tree (info->root, &info);
+    read_tree (&info);
 
     tree_dump (&info);
 
-    tree_dtor (&info->root);
-
-    #undef CURR_LINE
-    #undef NUM_OF_LINES
+    convert_to_asm (info.root, &info);
+                                                                     as
+    tree_dtor (info.root);
 
     tree_info_dtor (&info);
 

@@ -53,6 +53,16 @@ OP_DEF(CTG, "ctg",
     curr_node->val.num = 1 / tan (RIGHT_NUM);
 })
 
+OP_DEF(SQRT, "sqrt",
+{
+    curr_node->val.num = sqrt (RIGHT_NUM);
+})
+
+OP_DEF(OUT, "print",
+{
+
+})
+
 OP_DEF(ASG, "ASSIGNMENT",
 {
 

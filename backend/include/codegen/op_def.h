@@ -23,6 +23,10 @@ OP_DEF(TG, "tg")
 
 OP_DEF(CTG, "ctg")
 
+OP_DEF(SQRT, "sqrt")
+
+OP_DEF(OUT, "out")
+
 OP_DEF(ASG, "assignment")
 
 OP_DEF(SEQ, "sequence")

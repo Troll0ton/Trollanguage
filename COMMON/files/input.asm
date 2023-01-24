@@ -1,44 +1,43 @@
-push 8
-pop rxx
-push 0
-pop ryx
-push 0
-push rxx
 push 10
-add
-je 1:
-push 100
-pop ryx
-jmp 2:
-:1
-:2
-:3
+pop rax
 push 0
-push rxx
-je 4:
-push ryx
-push 15
-add
-pop ryx
-push rxx
-push 1
+push 50
 sub
-pop rxx
-jmp 3:
-:4
+pop rbx
+push 8
+pop rcx
+push rbx
+push rbx
+mul
+push 4
+push rax
+push rcx
+mul
+mul
+sub
+sqrt
+pop rdx
 push 0
-push ryx
-je 5:
-push rxx
-push 56
+push rbx
 sub
+push rdx
+add
+push 2
+push rax
+mul
+div
 pop rxx
-jmp 6:
-:5
-push 1800
-pop ryx
-:6
-push ryx
-push 88
+push 0
+push rbx
 sub
+push rdx
+sub
+push 2
+push rax
+mul
+div
+pop ryx
+push rxx
+out
+push ryx
 out

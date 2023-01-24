@@ -10,28 +10,24 @@ enum TYPES
     VAR,
     NUM,
     OP,
+    FUNCT,
 };
 
 //-----------------------------------------------------------------------------
 
+#define OP_DEF(cmd, cmd_name, code, ...)  \
+    cmd,
+
 enum OPERATIONS
 {
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    POW,
-    SIN,
-    COS,
-    LN,
-    TG,
-    CTG,
-    ARCSIN,
-    ARCCOS,
-    ARCTG,
-    ARCCTG,
+    //-----------------------------------------------------------------------------
+
+    #include "../include/codegen/op_def.h"
+
+    //-----------------------------------------------------------------------------
 };
 
+#undef OP_DEF
 
 //{----------------------------------------------------------------------------
 //!                        SEARCHING THE TYPE
@@ -39,13 +35,6 @@ enum OPERATIONS
 
 #define IS_(SYM)    \
    **grammar == SYM
-
-//-----------------------------------------------------------------------------
-
-#define IS_FUNCT(curr_node)        \
-    curr_node->type == OP    &&    \
-    curr_node->priority == 4 &&    \
-    curr_node->right->type == NUM  \
 
 //-----------------------------------------------------------------------------
 
@@ -64,6 +53,13 @@ enum OPERATIONS
 
 #define IS_OP(curr_node, TYP)                                       \
     (curr_node->type == OP && curr_node->val.op == TYP)
+
+//-----------------------------------------------------------------------------
+
+#define IS_FUNCT(curr_node)        \
+    curr_node->type == OP    &&    \
+    curr_node->priority == 4 &&    \
+    curr_node->right->type == NUM  \
 
 //-----------------------------------------------------------------------------
 

@@ -1,18 +1,11 @@
-x=8
-y=0
+a=10
+b=0-50
+c=8
 
-if(x+10) y=100
+d=sqrt(b*b-4*a*c)
 
-while(x){
-y=y+15
-x=x-1
-}
+x=(0-b+d)/(2*a)
+y=(0-b-d)/(2*a)
 
-if(y){
-x=x-56
-}
-else{
-y=1800
-}
-
-y-88
+print(x)
+print(y)

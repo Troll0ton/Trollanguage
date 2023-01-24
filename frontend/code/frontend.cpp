@@ -167,6 +167,11 @@ Node *get_grammar (char **grammar, Tree_info *info)
         return get_condition (grammar, info);
     }
 
+    /*if(!strncmp (*grammar, "funct", 5))
+    {
+        return get_funct_init (grammar, info);
+    } */
+
     if(!strncmp (*grammar, "while", 5))
     {
         return get_cycle (grammar, info);
@@ -352,12 +357,13 @@ Node *get_str (char **grammar)
 
 Node *get_math_funct (char **grammar, char *name)
 {
-    Node *right_node = get_brackets (grammar);
+    Node *right_node = NULL;
     Node *left_node = NULL;
 
     #define OP_DEF(cmd, cmd_name, code, ...)  \
     if(stricmp (name, cmd_name) == 0)         \
     {                                         \
+        right_node = get_brackets (grammar);  \
         INIT (cmd, 4);                        \
                                               \
         return new_node;                      \

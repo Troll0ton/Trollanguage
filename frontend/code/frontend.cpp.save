@@ -126,7 +126,8 @@ Node *get_expression (char **grammar)
 
         #undef OP_DEF
 
-        //else
+        //else (IN CODEGEN)
+
         printf ("UNKOWN COMMAND - PRIORITY 1!\n");
     }
 
@@ -154,9 +155,21 @@ Node *get_assignment (char **grammar)
 
 Node *get_grammar (char **grammar, Tree_info *info)
 {
+    if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n')   //handle empty lines
+    {
+        info->curr_line++;
+
+        return get_grammar (&info->Text[info->curr_line].begin_line, info);
+    }
+
     if(!strncmp (*grammar, "if", 2))
     {
         return get_condition (grammar, info);
+    }
+
+    if(!strncmp (*grammar, "funct", 5))
+    {
+        return get_funct_init (grammar, info);
     }
 
     if(!strncmp (*grammar, "while", 5))
@@ -174,6 +187,19 @@ Node *get_grammar (char **grammar, Tree_info *info)
     CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
 
     return root;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_funct_init (char **grammar, Tree_info *info)
+{
+    (*grammar) += 6;
+    
+    Node *left_node = get_brackets (grammar);
+    
+    info->curr_line++;
+
+    left_node = get_sequence (info);
 }
 
 //-----------------------------------------------------------------------------
@@ -219,15 +245,7 @@ Node *get_if_body (char **grammar, Tree_info *info)
 
     info->curr_line++;
 
-    if(!strncmp (info->Text[info->curr_line].begin_line, "else", 4))
-    {
-        right_node = get_body (&(info->Text[info->curr_line].begin_line + 4), info);
-    }
-
-    else
-    {
-        info->curr_line--;
-    }
+    right_node = get_else_body (&info->Text[info->curr_line].begin_line, info);
 
     INIT (BODY, 0);
 
@@ -238,8 +256,10 @@ Node *get_if_body (char **grammar, Tree_info *info)
 
 Node *get_else_body (char **grammar, Tree_info *info)
 {
-    if(!strncmp (grammar, "else", 4))
+    if(!strncmp (*grammar, "else", 4))
     {
+        (*grammar) += 4;
+
         if(**grammar == '{')
         {
             info->curr_line++;
@@ -253,6 +273,13 @@ Node *get_else_body (char **grammar, Tree_info *info)
 
             return get_grammar (grammar, info);
         }
+    }
+
+    else
+    {
+        info->curr_line--;
+
+        return NULL;
     }
 }
 
