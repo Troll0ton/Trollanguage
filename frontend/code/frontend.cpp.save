@@ -318,19 +318,15 @@ Node *get_funct_init (char **grammar, Tree_info *info)
 
 Node *get_funct_body (char **grammar, Tree_info *info)
 {
-    Nod
+    Node *left_node = NULL;
+
     info->curr_line++;
 
-    right_node = get_sequence (info);
+    Node *right_node = get_sequence (info);
 
-    else
-    {
-        (*grammar)++;
+    INIT (BODY, 0);
 
-        right_node = get_grammar (grammar, info);
-    }
-
-    INIT (WHILE, 0);
+    return new_node;
 }
 
 //-----------------------------------------------------------------------------
@@ -413,9 +409,19 @@ Node *get_math_funct (char **grammar, char *name)
 
     else
     {
-        printf ("UNKNOWN COMMAND!\n");
+        val.var = *name;
+        
+        Node *left_node = create_node ();
+        
+        ASSIGN_NODE (left_node, NULL, NULL, NULL, VAR, val, 4);
 
-        return NULL;
+        //right_node = get_brackets (grammar);
+
+        left_node = new_node;
+
+        INIT (CALL, 0);
+
+        return new_node;
     }
 }
 

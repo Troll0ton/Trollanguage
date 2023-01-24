@@ -39,3 +39,5 @@ OP_DEF(FUNCT, "funct")
 
 OP_DEF(BODY, "body")
 
+OP_DEF(CALL, "call")
+

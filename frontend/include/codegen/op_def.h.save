@@ -53,12 +53,47 @@ OP_DEF(CTG, "ctg",
     curr_node->val.num = 1 / tan (RIGHT_NUM);
 })
 
+OP_DEF(SQRT, "sqrt",
+{
+    curr_node->val.num = sqrt (RIGHT_NUM);
+})
+
+OP_DEF(OUT, "print",
+{
+
+})
+
 OP_DEF(ASG, "ASSIGNMENT",
 {
 
 })
 
-OP_DEF(SEQ, "ASSIGNMENT",
+OP_DEF(SEQ, "SEQUENCE",
+{
+
+})
+
+OP_DEF(IF, "IF",
+{
+
+})
+
+OP_DEF(WHILE, "WHILE",
+{
+
+})
+
+OP_DEF(FUNCT, "FUNCT",
+{
+
+})
+
+OP_DEF(BODY, "BODY",
+{
+
+})
+
+OP_DEF(CALL, "CA",
 {
 
 })

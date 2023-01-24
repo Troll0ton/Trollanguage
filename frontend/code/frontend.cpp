@@ -409,9 +409,23 @@ Node *get_math_funct (char **grammar, char *name)
 
     else
     {
-        printf ("UNKNOWN COMMAND!\n");
+        value val_funct = { 0 };
 
-        return NULL;
+        val_funct.var = *name;
+
+        (*grammar) += 2;
+
+        Node *left_node = create_node ();
+
+        Node *right_node = NULL;
+
+        ASSIGN_NODE (left_node, NULL, NULL, NULL, VAR, val_funct, 4);
+
+        //right_node = get_brackets (grammar);
+
+        INIT (CALL, 0);
+
+        return new_node;
     }
 }
 

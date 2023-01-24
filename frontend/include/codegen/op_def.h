@@ -93,3 +93,8 @@ OP_DEF(BODY, "BODY",
 
 })
 
+OP_DEF(CALL, "CALL",
+{
+
+})
+
