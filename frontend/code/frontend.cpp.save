@@ -191,19 +191,6 @@ Node *get_grammar (char **grammar, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-Node *get_funct_init (char **grammar, Tree_info *info)
-{
-    (*grammar) += 6;
-    
-    Node *left_node = get_brackets (grammar);
-    
-    info->curr_line++;
-
-    left_node = get_sequence (info);
-}
-
-//-----------------------------------------------------------------------------
-
 Node *get_condition (char **grammar, Tree_info *info)
 {
     (*grammar) += 2;
@@ -314,6 +301,40 @@ Node *get_cycle (char **grammar, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
+Node *get_funct_init (char **grammar, Tree_info *info)
+{
+    (*grammar) += 6;
+
+    Node *left_node = get_str (grammar);
+
+    Node *right_node = get_funct_body (grammar, info);
+
+    INIT (FUNCT, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_funct_body (char **grammar, Tree_info *info)
+{
+    Nod
+    info->curr_line++;
+
+    right_node = get_sequence (info);
+
+    else
+    {
+        (*grammar)++;
+
+        right_node = get_grammar (grammar, info);
+    }
+
+    INIT (WHILE, 0);
+}
+
+//-----------------------------------------------------------------------------
+
 Node *get_sequence (Tree_info *info)
 {
     Node *left_node = get_grammar (&info->Text[info->curr_line].begin_line, info);
@@ -370,12 +391,13 @@ Node *get_str (char **grammar)
 
 Node *get_math_funct (char **grammar, char *name)
 {
-    Node *right_node = get_brackets (grammar);
+    Node *right_node = NULL;
     Node *left_node = NULL;
 
     #define OP_DEF(cmd, cmd_name, code, ...)  \
     if(stricmp (name, cmd_name) == 0)         \
     {                                         \
+        right_node = get_brackets (grammar);  \
         INIT (cmd, 4);                        \
                                               \
         return new_node;                      \

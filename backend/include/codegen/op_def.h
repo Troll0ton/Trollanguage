@@ -35,5 +35,7 @@ OP_DEF(IF, "if")
 
 OP_DEF(WHILE, "while")
 
+OP_DEF(FUNCT, "funct")
+
 OP_DEF(BODY, "body")
 

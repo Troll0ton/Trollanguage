@@ -9,37 +9,35 @@
 
 //-----------------------------------------------------------------------------
 
-Node *get_grammar           (char **grammar);
+Node *get_grammar    (char **grammar, Tree_info *info);
 
-Node *get_expression        (char **grammar);
+Node *get_condition  (char **grammar, Tree_info *info);
 
-Node *get_mul_div           (char **grammar);
+Node *get_if_body    (char **grammar, Tree_info *info);
 
-Node *get_parentheses       (char **grammar);
+Node *get_else_body  (char **grammar, Tree_info *info);
 
-Node *get_str               (char **grammar);
+Node *get_cycle      (char **grammar, Tree_info *info);
 
-Node *get_bottom            (char **grammar);
+Node *get_funct_init (char **grammar, Tree_info *info);
 
-Node *get_pow               (char **grammar);
+Node *get_expression (char **grammar);
 
-Node *get_funct             (char **grammar, char *name);
+Node *get_mul_div    (char **grammar);
 
-void  print_expression      (Tree_info *info);
+Node *get_brackets   (char **grammar);
 
-void  print_derivative      (Tree_info *info);
+Node *get_str        (char **grammar);
 
-void  print_simplified      (Tree_info *info);
+Node *get_bottom     (char **grammar);
 
-//-----------------------------------------------------------------------------
+Node *get_pow        (char **grammar);
 
-#define CHECK_EXPRESSION(EXPR, TEXT)           \
-    if(!(EXPR))                                \
-    {                                          \
-        printf ("DETECTED MISTAKE: %s", TEXT); \
-                                               \
-        return NULL;                           \
-    }
+Node *get_math_funct (char **grammar, char *name);
+
+Node *get_assignment (char **grammar);
+
+Node *get_sequence   (Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

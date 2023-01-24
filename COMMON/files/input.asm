@@ -1,43 +1,12 @@
-push 10
-pop rax
-push 0
-push 50
-sub
-pop rbx
-push 8
-pop rcx
-push rbx
-push rbx
-mul
-push 4
-push rax
-push rcx
-mul
-mul
-sub
-sqrt
-pop rdx
-push 0
-push rbx
-sub
-push rdx
-add
-push 2
-push rax
-mul
-div
+push 100
 pop rxx
-push 0
-push rbx
-sub
-push rdx
-sub
-push 2
-push rax
-mul
-div
+jmp 1000:
+:1001
+push 777
 pop ryx
+ret
+:1000
 push rxx
-out
 push ryx
+add
 out

@@ -164,6 +164,19 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
         trprint (":%d\n", label_2);
     }
 
+    if(IS_OP (curr_node, FUNCT))
+    {
+        trprint ("jmp 1000:\n");
+
+        trprint (":1001\n");
+
+        convert_to_asm (curr_node->right->right, info);
+
+        trprint ("ret\n");
+
+        trprint (":1000\n");
+    }
+
     else if(IS_OP (curr_node, WHILE))
     {
         trprint (":%d\n", label_1);

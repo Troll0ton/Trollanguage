@@ -167,10 +167,10 @@ Node *get_grammar (char **grammar, Tree_info *info)
         return get_condition (grammar, info);
     }
 
-    /*if(!strncmp (*grammar, "funct", 5))
+    if(!strncmp (*grammar, "funct", 5))
     {
         return get_funct_init (grammar, info);
-    } */
+    }
 
     if(!strncmp (*grammar, "while", 5))
     {
@@ -295,6 +295,36 @@ Node *get_cycle (char **grammar, Tree_info *info)
     }
 
     INIT (WHILE, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_funct_init (char **grammar, Tree_info *info)
+{
+    (*grammar) += 6;
+
+    Node *left_node = get_str (grammar);
+
+    Node *right_node = get_funct_body (grammar, info);
+
+    INIT (FUNCT, 0);
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_funct_body (char **grammar, Tree_info *info)
+{
+    Node *left_node = NULL;
+
+    info->curr_line++;
+
+    Node *right_node = get_sequence (info);
+
+    INIT (BODY, 0);
 
     return new_node;
 }

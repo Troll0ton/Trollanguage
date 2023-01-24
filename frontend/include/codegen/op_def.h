@@ -83,6 +83,11 @@ OP_DEF(WHILE, "WHILE",
 
 })
 
+OP_DEF(FUNCT, "FUNCT",
+{
+
+})
+
 OP_DEF(BODY, "BODY",
 {
 

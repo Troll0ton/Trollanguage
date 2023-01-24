@@ -19,7 +19,9 @@ Node *get_else_body  (char **grammar, Tree_info *info);
 
 Node *get_cycle      (char **grammar, Tree_info *info);
 
-//Node *get_funct_init (char **grammar, Tree_info *info);
+Node *get_funct_init (char **grammar, Tree_info *info);
+
+Node *get_funct_body (char **grammar, Tree_info *info);
 
 Node *get_expression (char **grammar);
 

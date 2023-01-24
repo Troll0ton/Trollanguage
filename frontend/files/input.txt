@@ -1,11 +1,7 @@
-a=10
-b=0-50
-c=8
+x=100
 
-d=sqrt(b*b-4*a*c)
+funct n (){
+y=777
+}
 
-x=(0-b+d)/(2*a)
-y=(0-b-d)/(2*a)
-
-print(x)
-print(y)
+print(x+y)
