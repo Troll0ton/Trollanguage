@@ -6,7 +6,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 2       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
           [1] = 0        
@@ -23,7 +23,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 2       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 1        
           [1] = 0        
@@ -40,7 +40,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
     }                       
@@ -56,7 +56,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
     }                       
@@ -72,42 +72,9 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
-    }                       
-}                           
-
-_____________________________________________________________
-
-cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10 
-{                           
-    canary_open  = badded       
-    canary_close = dedbad       
-    hash         = 0       
-    size_stk     = 1       
-    capacity_stk = 1       
-                            
-    buffer_stk[00EF2F80]          
-    {                       
-          [0] = 0        
-    }                       
-}                           
-
-_____________________________________________________________
-
-cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10 
-{                           
-    canary_open  = badded       
-    canary_close = dedbad       
-    hash         = 70e4       
-    size_stk     = 2       
-    capacity_stk = 2       
-                            
-    buffer_stk[00EF2F80]          
-    {                       
-          [0] = 0        
-          [1] = 1        
     }                       
 }                           
 
@@ -121,7 +88,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = -1        
     }                       
@@ -137,7 +104,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
     }                       
@@ -153,7 +120,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
     }                       
@@ -169,7 +136,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
     }                       
@@ -185,7 +152,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
           [1] = 0        
@@ -202,7 +169,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
     }                       
@@ -218,7 +185,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF2F80]          
+    buffer_stk[00E22F80]          
     {                       
           [0] = 0        
           [1] = 4        
@@ -235,7 +202,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 3       
     capacity_stk = 4       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
           [1] = 4        
@@ -254,7 +221,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 4       
     capacity_stk = 4       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
           [1] = 4        
@@ -273,7 +240,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 3       
     capacity_stk = 4       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
           [1] = 4        
@@ -292,7 +259,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
           [1] = -4        
@@ -309,7 +276,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 4        
     }                       
@@ -325,7 +292,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 2        
     }                       
@@ -341,7 +308,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 2        
     }                       
@@ -357,7 +324,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -373,7 +340,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -389,42 +356,9 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
-    }                       
-}                           
-
-_____________________________________________________________
-
-cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10 
-{                           
-    canary_open  = badded       
-    canary_close = dedbad       
-    hash         = 0       
-    size_stk     = 2       
-    capacity_stk = 2       
-                            
-    buffer_stk[00EF6C48]          
-    {                       
-          [0] = 0        
-          [1] = 0        
-    }                       
-}                           
-
-_____________________________________________________________
-
-cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10 
-{                           
-    canary_open  = badded       
-    canary_close = dedbad       
-    hash         = 0       
-    size_stk     = 1       
-    capacity_stk = 1       
-                            
-    buffer_stk[00EF6C48]          
-    {                       
-          [0] = -0        
     }                       
 }                           
 
@@ -438,9 +372,9 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
-          [0] = -0        
+          [0] = 0        
           [1] = 2        
     }                       
 }                           
@@ -455,7 +389,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 2        
     }                       
@@ -471,7 +405,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 2        
           [1] = 2        
@@ -488,7 +422,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 3       
     capacity_stk = 4       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 2        
           [1] = 2        
@@ -507,7 +441,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 2        
           [1] = 2        
@@ -524,7 +458,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 1        
     }                       
@@ -540,7 +474,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -556,42 +490,9 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
-    }                       
-}                           
-
-_____________________________________________________________
-
-cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10 
-{                           
-    canary_open  = badded       
-    canary_close = dedbad       
-    hash         = 0       
-    size_stk     = 2       
-    capacity_stk = 2       
-                            
-    buffer_stk[00EF6C48]          
-    {                       
-          [0] = 0        
-          [1] = 0        
-    }                       
-}                           
-
-_____________________________________________________________
-
-cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10 
-{                           
-    canary_open  = badded       
-    canary_close = dedbad       
-    hash         = 0       
-    size_stk     = 1       
-    capacity_stk = 1       
-                            
-    buffer_stk[00EF6C48]          
-    {                       
-          [0] = -0        
     }                       
 }                           
 
@@ -605,9 +506,9 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
-          [0] = -0        
+          [0] = 0        
           [1] = 2        
     }                       
 }                           
@@ -622,7 +523,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = -2        
     }                       
@@ -638,7 +539,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = -2        
           [1] = 2        
@@ -655,7 +556,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 3       
     capacity_stk = 4       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = -2        
           [1] = 2        
@@ -674,7 +575,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 2       
     capacity_stk = 2       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = -2        
           [1] = 2        
@@ -691,7 +592,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = -1        
     }                       
@@ -707,7 +608,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -723,7 +624,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 1        
     }                       
@@ -739,7 +640,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -755,7 +656,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 1       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = -1        
     }                       
@@ -771,7 +672,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -787,7 +688,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -803,7 +704,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -819,7 +720,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -835,7 +736,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -851,7 +752,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       
@@ -867,7 +768,7 @@ cpu->Stk[0064FEA8](OK) at CPU.cpp, LINE - 10
     size_stk     = 0       
     capacity_stk = 1       
                             
-    buffer_stk[00EF6C48]          
+    buffer_stk[00E26C48]          
     {                       
           [0] = 0        
     }                       

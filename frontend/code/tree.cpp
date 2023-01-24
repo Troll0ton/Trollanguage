@@ -266,10 +266,10 @@ void create_cell (Node *root, Tree_info *info)
         dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
                    root->priority);
 
-        #define OP_DEF(cmd, cmd_name, code, ...) \
-        case(cmd):                                \
+        #define OP_DEF(op, op_name, asm_name, code, ...) \
+        case(op):                                \
         {                                         \
-            dot_print (cmd_name);                 \
+            dot_print (asm_name);                 \
                                                   \
             break;                                \
         }                                         \
@@ -278,7 +278,7 @@ void create_cell (Node *root, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/op_def.h"
+            #include "../../COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 

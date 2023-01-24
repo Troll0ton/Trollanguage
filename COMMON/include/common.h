@@ -10,19 +10,19 @@ enum TYPES
     VAR,
     NUM,
     OP,
-    FUNCT,
+    NUL,
 };
 
 //-----------------------------------------------------------------------------
 
-#define OP_DEF(cmd, cmd_name, code, ...)  \
-    cmd,
+#define OP_DEF(op, op_name, code, ...)  \
+    op,
 
 enum OPERATIONS
 {
     //-----------------------------------------------------------------------------
 
-    #include "../include/codegen/op_def.h"
+    #include "../../COMMON/include/codegen/op_def.h"
 
     //-----------------------------------------------------------------------------
 };

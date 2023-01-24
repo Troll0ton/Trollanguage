@@ -17,7 +17,8 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
     info->root      = NULL;
     info->var_value = DELETED_PAR;
 
-    info->graph_num = 0;
+    info->graph_num  = 0;
+    info->curr_label = 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -25,7 +26,7 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 void nullify_tree_pars (Tree_info *info)
 {
     info->curr_line = 0;
-    info->curr_cell = 0;                                              CV
+    info->curr_cell = 0;
     info->root = NULL;
     info->curr_parent = NULL;
 }
@@ -39,11 +40,12 @@ void tree_info_dtor (Tree_info *info)
 
     clear_mem (info->Text, info->File_input);
 
-    info->log_file  = NULL;
-    info->line      = DELETED_PAR;
-    info->curr_line = DELETED_PAR;
-    info->curr_cell = DELETED_PAR;
-    info->var_value = DELETED_PAR;
+    info->log_file   = NULL;
+    info->line       = DELETED_PAR;
+    info->curr_line  = DELETED_PAR;
+    info->curr_cell  = DELETED_PAR;
+    info->var_value  = DELETED_PAR;
+    info->curr_label = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------
@@ -212,10 +214,10 @@ void create_cell (Node *root, Tree_info *info)
         dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
                    root->priority);
 
-        #define OP_DEF(cmd, cmd_name)             \
-        case(cmd):                                \
+        #define OP_DEF(op, op_name, asm_name, code, ...)             \
+        case(op):                                \
         {                                         \
-            dot_print (cmd_name);                 \
+            dot_print (asm_name);                 \
                                                   \
             break;                                \
         }                                         \
@@ -224,7 +226,7 @@ void create_cell (Node *root, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/op_def.h"
+            #include "../../COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 

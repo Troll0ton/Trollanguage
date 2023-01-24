@@ -85,6 +85,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 bool simplify_const (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP) &&
+       curr_node->priority != 0 &&
        IS_TYPE (RIGHT_NODE, NUM) &&
      ((LEFT_NODE && IS_TYPE (LEFT_NODE, NUM)) ||
       !LEFT_NODE))
@@ -92,8 +93,8 @@ bool simplify_const (Node *curr_node, Tree_info *info)
         curr_node->type = NUM;
         curr_node->priority = 4;
 
-        #define OP_DEF(cmd, cmd_name, ...) \
-        case cmd:                           \
+        #define OP_DEF(op, op_name, asm_name, ...)  \
+        case op:                           \
         {                                   \
             __VA_ARGS__                     \
                                             \
@@ -104,13 +105,13 @@ bool simplify_const (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/op_def.h"
+            #include "../../COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
             default:
             {
-                printf ("UNKNOWN FUNCTION!\n");
+                printf ("UNKNOWN SIMPLE FUNCTION!\n");
             }
         }
 

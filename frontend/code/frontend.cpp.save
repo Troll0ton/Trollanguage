@@ -25,18 +25,18 @@ Node *get_mul_div (char **grammar)
 
         Node *right_node = get_mul_div (grammar);
 
-        #define OP_DEF(cmd, cmd_name, code, ...)  \
-        if(curr_op == cmd_name[0])                \
-        {                                         \
-            INIT (cmd, 2);                        \
-                                                  \
-            left_node = new_node;                 \
-        }                                         \
+        #define OP_DEF(op, op_name, asm_name, code, ...) \
+        if(curr_op == op_name[0])                        \
+        {                                                \
+            INIT (op, 2);                                \
+                                                         \
+            left_node = new_node;                        \
+        }                                                \
         else
 
         //-----------------------------------------------------------------------------
 
-        #include "../include/codegen/op_def.h"
+        #include "../../COMMON/include/codegen/op_def.h"
 
         //-----------------------------------------------------------------------------
 
@@ -109,18 +109,18 @@ Node *get_expression (char **grammar)
 
         Node *right_node = get_mul_div (grammar);
 
-        #define OP_DEF(cmd, cmd_name, code, ...)  \
-        if(curr_op == cmd_name[0])                \
-        {                                         \
-            INIT (cmd, 1);                        \
-                                                  \
-            left_node = new_node;                 \
-        }                                         \
+        #define OP_DEF(op, op_name, asm_name, code, ...) \
+        if(curr_op == op_name[0])                        \
+        {                                                \
+            INIT (op, 1);                                \
+                                                         \
+            left_node = new_node;                        \
+        }                                                \
         else
 
         //-----------------------------------------------------------------------------
 
-        #include "../include/codegen/op_def.h"
+        #include "../../COMMON/include/codegen/op_def.h"
 
         //-----------------------------------------------------------------------------
 
@@ -140,7 +140,7 @@ Node *get_assignment (char **grammar)
 {
     Node *left_node = get_str (grammar);
 
-    (*grammar)++;
+    (*grammar) += O(ASG);
 
     Node *right_node = get_expression (grammar);
 
@@ -390,18 +390,18 @@ Node *get_math_funct (char **grammar, char *name)
     Node *right_node = NULL;
     Node *left_node = NULL;
 
-    #define OP_DEF(cmd, cmd_name, code, ...)  \
-    if(stricmp (name, cmd_name) == 0)         \
+    #define OP_DEF(op, op_name, asm_name, code, ...)    \
+    if(stricmp (name, op_name) == 0)          \
     {                                         \
         right_node = get_brackets (grammar);  \
-        INIT (cmd, 4);                        \
+        INIT (op, 4);                         \
                                               \
         return new_node;                      \
     }
 
     //-----------------------------------------------------------------------------
 
-    #include "../include/codegen/op_def.h"
+    #include "../../COMMON/include/codegen/op_def.h"
 
     //-----------------------------------------------------------------------------
 
@@ -409,15 +409,19 @@ Node *get_math_funct (char **grammar, char *name)
 
     else
     {
-        val.var = *name;
-        
-        Node *left_node = create_node ();
-        
-        ASSIGN_NODE (left_node, NULL, NULL, NULL, VAR, val, 4);
+        value val_funct = { 0 };
+
+        val_funct.var = *name;
+
+        (*grammar) += 2;
+
+        left_node = create_node ();
+
+        right_node = NULL;
+
+        ASSIGN_NODE (left_node, NULL, NULL, NULL, VAR, val_funct, 4);
 
         //right_node = get_brackets (grammar);
-
-        left_node = new_node;
 
         INIT (CALL, 0);
 

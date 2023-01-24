@@ -14,7 +14,7 @@ int main ()
 
     info.root = get_sequence (&info);
 
-    //simplify_tree (info.root, &info);
+    simplify_tree (info.root, &info);
 
     save_tree (info.root, &info);
 

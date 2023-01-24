@@ -244,10 +244,10 @@ void print_values (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP))
     {
-        #define OP_DEF(cmd, cmd_name)             \
-        case(cmd):                                \
+        #define OP_DEF(op, op_name, asm_name, code, ...)             \
+        case(op):                                \
         {                                         \
-            trprint (cmd_name);                   \
+            trprint (asm_name);                   \
                                                   \
             break;                                \
         }                                         \
@@ -256,7 +256,7 @@ void print_values (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/op_def.h"
+            #include "../../COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 

@@ -7,7 +7,7 @@
 
 #include "../include/lines_handle.h"
 #include "../include/input_output.h"
-#include "../include/common.h"
+#include "../../COMMON/include/common.h"
 
 //-----------------------------------------------------------------------------
 

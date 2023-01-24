@@ -166,22 +166,24 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
     else if(IS_OP (curr_node, FUNCT))
     {
-        trprint ("jmp %d:\n", );
+        int num_of_funct = (int) curr_node->left->val.var;
 
-        trprint (":1001\n");
+        trprint ("jmp %d:\n", label_1);
+
+        trprint (":%d\n", num_of_funct);
 
         convert_to_asm (curr_node->right->right, info);
 
         trprint ("ret\n");
 
-        trprint (":1000\n");
+        trprint (":%d\n", label_1);
     }
 
     else if(IS_OP (curr_node, CALL))
     {
         int num_of_funct = (int) curr_node->left->val.var;
-        
-        trprint ("call %d:\n", num_of_funct + 1000);
+
+        trprint ("call %d:\n", num_of_funct);
     }
 
     else if(IS_OP (curr_node, WHILE))
@@ -207,7 +209,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
         convert_to_asm (curr_node->right, info);
 
-        trprint ("pop r%cx\n", curr_node->left->val.var);
+        trprint ("pop [%d]\n", (int) curr_node->left->val.var);
     }
 
     else
@@ -242,10 +244,10 @@ void print_values (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP))
     {
-        #define OP_DEF(cmd, cmd_name)             \
-        case(cmd):                                \
+        #define OP_DEF(op, op_name, asm_name, code, ...)             \
+        case(op):                                \
         {                                         \
-            trprint (cmd_name);                   \
+            trprint (asm_name);                   \
                                                   \
             break;                                \
         }                                         \
@@ -254,7 +256,7 @@ void print_values (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../include/codegen/op_def.h"
+            #include "../../COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
@@ -274,7 +276,7 @@ void print_values (Node *curr_node, Tree_info *info)
 
     else if(IS_TYPE (curr_node, VAR))
     {
-        trprint ("push r%cx", curr_node->val.var);
+        trprint ("push [%d]", (int) curr_node->val.var);
     }
 
     else
