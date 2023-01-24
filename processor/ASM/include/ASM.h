@@ -38,7 +38,7 @@ enum CMD_INFO
 
 enum LABEL_INFO
 {
-    LABEL_SIZE         = 50,
+    LABEL_SIZE         = 800,
     O(LABEL_SIGNATURE) = 1,
     PAR_INCREASE       = 40,
 };

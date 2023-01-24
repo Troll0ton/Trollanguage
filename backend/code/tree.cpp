@@ -18,7 +18,7 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
     info->var_value = DELETED_PAR;
 
     info->graph_num  = 0;
-    info->curr_label = 0;
+    info->curr_label = 1;
 }
 
 //-----------------------------------------------------------------------------

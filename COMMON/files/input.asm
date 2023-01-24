@@ -1,16 +1,21 @@
+call 97:
+jmp 2:
+:120
+push 900
+ret
+:2
+jmp 4:
+:121
+push 100
+ret
+:4
+jmp 6:
+:97
 push 900
 pop rxx
-jmp 1:
-:210
-push 77
-ret
-:1
-jmp 3:
-:197
-push 77
-ret
-:3
-call 197:
-call 210:
+call 120:
+call 121:
 add
 out
+ret
+:6

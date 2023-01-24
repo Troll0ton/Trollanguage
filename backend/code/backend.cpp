@@ -170,7 +170,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
         trprint ("jmp %d:\n", label_1);
 
-        trprint (":%d\n", num_of_funct + 100);
+        trprint (":%d\n", num_of_funct);
 
         convert_to_asm (curr_node->right->right, info);
 
@@ -183,7 +183,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
     {
         int num_of_funct = (int) curr_node->left->val.var;
 
-        trprint ("call %d:\n", num_of_funct + 100);
+        trprint ("call %d:\n", num_of_funct);
     }
 
     else if(IS_OP (curr_node, WHILE))
