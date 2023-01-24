@@ -18,6 +18,8 @@ int main ()
 
     convert_to_asm (info.root, &info);
 
+    fprintf (info.file_asm, "hlt\n");
+
     tree_dtor (info.root);
 
     tree_info_dtor (&info);

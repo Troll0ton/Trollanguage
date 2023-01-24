@@ -1,13 +1,23 @@
-funct x (){
-900
-}
-
-funct y (){
-100
-}
-
 funct a (){
-x=900
+a=1
+b=0
+c=0-1
 
-print(x()+y())
+d=b()
+
+c()
+}
+
+
+funct b (){
+sqrt(b*b-4*a*c)
+}
+
+
+funct c (){
+x=(0-b+d)/(2*a)
+y=(0-b-d)/(2*a)
+
+print(x)
+print(y)
 }

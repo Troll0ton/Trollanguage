@@ -209,7 +209,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
         convert_to_asm (curr_node->right, info);
 
-        trprint ("pop r%cx\n", curr_node->left->val.var);
+        trprint ("pop [%d]\n", (int) curr_node->left->val.var);
     }
 
     else
@@ -276,7 +276,7 @@ void print_values (Node *curr_node, Tree_info *info)
 
     else if(IS_TYPE (curr_node, VAR))
     {
-        trprint ("push r%cx", curr_node->val.var);
+        trprint ("push [%d]", (int) curr_node->val.var);
     }
 
     else
