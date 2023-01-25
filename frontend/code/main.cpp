@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #define NUM_OF_LINES info.File_input->num_of_lines
-                                                     //sequence - SEQ (последовательность )
-                                                     //&info.Text[0].begin_line
+
 int main ()
 {
     Tree_info info = { 0 };

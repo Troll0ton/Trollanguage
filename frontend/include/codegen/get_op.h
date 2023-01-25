@@ -4,15 +4,45 @@
 //!                             (IN FRONTEND)
 //}----------------------------------------------------------------------------
 
-HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
+HANDLE_OP((strchr (*grammar, '>') || strchr (*grammar, '<')),
 {
     Node *new_node = NULL;
 
     value val = { 0 };
 
+    Node *left_node = get_str (grammar);
+
+    (*grammar) += O(ASG);
+
+    Node *right_node = get_expression (grammar);
+
+    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
+
+    INIT (new_node, ASG, 0);
+
+    comparison_node = ...
+})
+
+//-----------------------------------------------------------------------------
+
+HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
+{
+    Node *new_node  = NULL;
+    Node *condition = NULL;
+
+    value val = { 0 };
+
     (*grammar) += O(IF);
 
-    Node *condition = get_brackets (grammar);
+    if(comparison_node)
+    {
+        condition = comparison_node;
+    }
+
+    else
+    {
+        condition = get_brackets (grammar);
+    }
 
     Node *if_body    = NULL;
     Node *left_node  = get_body (grammar, info);
@@ -46,6 +76,8 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
     return new_node;
 })
 
+//-----------------------------------------------------------------------------
+
 HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
 {
     Node *new_node = NULL;
@@ -75,6 +107,8 @@ HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
     return new_node;
 })
 
+//-----------------------------------------------------------------------------
+
 HANDLE_OP(!strncmp (*grammar, "while", O(WHILE)),
 {
     Node *new_node = NULL;
@@ -90,6 +124,8 @@ HANDLE_OP(!strncmp (*grammar, "while", O(WHILE)),
 
     return new_node;
 })
+
+//-----------------------------------------------------------------------------
 
 HANDLE_OP(strchr (*grammar, '='),
 {

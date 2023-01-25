@@ -160,6 +160,8 @@ Node *get_grammar (char **grammar, Tree_info *info)
         return get_grammar (&CURR_LINE, info);
     }
 
+    Node *comparison_node = NULL;
+
     #define HANDLE_OP(CONDITION, ...)    \
     if(CONDITION)                        \
     {                                    \
