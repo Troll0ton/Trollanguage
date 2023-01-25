@@ -137,9 +137,7 @@ enum OPERATIONS
 #define CHECK_EXPRESSION(EXPR, ...)            \
     if(!(EXPR))                                \
     {                                          \
-        printf ("DETECTED MISTAKE,");          \
-                                               \
-        printf (__VA_ARGS__);                  \
+        printf ("DETECTED MISTAKE: %s", TEXT); \
                                                \
         return NULL;                           \
     }

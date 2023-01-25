@@ -7,8 +7,6 @@ push 0
 pop [98]
 push -1
 pop [99]
-push 77777
-pop [101]
 call 98:
 pop [100]
 call 99:

@@ -25,7 +25,10 @@ Node *get_mul_div (char **grammar)
         char curr_op = **grammar;
         (*grammar)++;
 
-        Node *new_node   = NULL; //?????
+        Node *new_node   = NULL;
+
+        value val = { 0 };
+
         Node *right_node = get_pow (grammar);
 
         switch(curr_op)
@@ -65,7 +68,10 @@ Node *get_pow (char **grammar)
     {
         (*grammar)++;
 
-        Node *new_node   = NULL;
+        Node *new_node = NULL;
+
+        value val = { 0 };
+
         Node *right_node = get_brackets (grammar);
 
         INIT (new_node, POW, 3);
@@ -113,6 +119,9 @@ Node *get_expression (char **grammar)
         (*grammar)++;
 
         Node *new_node   = NULL;
+
+        value val = { 0 };
+
         Node *right_node = get_mul_div (grammar);
 
         switch(curr_op)
@@ -129,7 +138,7 @@ Node *get_expression (char **grammar)
             }
             default:
             {
-                printf ("UNKOWN COMMAND - PRIORITY 1!\n");
+                printf ("UNKOWN COMMAND - PRIORITY 1\n");
                 break;
             }
         }
@@ -138,24 +147,6 @@ Node *get_expression (char **grammar)
     }
 
     return left_node;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *get_assignment (char **grammar)
-{
-    Node *new_node = NULL;
-    Node *left_node = get_str (grammar);
-
-    (*grammar) += O(ASG);
-
-    Node *right_node = get_expression (grammar);
-
-    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
-
-    INIT (new_node, ASG, 0);
-
-    return new_node;
 }
 
 //-----------------------------------------------------------------------------
@@ -169,185 +160,51 @@ Node *get_grammar (char **grammar, Tree_info *info)
         return get_grammar (&CURR_LINE, info);
     }
 
-    if(!strncmp (*grammar, "if", O(IF)))
-    {
-        return get_condition (grammar, info);
+    #define HANDLE_OP(CONDITION, ...)    \
+    if(CONDITION)                        \
+    {                                    \
+        __VA_ARGS__                      \
     }
 
-    if(!strncmp (*grammar, "funct", O(FUNCT)))
-    {
-        return get_funct_init (grammar, info);
-    }
+    //-----------------------------------------------------------------------------
 
-    if(!strncmp (*grammar, "while", O(WHILE)))
-    {
-        return get_cycle (grammar, info);
-    }
+    #include "../include/codegen/get_op.h"
 
-    if(strchr (*grammar, '='))
-    {
-        return get_assignment (grammar);
-    }
+    //-----------------------------------------------------------------------------
+
+    #undef HANDLE_OP
 
     Node *root = get_expression (grammar);
 
-    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
+    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION: line %d\n", info->curr_line);
 
     return root;
 }
 
 //-----------------------------------------------------------------------------
 
-Node *get_condition (char **grammar, Tree_info *info)
+Node *get_body (char **grammar, Tree_info *info)
 {
-    Node *new_node = NULL;
-
-    (*grammar) += O(IF);
-
-    //    condition
-    //        V
-    Node *left_node = get_brackets (grammar);
-
-    //      body
-    //       V
-    Node *right_node = get_if_body (grammar, info);
-
-    INIT (new_node, IF, 0);
-
-    return new_node;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *get_if_body (char **grammar, Tree_info *info)
-{
-    Node *new_node   = NULL;
-    Node *left_node  = NULL;
-    Node *right_node = NULL;
-
     if(**grammar == '{')
     {
         info->curr_line++;
 
-        left_node = get_sequence (info);
+        return get_sequence (info);
     }
-
-    else
-    {
-        (*grammar)++;
-
-        left_node = get_grammar (grammar, info);
-    }
-
-    info->curr_line++;
-
-    right_node = get_else_body (&CURR_LINE, info);
-
-    INIT (new_node, BODY, 0);
-
-    return new_node;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *get_else_body (char **grammar, Tree_info *info)
-{
-    if(!strncmp (*grammar, "else", O(ELSE)))
-    {
-        (*grammar) += O(ELSE);
-
-        if(**grammar == '{')
-        {
-            info->curr_line++;
-
-            return get_sequence (info);
-        }
-
-        else
-        {
-            (*grammar)++;
-
-            return get_grammar (grammar, info);
-        }
-    }
-
-    else
-    {
-        info->curr_line--;
-
-        return NULL;
-    }
-}
-
-//-----------------------------------------------------------------------------
-
-Node *get_cycle (char **grammar, Tree_info *info)
-{
-    Node *new_node = NULL;
-
-    (*grammar) += O(WHILE);
-
-    Node *left_node  = get_brackets (grammar);
-    Node *right_node = NULL;
-
-    if(**grammar == '{')
-    {
-        info->curr_line++;
-
-        right_node = get_sequence (info);
-    }
-
-    else
-    {
-        (*grammar)++;
-
-        right_node = get_grammar (grammar, info);
-    }
-
-    INIT (new_node, WHILE, 0);
-
-    return new_node;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *get_funct_init (char **grammar, Tree_info *info)
-{
-    Node *new_node = NULL;
-
-    (*grammar) += O(FUNCT);
 
     (*grammar)++;
 
-    Node *left_node  = get_str (grammar);
-    Node *right_node = get_funct_body (grammar, info);
-
-    INIT (new_node, FUNCT, 0);
-
-    return new_node;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *get_funct_body (char **grammar, Tree_info *info)
-{
-    Node *new_node  = NULL;
-    Node *left_node = NULL;
-
-    info->curr_line++;
-
-    Node *right_node = get_sequence (info);
-
-    INIT (new_node, BODY, 0);
-
-    return new_node;
+    return get_grammar (grammar, info);
 }
 
 //-----------------------------------------------------------------------------
 
 Node *get_sequence (Tree_info *info)
 {
-    Node *new_node  = NULL;
+    Node *new_node = NULL;
+
+    value val = { 0 };
+
     Node *left_node = get_grammar (&CURR_LINE, info);
 
     nullify_tree_pars (info);
@@ -407,6 +264,8 @@ Node *get_math_funct (char **grammar, char *name)
     Node *new_node   = NULL;
     Node *left_node  = NULL;
     Node *right_node = NULL;
+
+    value val = { 0 };
 
     #define OP_DEF(op, op_name, asm_name, code, ...)    \
     if(stricmp (name, op_name) == 0)                    \
