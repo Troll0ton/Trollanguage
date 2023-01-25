@@ -14,11 +14,7 @@ int main ()
 
     tree_dump (&info);
 
-    fprintf (info.file_asm, "call 97:\n");
-
-    convert_to_asm (info.root, &info);
-
-    fprintf (info.file_asm, "hlt\n");
+    create_asm_file (&info);
 
     tree_dtor (info.root);
 

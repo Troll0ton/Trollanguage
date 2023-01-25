@@ -2,6 +2,17 @@
 
 //-----------------------------------------------------------------------------
 
+void create_asm_file (Tree_info *info)
+{
+    trprint ("call %d:\n", MAIN);
+
+    convert_to_asm (info->root, info);
+
+    trprint ("hlt\n");
+}
+
+//-----------------------------------------------------------------------------
+
 #define CURR_LINE info->Text[info->curr_line].begin_line
 
 Node *read_tree (Tree_info *info)
@@ -43,15 +54,15 @@ Node *init_node (Tree_info *info)
 {
     Node *new_node = NULL;
 
-    char type = 0;
+    char type_of_node = 0;
 
     value val = { 0 };
 
-    sscanf (CURR_LINE + OFFSET_PARENTHESES, "%c", &type);
+    sscanf (CURR_LINE + OFFSET_PARENTHESES, "%c", &type_of_node);
 
-    type -= '0';
+    type_of_node -= '0';  //handle ASCII-code
 
-    switch((int) type)
+    switch((int) type_of_node)
     {
         case NUM:
         {
@@ -78,7 +89,7 @@ Node *init_node (Tree_info *info)
         }
     }
 
-    INIT_NODE (new_node, NULL, NULL, NULL, type, val, 0);
+    INIT_NODE (new_node, NULL, NULL, NULL, type_of_node, val, 0);
 
     return new_node;
 }
@@ -134,6 +145,8 @@ Node *handle_end_node (Tree_info *info, Node *new_node)
 
 void convert_to_asm (Node *curr_node, Tree_info *info)
 {
+    ///HANDLE SPECIAL FUNCTIONS AND OPERATIONS
+
     #define CONVERT(op_name, ...)  \
     if(IS_OP (curr_node, op_name)) \
     {                              \
@@ -147,6 +160,8 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
     //-----------------------------------------------------------------------------
 
     #undef CONVERT
+
+    ///HANDLE COMMON FUNCTIONS
 
     //else (IN CODEGENERATION)
     {
@@ -176,6 +191,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
 void print_values (Node *curr_node, Tree_info *info)
 {
+    ///HANDLE OPERATIONS
     if(IS_TYPE (curr_node, OP))
     {
         #define OP_DEF(op, op_name, asm_name, code, ...) \
@@ -203,11 +219,13 @@ void print_values (Node *curr_node, Tree_info *info)
         #undef OP_DEF
     }
 
+    ///HANDLE NUMERIC NODES
     else if(IS_TYPE (curr_node, NUM))
     {
         trprint ("push %lg", curr_node->val.num);
     }
 
+    ///HANDLE VARIABLE
     else if(IS_TYPE (curr_node, VAR))
     {
         trprint ("push [%d]", (int) curr_node->val.var);
