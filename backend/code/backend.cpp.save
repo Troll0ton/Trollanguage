@@ -41,6 +41,8 @@ Node *read_tree (Tree_info *info)
 
 Node *init_node (Tree_info *info)
 {
+    Node *new_node = NULL;
+    
     char type = 0;
 
     value val = { 0 };

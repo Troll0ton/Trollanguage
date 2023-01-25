@@ -73,21 +73,23 @@ enum OPERATIONS
 
 
 //{----------------------------------------------------------------------------
-//!                        INITIALIZING DSL
+//!                         INITIALIZING DSL
 //}----------------------------------------------------------------------------
 
-#define INIT(OPERATION, PRIORITY)  \
-    value val = { 0 };             \
-    val.op = OPERATION;            \
-    INIT_OP(val, PRIORITY);
+#define INIT(NEW_NODE, OPERATION, PRIORITY)  \
+    value val = { 0 };                       \
+    val.op = OPERATION;                      \
+    INIT_OP(NEW_NODE, val, PRIORITY);
 
-//-----------------------------------------------------------------------------
+#define INIT_OP(NEW_NODE, VAL, HIGHT) INIT_NODE (NEW_NODE, left_node, right_node, NULL, OP, VAL, HIGHT)
 
-#define INIT_OP(val, hight) INIT_NODE (new_node, left_node, right_node, NULL, OP, val, hight)
+#define INIT_VAR(VAL) INIT_NODE (new_node, NULL, NULL, NULL, VAR, VAL, 4)
 
-#define INIT_VAR(val) INIT_NODE (new_node, NULL, NULL, NULL, VAR, val, 4)
+#define INIT_NUM(VAL) INIT_NODE (new_node, NULL, NULL, NULL, NUM, VAL, 4)
 
-#define INIT_NUM(val) INIT_NODE (new_node, NULL, NULL, NULL, NUM, val, 4)
+#define INIT_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)                                                                                       \
+    new_node = create_node ();                                                                    \
+    ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)
 
 //-----------------------------------------------------------------------------
 
@@ -99,7 +101,7 @@ enum OPERATIONS
 #define ASSIGN_RIGHT(curr_node)                                                                   \
     ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
 
-#define ASSIGN_LEFT(curr_node)                                                                   \
+#define ASSIGN_LEFT(curr_node)                                                                    \
     ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
 
 //-----------------------------------------------------------------------------
@@ -122,12 +124,6 @@ enum OPERATIONS
     {                                                                                             \
         new_node->right->parent = new_node;                                                       \
     }
-
-//-----------------------------------------------------------------------------
-
-#define INIT_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)                                                                                       \
-    Node *new_node = create_node ();                                                              \
-    ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)
 
 //{----------------------------------------------------------------------------
 //!                       END OF INITIALIZING

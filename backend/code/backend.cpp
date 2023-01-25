@@ -41,6 +41,8 @@ Node *read_tree (Tree_info *info)
 
 Node *init_node (Tree_info *info)
 {
+    Node *new_node = NULL;
+
     char type = 0;
 
     value val = { 0 };
@@ -244,13 +246,13 @@ void print_values (Node *curr_node, Tree_info *info)
 {
     if(IS_TYPE (curr_node, OP))
     {
-        #define OP_DEF(op, op_name, asm_name, code, ...)             \
-        case(op):                                \
-        {                                         \
-            trprint (asm_name);                   \
-                                                  \
-            break;                                \
-        }                                         \
+        #define OP_DEF(op, op_name, asm_name, code, ...) \
+        case(op):                                        \
+        {                                                \
+            trprint (asm_name);                          \
+                                                         \
+            break;                                       \
+        }                                                \
 
         switch(curr_node->val.op)
         {

@@ -14,6 +14,8 @@
 //!
 //}----------------------------------------------------------------------------
 
+#define CURR_LINE info->Text[info->curr_line].begin_line
+
 Node *get_mul_div (char **grammar)
 {
     Node *left_node = get_pow (grammar);
@@ -23,27 +25,31 @@ Node *get_mul_div (char **grammar)
         char curr_op = **grammar;
         (*grammar)++;
 
-        Node *right_node = get_mul_div (grammar);
+        Node *new_node   = NULL; //?????
+        Node *right_node = get_pow (grammar);
 
-        #define OP_DEF(op, op_name, asm_name, code, ...) \
-        if(curr_op == op_name[0])                        \
-        {                                                \
-            INIT (op, 2);                                \
-                                                         \
-            left_node = new_node;                        \
-        }                                                \
-        else
+        switch(curr_op)
+        {
+            case '*':
+            {
+                // filled_node oper_name oper_priority
+                //       V         V           V
+                INIT (new_node,   MUL,         2);
+                break;
+            }
+            case '/':
+            {
+                INIT (new_node, DIV, 2);
+                break;
+            }
+            default:
+            {
+                printf ("UNKOWN COMMAND - PRIORITY 2!\n");
+                break;
+            }
+        }
 
-        //-----------------------------------------------------------------------------
-
-        #include "../../COMMON/include/codegen/op_def.h"
-
-        //-----------------------------------------------------------------------------
-
-        #undef OP_DEF
-
-        //else
-        printf ("UNKOWN COMMAND - PRIORITY 1!\n");
+        left_node = new_node;
     }
 
     return left_node;
@@ -59,11 +65,10 @@ Node *get_pow (char **grammar)
     {
         (*grammar)++;
 
+        Node *new_node   = NULL;
         Node *right_node = get_brackets (grammar);
 
-        // oper_name  oper_priority
-        //     V       V
-        INIT (POW,     3);
+        INIT (new_node, POW, 3);
 
         left_node = new_node;
     }
@@ -107,28 +112,29 @@ Node *get_expression (char **grammar)
         char curr_op = **grammar;
         (*grammar)++;
 
+        Node *new_node   = NULL;
         Node *right_node = get_mul_div (grammar);
 
-        #define OP_DEF(op, op_name, asm_name, code, ...) \
-        if(curr_op == op_name[0])                        \
-        {                                                \
-            INIT (op, 1);                                \
-                                                         \
-            left_node = new_node;                        \
-        }                                                \
-        else
+        switch(curr_op)
+        {
+            case '+':
+            {
+                INIT (new_node, ADD, 1);
+                break;
+            }
+            case '-':
+            {
+                INIT (new_node, SUB, 1);
+                break;
+            }
+            default:
+            {
+                printf ("UNKOWN COMMAND - PRIORITY 1!\n");
+                break;
+            }
+        }
 
-        //-----------------------------------------------------------------------------
-
-        #include "../../COMMON/include/codegen/op_def.h"
-
-        //-----------------------------------------------------------------------------
-
-        #undef OP_DEF
-
-        //else (IN CODEGEN)
-
-        printf ("UNKOWN COMMAND - PRIORITY 1!\n");
+        left_node = new_node;
     }
 
     return left_node;
@@ -138,6 +144,7 @@ Node *get_expression (char **grammar)
 
 Node *get_assignment (char **grammar)
 {
+    Node *new_node = NULL;
     Node *left_node = get_str (grammar);
 
     (*grammar) += O(ASG);
@@ -146,7 +153,7 @@ Node *get_assignment (char **grammar)
 
     CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
 
-    INIT (ASG, 0);
+    INIT (new_node, ASG, 0);
 
     return new_node;
 }
@@ -159,20 +166,20 @@ Node *get_grammar (char **grammar, Tree_info *info)
     {
         info->curr_line++;
 
-        return get_grammar (&info->Text[info->curr_line].begin_line, info);
+        return get_grammar (&CURR_LINE, info);
     }
 
-    if(!strncmp (*grammar, "if", 2))
+    if(!strncmp (*grammar, "if", O(IF)))
     {
         return get_condition (grammar, info);
     }
 
-    if(!strncmp (*grammar, "funct", 5))
+    if(!strncmp (*grammar, "funct", O(FUNCT)))
     {
         return get_funct_init (grammar, info);
     }
 
-    if(!strncmp (*grammar, "while", 5))
+    if(!strncmp (*grammar, "while", O(WHILE)))
     {
         return get_cycle (grammar, info);
     }
@@ -193,7 +200,9 @@ Node *get_grammar (char **grammar, Tree_info *info)
 
 Node *get_condition (char **grammar, Tree_info *info)
 {
-    (*grammar) += 2;
+    Node *new_node = NULL;
+
+    (*grammar) += O(IF);
 
     //    condition
     //        V
@@ -203,7 +212,7 @@ Node *get_condition (char **grammar, Tree_info *info)
     //       V
     Node *right_node = get_if_body (grammar, info);
 
-    INIT (IF, 0);
+    INIT (new_node, IF, 0);
 
     return new_node;
 }
@@ -212,8 +221,8 @@ Node *get_condition (char **grammar, Tree_info *info)
 
 Node *get_if_body (char **grammar, Tree_info *info)
 {
-    Node *left_node = NULL;
-
+    Node *new_node   = NULL;
+    Node *left_node  = NULL;
     Node *right_node = NULL;
 
     if(**grammar == '{')
@@ -232,9 +241,9 @@ Node *get_if_body (char **grammar, Tree_info *info)
 
     info->curr_line++;
 
-    right_node = get_else_body (&info->Text[info->curr_line].begin_line, info);
+    right_node = get_else_body (&CURR_LINE, info);
 
-    INIT (BODY, 0);
+    INIT (new_node, BODY, 0);
 
     return new_node;
 }
@@ -243,9 +252,9 @@ Node *get_if_body (char **grammar, Tree_info *info)
 
 Node *get_else_body (char **grammar, Tree_info *info)
 {
-    if(!strncmp (*grammar, "else", 4))
+    if(!strncmp (*grammar, "else", O(ELSE)))
     {
-        (*grammar) += 4;
+        (*grammar) += O(ELSE);
 
         if(**grammar == '{')
         {
@@ -274,10 +283,11 @@ Node *get_else_body (char **grammar, Tree_info *info)
 
 Node *get_cycle (char **grammar, Tree_info *info)
 {
-    (*grammar) += 5;
+    Node *new_node = NULL;
 
-    Node *left_node = get_brackets (grammar);
+    (*grammar) += O(WHILE);
 
+    Node *left_node  = get_brackets (grammar);
     Node *right_node = NULL;
 
     if(**grammar == '{')
@@ -294,7 +304,7 @@ Node *get_cycle (char **grammar, Tree_info *info)
         right_node = get_grammar (grammar, info);
     }
 
-    INIT (WHILE, 0);
+    INIT (new_node, WHILE, 0);
 
     return new_node;
 }
@@ -303,13 +313,16 @@ Node *get_cycle (char **grammar, Tree_info *info)
 
 Node *get_funct_init (char **grammar, Tree_info *info)
 {
-    (*grammar) += 6;
+    Node *new_node = NULL;
 
-    Node *left_node = get_str (grammar);
+    (*grammar) += O(FUNCT);
 
+    (*grammar)++;
+
+    Node *left_node  = get_str (grammar);
     Node *right_node = get_funct_body (grammar, info);
 
-    INIT (FUNCT, 0);
+    INIT (new_node, FUNCT, 0);
 
     return new_node;
 }
@@ -318,13 +331,14 @@ Node *get_funct_init (char **grammar, Tree_info *info)
 
 Node *get_funct_body (char **grammar, Tree_info *info)
 {
+    Node *new_node  = NULL;
     Node *left_node = NULL;
 
     info->curr_line++;
 
     Node *right_node = get_sequence (info);
 
-    INIT (BODY, 0);
+    INIT (new_node, BODY, 0);
 
     return new_node;
 }
@@ -333,19 +347,20 @@ Node *get_funct_body (char **grammar, Tree_info *info)
 
 Node *get_sequence (Tree_info *info)
 {
-    Node *left_node = get_grammar (&info->Text[info->curr_line].begin_line, info);
+    Node *new_node  = NULL;
+    Node *left_node = get_grammar (&CURR_LINE, info);
 
     nullify_tree_pars (info);
 
     info->curr_line++;
 
-    while(info->curr_line < info->File_input->num_of_lines && info->Text[info->curr_line].begin_line[0] != '}')
+    while(info->curr_line < info->File_input->num_of_lines && CURR_LINE[0] != '}')
     {
-        Node *right_node = get_grammar (&info->Text[info->curr_line].begin_line, info);
+        Node *right_node = get_grammar (&CURR_LINE, info);
 
         info->curr_line++;
 
-        INIT (SEQ, 0);
+        INIT (new_node, SEQ, 0);
 
         left_node = new_node;
     }
@@ -357,16 +372,18 @@ Node *get_sequence (Tree_info *info)
 
 Node *get_str (char **grammar)
 {
+    Node *new_node = NULL;
+
     char name[MAX_LEN] = "";
 
     value val = { 0 };
 
-    int i = 0;
+    int pos = 0;
 
-    while(isalpha (**grammar) && i < MAX_LEN)
+    while(isalpha (**grammar) && pos < MAX_LEN)
     {
-        name[i] = **grammar;
-        i++;
+        name[pos] = **grammar;
+        pos++;
 
         (*grammar)++;
     }
@@ -387,16 +404,17 @@ Node *get_str (char **grammar)
 
 Node *get_math_funct (char **grammar, char *name)
 {
+    Node *new_node   = NULL;
+    Node *left_node  = NULL;
     Node *right_node = NULL;
-    Node *left_node = NULL;
 
     #define OP_DEF(op, op_name, asm_name, code, ...)    \
-    if(stricmp (name, op_name) == 0)          \
-    {                                         \
-        right_node = get_brackets (grammar);  \
-        INIT (op, 4);                         \
-                                              \
-        return new_node;                      \
+    if(stricmp (name, op_name) == 0)                    \
+    {                                                   \
+        right_node = get_brackets (grammar);            \
+        INIT (new_node, op, 4);                         \
+                                                        \
+        return new_node;                                \
     }
 
     //-----------------------------------------------------------------------------
@@ -407,26 +425,19 @@ Node *get_math_funct (char **grammar, char *name)
 
     #undef OP_DEF
 
-    else
-    {
-        value val_funct = { 0 };
+    value val_funct = { 0 };
 
-        val_funct.var = *name;
+    val_funct.var = *name;
 
-        (*grammar) += 2;
+    (*grammar) += O(NAME);
 
-        left_node = create_node ();
+    ASSIGN_NODE (left_node, NULL, NULL, NULL, VAR, val_funct, 4);
 
-        right_node = NULL;
+    //right_node = get_brackets (grammar);  (PARAMS INITIALIZING)  -  NOT COMPLETED!!!
 
-        ASSIGN_NODE (left_node, NULL, NULL, NULL, VAR, val_funct, 4);
+    INIT (new_node, CALL, 0);
 
-        //right_node = get_brackets (grammar);
-
-        INIT (CALL, 0);
-
-        return new_node;
-    }
+    return new_node;
 }
 
 //-----------------------------------------------------------------------------
@@ -435,6 +446,8 @@ Node *get_math_funct (char **grammar, char *name)
 
 Node *get_bottom (char **grammar)
 {
+    Node *new_node = NULL;
+
     value val = { 0 };
 
     const char *str_old = *grammar;
@@ -461,6 +474,7 @@ Node *get_bottom (char **grammar)
 }
 
 #undef VALUE_NUM
+#undef CURR_LINE
 
 //-----------------------------------------------------------------------------
 

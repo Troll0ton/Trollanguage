@@ -13,7 +13,6 @@
 
 #define LEFT_NUM  curr_node->left->val.num
 #define RIGHT_NUM curr_node->right->val.num
-#define DETECTED return true
 #define OLD_VAL                         \
         Node *old_right = RIGHT_NODE;   \
         Node *old_left  = LEFT_NODE;
@@ -46,8 +45,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 {
     if(simplify_const (curr_node, info))
     {
-        // return true;
-         DETECTED;
+         return true;
     }
 
     #define COND_DEF(condition, ...) \
@@ -59,7 +57,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
                                      \
         FREE_OLD;                    \
                                      \
-        DETECTED;                    \
+        return true;                 \
     }
 
     //-----------------------------------------------------------------------------
@@ -74,7 +72,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
     {
          ASSIGN_NUM (curr_node, info->var_value);
 
-         DETECTED;
+         return true;
     }
 
     return false;
@@ -94,11 +92,11 @@ bool simplify_const (Node *curr_node, Tree_info *info)
         curr_node->priority = 4;
 
         #define OP_DEF(op, op_name, asm_name, ...)  \
-        case op:                           \
-        {                                   \
-            __VA_ARGS__                     \
-                                            \
-            break;                          \
+        case op:                                    \
+        {                                           \
+            __VA_ARGS__                             \
+                                                    \
+            break;                                  \
         }
 
         switch(curr_node->val.op)
@@ -127,7 +125,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
             tree_dtor (RIGHT_NODE);
         }
 
-        DETECTED;
+        return true;
     }
 
     return false;

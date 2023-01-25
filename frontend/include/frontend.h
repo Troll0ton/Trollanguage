@@ -15,9 +15,13 @@
 
 enum OFFSETS
 {
-
-}
-;
+    OFFSET_ASG   = 1,    //assignment
+    OFFSET_IF    = 2,    //condition
+    OFFSET_ELSE  = 4,    //else
+    OFFSET_FUNCT = 5,    //function initializing
+    OFFSET_WHILE = 5,    //while
+    OFFSET_NAME  = 2,    //define name
+};
 
 //-----------------------------------------------------------------------------
 
