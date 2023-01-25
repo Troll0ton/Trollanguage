@@ -73,6 +73,8 @@ Node *create_node ()
 
 Node *copy_tree (Node *orig_root, Tree_info *info)
 {
+    Node *new_root = NULL;
+
     INIT_NODE (new_root, NULL, NULL, orig_root->parent,
                orig_root->type, orig_root->val, orig_root->priority);
 
@@ -97,6 +99,8 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
 
 Node *copy_node (Node *curr_node, Tree_info *info)
 {
+    Node *new_node = NULL;
+
     INIT_NODE (new_node, NULL, NULL, info->curr_parent,
                curr_node->type, curr_node->val, curr_node->priority);
 

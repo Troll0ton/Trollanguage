@@ -14,7 +14,7 @@ pop [100]
 call 99:
 ret
 :2
-jmp 8:
+jmp 3:
 :98
 push [98]
 push [98]
@@ -27,8 +27,8 @@ mul
 sub
 sqrt
 ret
-:8
-jmp 10:
+:3
+jmp 4:
 :99
 push [98]
 push [100]
@@ -51,5 +51,5 @@ out
 push [121]
 out
 ret
-:10
+:4
 hlt

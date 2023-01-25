@@ -56,29 +56,22 @@ Node *init_node (Tree_info *info)
         case NUM:
         {
             sscanf (CURR_LINE + OFFSET_PARENTHESES + OFFSET_TYPE, "%lg", &val.num);
-
             break;
         }
-
         case VAR:
         {
             sscanf (CURR_LINE + OFFSET_PARENTHESES + OFFSET_TYPE, "%c", &val.var);
-
             break;
         }
-
         case OP:
         {
             sscanf (CURR_LINE + OFFSET_PARENTHESES + OFFSET_TYPE, "%d", &val.op);
-
             break;
         }
-
         case NUL:
         {
             return NULL;
         }
-
         default:
         {
             printf ("UNKNOWN TYPE!\n");
@@ -141,83 +134,22 @@ Node *handle_end_node (Tree_info *info, Node *new_node)
 
 void convert_to_asm (Node *curr_node, Tree_info *info)
 {
-    int label_1 = ++info->curr_label;
-    int label_2 = ++info->curr_label;
-
-    if(IS_OP (curr_node, IF))
-    {
-        trprint ("push 0\n");
-
-        convert_to_asm (curr_node->left, info);
-
-        trprint ("je %d:\n", label_1);
-
-        convert_to_asm (curr_node->right->left, info);
-
-        trprint ("jmp %d:\n", label_2);
-
-        trprint (":%d\n", label_1);
-
-        if(curr_node->right->right)
-        {
-            convert_to_asm (curr_node->right->right, info);
-        }
-
-        trprint (":%d\n", label_2);
-    }
-
-    else if(IS_OP (curr_node, FUNCT))
-    {
-        int num_of_funct = (int) curr_node->left->val.var;
-
-        trprint ("jmp %d:\n", label_1);
-
-        trprint (":%d\n", num_of_funct);
-
-        convert_to_asm (curr_node->right->right, info);
-
-        trprint ("ret\n");
-
-        trprint (":%d\n", label_1);
-    }
-
-    else if(IS_OP (curr_node, CALL))
-    {
-        int num_of_funct = (int) curr_node->left->val.var;
-
-        trprint ("call %d:\n", num_of_funct);
-    }
-
-    else if(IS_OP (curr_node, WHILE))
-    {
-        trprint (":%d\n", label_1);
-
-        trprint ("push 0\n");
-
-        convert_to_asm (curr_node->left, info);
-
-        trprint ("je %d:\n", label_2);
-
-        convert_to_asm (curr_node->right, info);
-
-        trprint ("jmp %d:\n", label_1);
-
-        trprint (":%d\n", label_2);
-    }
-
-    else if(IS_OP (curr_node, ASG))
-    {
-        info->curr_label -= 2;
-
-        convert_to_asm (curr_node->right, info);
-
-        trprint ("pop [%d]\n", (int) curr_node->left->val.var);
-    }
-
+    #define CONVERT(op_name, ...)  \
+    if(IS_OP (curr_node, op_name)) \
+    {                              \
+        __VA_ARGS__                \
+    }                              \
     else
-    {
-        info->curr_label -= 2;
+    //-----------------------------------------------------------------------------
 
+    #include "../include/codegen/convert.h"
+
+    //-----------------------------------------------------------------------------
+
+    #undef CONVERT
+
+    //else (IN CODEGENERATION)
+    {
         if(curr_node->left || curr_node->right)
         {
             if(curr_node->left)

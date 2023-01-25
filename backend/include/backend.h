@@ -24,6 +24,16 @@ Node *handle_end_node    (Tree_info *info, Node *new_node);
 
 void  convert_to_asm     (Node *curr_node, Tree_info *info);
 
+void  convert_if         (Node *curr_node, Tree_info *info);
+
+void  convert_funct_def  (Node *curr_node, Tree_info *info);
+
+void  convert_call       (Node *curr_node, Tree_info *info);
+
+void  convert_while      (Node *curr_node, Tree_info *info);
+
+void  convert_assignment (Node *curr_node, Tree_info *info);
+
 void  print_values       (Node *curr_node, Tree_info *info);
 
 //-----------------------------------------------------------------------------
