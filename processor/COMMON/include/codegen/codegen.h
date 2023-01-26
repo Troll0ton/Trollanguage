@@ -119,6 +119,17 @@ CMD_DEF(SQRT, "sqrt",
     }
 })
 
+CMD_DEF(IN, "in",
+{
+    printf("\nENTER YOUR NUMBER:\n");
+
+    double value = 0;
+
+    scanf ("%lg", &value);
+
+    stack_push (&cpu->Stk, value);
+})
+
 CMD_DEF(SIN, "sin",
 {
     double value = stack_pop (&cpu->Stk);

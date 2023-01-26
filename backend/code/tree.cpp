@@ -26,7 +26,7 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 void nullify_tree_pars (Tree_info *info)
 {
     info->curr_line = 0;
-    info->curr_cell = 0;
+    info->graphviz_node = 0;
     info->root = NULL;
     info->curr_parent = NULL;
 }
@@ -43,7 +43,7 @@ void tree_info_dtor (Tree_info *info)
     info->log_file   = NULL;
     info->line       = DELETED_PAR;
     info->curr_line  = DELETED_PAR;
-    info->curr_cell  = DELETED_PAR;
+    info->graphviz_node  = DELETED_PAR;
     info->var_value  = DELETED_PAR;
     info->curr_label = DELETED_PAR;
 }
@@ -135,15 +135,13 @@ Node *create_root (int type, value val, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-#define root info->root
-
 void tree_dump (Tree_info *info)
 {
     fprintf (info->file_dump,
              "<pre>\n"
              "_________________________TREE__________________________________\n\n"
              "TREE - [root - %p] at %s, LINE - %d \n\n",
-             root, info->log_file, info->line);
+             info->root, info->log_file, info->line);
 
     create_tree_graph (info);
 
@@ -152,8 +150,6 @@ void tree_dump (Tree_info *info)
 }
 
 //-----------------------------------------------------------------------------
-
-#define CURR_CELL info->curr_cell
 
 void create_tree_graph (Tree_info *info)
 {
@@ -165,26 +161,26 @@ void create_tree_graph (Tree_info *info)
                "ranksep = 1.5;       \n"
                "edge[penwidth = 10]; \n");
 
-    CURR_CELL = 0;
+    info->graphviz_node = 0;
 
-    create_cell (root, info);
+    create_graphviz_node (info->root, info);
 
-    CURR_CELL = 1;
+    info->graphviz_node = 1;
 
     dot_print("cell0 ");
 
-    if(root->left)
+    if(info->root->left)
     {
-        build_connections (root->left, info);
+        build_connections (info->root->left, info);
 
-        CURR_CELL++;
+        info->graphviz_node++;
     }
 
     dot_print("cell0 ");
 
-    if(root->right)
+    if(info->root->right)
     {
-        build_connections (root->right, info);
+        build_connections (info->root->right, info);
     }
 
     dot_print ("}\n");
@@ -204,14 +200,12 @@ void create_tree_graph (Tree_info *info)
     fprintf (info->file_dump, "%s", img_name);
 }
 
-#undef root
-
 //-----------------------------------------------------------------------------
 
-void create_cell (Node *root, Tree_info *info)
+void create_graphviz_node (Node *root, Tree_info *info)
 {
     dot_print ("cell%d [style = filled, color = black, shape=record, \n",
-               CURR_CELL);
+               info->graphviz_node);
 
     if(IS_TYPE (root, OP))
     {
@@ -262,16 +256,16 @@ void create_cell (Node *root, Tree_info *info)
 
     dot_print ("} \" ];                         \n"),
 
-    CURR_CELL++;
+    info->graphviz_node++;
 
     if(root->left)
     {
-        create_cell (root->left, info);
+        create_graphviz_node (root->left, info);
     }
 
     if(root->right)
     {
-        create_cell (root->right, info);
+        create_graphviz_node (root->right, info);
     }
 }
 
@@ -280,15 +274,15 @@ void create_cell (Node *root, Tree_info *info)
 void build_connections (Node *root, Tree_info *info)
 
 {
-    dot_print("-> cell%d;\n", CURR_CELL);
+    dot_print("-> cell%d;\n", info->graphviz_node);
 
-    int prev_cell = CURR_CELL;
+    int prev_cell = info->graphviz_node;
 
     if(root->left)
     {
         dot_print("cell%d ", prev_cell);
 
-        CURR_CELL++;
+        info->graphviz_node++;
 
         build_connections (root->left, info);
     }
@@ -297,13 +291,11 @@ void build_connections (Node *root, Tree_info *info)
     {
         dot_print("cell%d ", prev_cell);
 
-        CURR_CELL++;
+        info->graphviz_node++;
 
         build_connections (root->right, info);
     }
 }
-
-#undef CURR_CELL
 
 //-----------------------------------------------------------------------------
 

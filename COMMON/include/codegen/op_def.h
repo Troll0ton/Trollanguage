@@ -63,6 +63,11 @@ OP_DEF(OUT, "print", "out",
 
 })
 
+OP_DEF(SCAN, "scan", "scan",
+{
+
+})
+
 OP_DEF(OVER, ">", "OVER",
 {
 

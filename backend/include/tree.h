@@ -77,7 +77,7 @@ typedef struct Tree_info
     Node  *curr_parent;
     int    curr_line;
     double var_value;
-    int    curr_cell;
+    int    graphviz_node;
     int    curr_label;
     int    funct_num;
     int    graph_num;
@@ -114,7 +114,7 @@ Node *copy_tree         (Node *orig_root, Tree_info *info);
 
 Node *copy_node         (Node *curr_node, Tree_info *info);
 
-void  create_cell       (Node *root, Tree_info *info);
+void  create_graphviz_node       (Node *root, Tree_info *info);
 
 void  build_connections (Node *root, Tree_info *info);
 

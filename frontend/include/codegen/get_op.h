@@ -130,6 +130,25 @@ HANDLE_OP(!strncmp (*grammar, "print", O(OUT)),
 
 //-----------------------------------------------------------------------------
 
+HANDLE_OP(!strncmp (*grammar, "scan", O(SCAN)),
+{
+    Node *new_node   = NULL;
+    Node *left_node  = NULL;
+    Node *right_node = NULL;
+
+    value val = { 0 };
+
+    (*grammar) += O(SCAN);
+
+    right_node = get_brackets (grammar);
+
+    INIT (new_node, SCAN, 0);
+
+    return new_node;
+})
+
+//-----------------------------------------------------------------------------
+
 HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
 {
     Node *new_node = NULL;

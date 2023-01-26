@@ -1,11 +1,11 @@
 call 97:
 jmp 2:
 :97
-push 100
+in
 pop [97]
-push 2
+in
 pop [98]
-push 1
+in
 pop [99]
 call 98:
 pop [68]
@@ -22,7 +22,6 @@ je 3:
 call 99:
 jmp 4:
 :3
-:4
 push [68]
 push 0
 je 9:
@@ -36,7 +35,6 @@ je 7:
 call 100:
 jmp 8:
 :7
-:8
 push [68]
 push 0
 jb 13:
@@ -50,7 +48,11 @@ je 11:
 call 101:
 jmp 12:
 :11
+push 123456
+out
 :12
+:8
+:4
 ret
 :2
 jmp 15:
