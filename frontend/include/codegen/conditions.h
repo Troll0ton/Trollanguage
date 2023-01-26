@@ -34,9 +34,8 @@ COND_DEF((IS_OP  (curr_node, POW) &&
 
 //simplify_add_sub_null
 
-COND_DEF(((IS_OP (curr_node, ADD)  ||
-           IS_OP (curr_node, SUB)) &&
-           IS_NULL (LEFT_NODE)       ),
+COND_DEF((IS_OP (curr_node, ADD) &&
+          IS_NULL (LEFT_NODE)       ),
 {
     ASSIGN_RIGHT (curr_node);
 })

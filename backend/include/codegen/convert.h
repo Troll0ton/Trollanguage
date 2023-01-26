@@ -58,6 +58,29 @@ CONVERT(LESS,
 
 //-----------------------------------------------------------------------------
 
+CONVERT(EQL,
+{
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+
+    convert_to_asm (curr_node->left, info);
+    convert_to_asm (curr_node->right, info);
+
+    trprint ("je %d:\n", label_1);
+
+    trprint ("push 0\n");
+
+    trprint ("jmp %d:\n", label_2);
+
+    trprint (":%d\n", label_1);
+
+    trprint ("push 1\n");
+
+    trprint (":%d\n", label_2);
+})
+
+//-----------------------------------------------------------------------------
+
 CONVERT(IF,
 {
     int label_1 = ++info->curr_label;

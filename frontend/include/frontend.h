@@ -21,6 +21,7 @@ enum OFFSETS
     OFFSET_FUNCT = 5,    //function initializing
     OFFSET_WHILE = 5,    //while
     OFFSET_NAME  = 2,    //define name
+    OFFSET_OUT   = 5,    //out
 };
 
 //-----------------------------------------------------------------------------

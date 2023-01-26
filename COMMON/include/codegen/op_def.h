@@ -73,6 +73,11 @@ OP_DEF(LESS, "<", "LESS",
 
 })
 
+OP_DEF(EQL, "~", "EQUALITY",
+{
+
+})
+
 OP_DEF(ASG, "", "ASSIGNMENT",
 {
 

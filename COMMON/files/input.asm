@@ -1,10 +1,16 @@
 call 97:
 jmp 2:
 :97
+push 100
+pop [97]
+push 2
+pop [98]
+push 1
+pop [99]
+call 98:
+pop [68]
+push [68]
 push 0
-pop [120]
-push [120]
-push 20
 ja 5:
 push 0
 jmp 6:
@@ -13,15 +19,101 @@ push 1
 :6
 push 0
 je 3:
-push 666
-pop [121]
+call 99:
 jmp 4:
 :3
-push 777
-pop [121]
 :4
+push [68]
+push 0
+je 9:
+push 0
+jmp 10:
+:9
+push 1
+:10
+push 0
+je 7:
+call 100:
+jmp 8:
+:7
+:8
+push [68]
+push 0
+jb 13:
+push 0
+jmp 14:
+:13
+push 1
+:14
+push 0
+je 11:
+call 101:
+jmp 12:
+:11
+:12
+ret
+:2
+jmp 15:
+:98
+push [98]
+push [98]
+mul
+push 4
+push [97]
+mul
+push [99]
+mul
+sub
+ret
+:15
+jmp 16:
+:99
+push 0
+push [98]
+sub
+push [68]
+sqrt
+add
+push 2
+push [97]
+mul
+div
+pop [120]
+push 0
+push [98]
+sub
+push [68]
+sqrt
+sub
+push 2
+push [97]
+mul
+div
+pop [121]
+push [120]
+out
 push [121]
 out
 ret
-:2
+:16
+jmp 17:
+:100
+push 0
+push [98]
+sub
+push 2
+push [97]
+mul
+div
+pop [120]
+push [120]
+out
+ret
+:17
+jmp 18:
+:101
+push 123456
+out
+ret
+:18
 hlt

@@ -1,12 +1,43 @@
 funct a (){
-x=0
+a=100
+b=2
+c=1
 
-if((x)>(20)){
-y=666
-}
-else{
-y=777
+D=b()
+
+if((D)>(0)) c()
+
+if((D)~(0)) d()
+
+if((D)<(0)) e()
 }
 
+
+funct b (){
+b*b-4*a*c
+}
+
+
+
+
+funct c (){
+x=(0-b+sqrt(D))/(2*a)
+y=(0-b-sqrt(D))/(2*a)
+
+print(x)
 print(y)
+}
+
+
+
+funct d (){
+x=(0-b)/(2*a)
+
+print(x)
+}
+
+
+
+funct e (){
+print(123456)
 }

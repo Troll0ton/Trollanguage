@@ -4,7 +4,7 @@
 //!                             (IN FRONTEND)
 //}----------------------------------------------------------------------------
 
-HANDLE_OP((strchr (*grammar, '>') || strchr (*grammar, '<')),
+HANDLE_OP((strchr (*grammar, '>') || strchr (*grammar, '<') || strchr (*grammar, '~')),
 {
     Node *new_node = NULL;
 
@@ -35,6 +35,11 @@ HANDLE_OP((strchr (*grammar, '>') || strchr (*grammar, '<')),
         case '<':
         {
             INIT (new_node, LESS, 0);
+            break;
+        }
+        case '~':
+        {
+            INIT (new_node, EQL, 0);
             break;
         }
         default:
@@ -100,6 +105,25 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
     right_node = if_body;
 
     INIT (new_node, IF, 0);
+
+    return new_node;
+})
+
+//-----------------------------------------------------------------------------
+
+HANDLE_OP(!strncmp (*grammar, "print", O(OUT)),
+{
+    Node *new_node   = NULL;
+    Node *left_node  = NULL;
+    Node *right_node = NULL;
+
+    value val = { 0 };
+
+    (*grammar) += O(OUT);
+
+    right_node = get_brackets (grammar);
+
+    INIT (new_node, OUT, 0);
 
     return new_node;
 })
