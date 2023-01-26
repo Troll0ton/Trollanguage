@@ -68,7 +68,7 @@ Node *get_pow (char **grammar)
     {
         (*grammar)++;
 
-        Node *new_node   = NULL;
+        Node *new_node = NULL;
 
         value val = { 0 };
 
@@ -138,7 +138,7 @@ Node *get_expression (char **grammar)
             }
             default:
             {
-                printf ("UNKOWN COMMAND - PRIORITY 1!\n");
+                printf ("UNKOWN COMMAND - PRIORITY 1\n");
                 break;
             }
         }
@@ -153,17 +153,22 @@ Node *get_expression (char **grammar)
 
 Node *get_grammar (char **grammar, Tree_info *info)
 {
-    if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n')   //handle empty lines
+    if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n') //handle empty lines
     {
         info->curr_line++;
 
         return get_grammar (&CURR_LINE, info);
     }
 
-    #define HANDLE_OP(NAME, OFFSET, ...)  \
-    if(!strncmp (*grammar, NAME, OFFSET)) \
-    {                                     \
-        __VA_ARGS__                       \
+    Node *comparison_node = NULL; //comparison (like x>20 for example, in IF or WHILE grammar)
+
+    ///HANDLE SPECIAL FUNCTIONS AND OPERATIONS
+    // (IF, WHILE, COMPARISON, FUNCTION )
+    
+    #define HANDLE_OP(CONDITION, ...)    \
+    if(CONDITION)                        \
+    {                                    \
+        __VA_ARGS__                      \
     }
 
     //-----------------------------------------------------------------------------
@@ -173,12 +178,11 @@ Node *get_grammar (char **grammar, Tree_info *info)
     //-----------------------------------------------------------------------------
 
     #undef HANDLE_OP
-
+    
+    ///
     Node *root = get_expression (grammar);
 
-    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
-
-    printf ("\n%c ----\n", **grammar);
+    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION: line %d\n", info->curr_line);
 
     return root;
 }

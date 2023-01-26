@@ -2,6 +2,17 @@
 
 //-----------------------------------------------------------------------------
 
+void create_asm_file (Tree_info *info)
+{
+    trprint ("call %d:\n", MAIN);
+
+    convert_to_asm (info->root, info);
+
+    trprint ("hlt\n");
+}
+
+//-----------------------------------------------------------------------------
+
 #define CURR_LINE info->Text[info->curr_line].begin_line
 
 Node *read_tree (Tree_info *info)
@@ -49,7 +60,7 @@ Node *init_node (Tree_info *info)
 
     sscanf (CURR_LINE + OFFSET_PARENTHESES, "%c", &type_of_node);
 
-    type_of_node -= '0';  //conver
+    type_of_node -= '0';  //handle ASCII-code
 
     switch((int) type_of_node)
     {

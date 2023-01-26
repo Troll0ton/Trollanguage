@@ -9,31 +9,62 @@ HANDLE_OP((strchr (*grammar, '>') || strchr (*grammar, '<')),
     Node *new_node = NULL;
 
     value val = { 0 };
+    
+    char **old_pos = grammar;
+    
+    *grammar = strchr (*grammar, '(');
 
-    Node *left_node = get_str (grammar);
+    Node *left_node = get_brackets (grammar);
+    
+    char curr_op = **grammar;
+    (*grammar)++;
 
-    (*grammar) += O(ASG);
-
-    Node *right_node = get_expression (grammar);
-
-    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
-
-    INIT (new_node, ASG, 0);
-
-    return new_node;
+    Node *right_node = get_brackets (grammar);
+    
+    switch(curr_op)
+    {
+        case '>':
+        {
+            INIT (new_node, MUL, 2);
+            break;
+        }
+        case '<':
+        {
+            INIT (new_node, DIV, 2);
+            break;
+        }
+        default:
+        {
+            printf ("UNKOWN COMMAND - PRIORITY 2!\n");
+            break;
+        }
+    }
+    
+    comparison_node = ...
+    
+    grammar = old_pos;
 })
 
 //-----------------------------------------------------------------------------
 
 HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
 {
-    Node *new_node = NULL;
+    Node *new_node  = NULL;
+    Node *condition = NULL;
 
     value val = { 0 };
 
     (*grammar) += O(IF);
 
-    Node *condition = get_brackets (grammar);
+    if(comparison_node)
+    {
+        condition = comparison_node;
+    }
+
+    else
+    {
+        condition = get_brackets (grammar);
+    }
 
     Node *if_body    = NULL;
     Node *left_node  = get_body (grammar, info);
@@ -41,13 +72,13 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
 
     info->curr_line++;
 
-    char **curr_line = &CURR_LINE;
+    char **curr_sym = &CURR_LINE;
 
-    if(!strncmp (*curr_line, "else", O(ELSE)))
+    if(!strncmp (*curr_sym, "else", O(ELSE)))
     {
-        (*curr_line) += O(ELSE);
+        (*curr_sym) += O(ELSE);
 
-        right_node = get_body (curr_line, info);
+        right_node = get_body (curr_sym, info);
     }
 
     else
@@ -76,7 +107,6 @@ HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
     value val = { 0 };
 
     (*grammar) += O(FUNCT);
-
     (*grammar)++;
 
     Node *funct_name = get_str (grammar);

@@ -10,14 +10,62 @@ CONVERT(ASG,
     trprint ("pop [%d]\n", (int) curr_node->left->val.var);
 })
 
+//-----------------------------------------------------------------------------
+
+CONVERT(OVER,
+{
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+
+    convert_to_asm (curr_node->left, info);
+    convert_to_asm (curr_node->right, info);
+
+    trprint ("ja %d:\n", label_1);
+
+    trprint ("push 0\n");
+
+    trprint ("jmp %d:\n", label_2);
+
+    trprint (":%d\n", label_1);
+
+    trprint ("push 1\n");
+
+    trprint (":%d\n", label_2);
+})
+
+//-----------------------------------------------------------------------------
+
+CONVERT(LESS,
+{
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+
+    convert_to_asm (curr_node->left, info);
+    convert_to_asm (curr_node->right, info);
+
+    trprint ("jb %d:\n", label_1);
+
+    trprint ("push 0\n");
+
+    trprint ("jmp %d:\n", label_2);
+
+    trprint (":%d\n", label_1);
+
+    trprint ("push 1\n");
+
+    trprint (":%d\n", label_2);
+})
+
+//-----------------------------------------------------------------------------
+
 CONVERT(IF,
 {
     int label_1 = ++info->curr_label;
     int label_2 = ++info->curr_label;
 
-    trprint ("push 0\n");
-
     convert_to_asm (curr_node->left, info);
+
+    trprint ("push 0\n");
 
     trprint ("je %d:\n", label_1);
 
@@ -35,6 +83,8 @@ CONVERT(IF,
     trprint (":%d\n", label_2);
 })
 
+//-----------------------------------------------------------------------------
+
 CONVERT(WHILE,
 {
     int label_1 = ++info->curr_label;
@@ -42,9 +92,9 @@ CONVERT(WHILE,
 
     trprint (":%d\n", label_1);
 
-    trprint ("push 0\n");
-
     convert_to_asm (curr_node->left, info);
+
+    trprint ("push 0\n");
 
     trprint ("je %d:\n", label_2);
 
@@ -54,6 +104,8 @@ CONVERT(WHILE,
 
     trprint (":%d\n", label_2);
 })
+
+//-----------------------------------------------------------------------------
 
 CONVERT(FUNCT,
 {
@@ -71,6 +123,8 @@ CONVERT(FUNCT,
 
     trprint (":%d\n", label_1);
 })
+
+//-----------------------------------------------------------------------------
 
 CONVERT(CALL,
 {

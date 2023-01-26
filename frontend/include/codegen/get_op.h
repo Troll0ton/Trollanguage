@@ -10,17 +10,43 @@ HANDLE_OP((strchr (*grammar, '>') || strchr (*grammar, '<')),
 
     value val = { 0 };
 
-    Node *left_node = get_str (grammar);
+    char *old_pos = *grammar;
 
-    (*grammar) += O(ASG);
+    *grammar = strchr (*grammar, '(');
+    (*grammar)++;
 
-    Node *right_node = get_expression (grammar);
+    Node *left_node = get_brackets (grammar);
 
-    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
+    char curr_op = **grammar;
+    (*grammar)++;
 
-    INIT (new_node, ASG, 0);
+    Node *right_node = get_brackets (grammar);
+    (*grammar)++;
 
-    comparison_node = ...
+    end_of_comparison = *grammar;
+
+    switch(curr_op)
+    {
+        case '>':
+        {
+            INIT (new_node, OVER, 0);
+            break;
+        }
+        case '<':
+        {
+            INIT (new_node, LESS, 0);
+            break;
+        }
+        default:
+        {
+            printf ("UNKOWN COMMAND - COMPARISON!\n");
+            break;
+        }
+    }
+
+    comparison_node = new_node;
+
+    *grammar = old_pos;
 })
 
 //-----------------------------------------------------------------------------
@@ -37,6 +63,8 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
     if(comparison_node)
     {
         condition = comparison_node;
+
+        *grammar = end_of_comparison;
     }
 
     else
@@ -50,13 +78,13 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
 
     info->curr_line++;
 
-    char **curr_line = &CURR_LINE;
+    char **curr_sym = &CURR_LINE;
 
-    if(!strncmp (*curr_line, "else", O(ELSE)))
+    if(!strncmp (*curr_sym, "else", O(ELSE)))
     {
-        (*curr_line) += O(ELSE);
+        (*curr_sym) += O(ELSE);
 
-        right_node = get_body (curr_line, info);
+        right_node = get_body (curr_sym, info);
     }
 
     else
@@ -85,7 +113,6 @@ HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
     value val = { 0 };
 
     (*grammar) += O(FUNCT);
-
     (*grammar)++;
 
     Node *funct_name = get_str (grammar);
@@ -111,13 +138,25 @@ HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
 
 HANDLE_OP(!strncmp (*grammar, "while", O(WHILE)),
 {
-    Node *new_node = NULL;
+    Node *new_node  = NULL;
+    Node *left_node = NULL;
 
     value val = { 0 };
 
     (*grammar) += O(WHILE);
 
-    Node *left_node  = get_brackets (grammar);
+    if(comparison_node)
+    {
+        left_node = comparison_node;
+
+        *grammar = end_of_comparison;
+    }
+
+    else
+    {
+        left_node = get_brackets (grammar);
+    }
+
     Node *right_node = get_body (grammar, info);
 
     INIT (new_node, WHILE, 0);

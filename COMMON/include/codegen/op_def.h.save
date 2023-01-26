@@ -63,12 +63,12 @@ OP_DEF(OUT, "print", "out",
 
 })
 
-OP_DEF(OVER, ">", "OVER",
+OP_DEF(OUT, "print", "out",
 {
 
 })
 
-OP_DEF(LESS, "<", "LESS",
+OP_DEF(OUT, "print", "out",
 {
 
 })

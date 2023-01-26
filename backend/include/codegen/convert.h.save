@@ -3,99 +3,101 @@
 //!                       OPERATIONS CONVERSION
 //}----------------------------------------------------------------------------
 
-COVERT(ADD, "+", "add",
+CONVERT(ASG,
 {
-    curr_node->val.num = LEFT_NUM + RIGHT_NUM;
+    convert_to_asm (curr_node->right, info);
+
+    trprint ("pop [%d]\n", (int) curr_node->left->val.var);
 })
 
-OP_DEF(SUB, "-", "sub",
+//-----------------------------------------------------------------------------
+
+CONVERT(MORE,
 {
-    curr_node->val.num = LEFT_NUM - RIGHT_NUM;
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+    
+    convert_to_asm (curr_node->left, info);
+    convert_to_asm (curr_node->right, info);
+
+    trprint ("je %d:\n", label_1);
 })
 
-OP_DEF(MUL, "*", "mul",
+//-----------------------------------------------------------------------------
+
+CONVERT(IF,
 {
-    curr_node->val.num = LEFT_NUM * RIGHT_NUM;
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+
+    trprint ("push 0\n");
+
+    convert_to_asm (curr_node->left, info);
+
+    trprint ("je %d:\n", label_1);
+
+    convert_to_asm (curr_node->right->left, info);
+
+    trprint ("jmp %d:\n", label_2);
+
+    trprint (":%d\n", label_1);
+
+    if(curr_node->right->right)
+    {
+        convert_to_asm (curr_node->right->right, info);
+    }
+
+    trprint (":%d\n", label_2);
 })
 
-OP_DEF(DIV, "/", "div",
+//-----------------------------------------------------------------------------
+
+CONVERT(WHILE,
 {
-    curr_node->val.num = LEFT_NUM / RIGHT_NUM;
+    int label_1 = ++info->curr_label;
+    int label_2 = ++info->curr_label;
+
+    trprint (":%d\n", label_1);
+
+    trprint ("push 0\n");
+
+    convert_to_asm (curr_node->left, info);
+
+    trprint ("je %d:\n", label_2);
+
+    convert_to_asm (curr_node->right, info);
+
+    trprint ("jmp %d:\n", label_1);
+
+    trprint (":%d\n", label_2);
 })
 
-OP_DEF(POW, "^", "pow",
+//-----------------------------------------------------------------------------
+
+CONVERT(FUNCT,
 {
-    curr_node->val.num = pow (LEFT_NUM, RIGHT_NUM);
+    int label_1 = ++info->curr_label;
+
+    int num_of_funct = (int) curr_node->left->val.var;
+
+    trprint ("jmp %d:\n", label_1);
+
+    trprint (":%d\n", num_of_funct);
+
+    convert_to_asm (curr_node->right->right, info);
+
+    trprint ("ret\n");
+
+    trprint (":%d\n", label_1);
 })
 
-OP_DEF(SIN, "sin", "sin",
+//-----------------------------------------------------------------------------
+
+CONVERT(CALL,
 {
-    curr_node->val.num = sin (RIGHT_NUM);
-})
+    int num_of_funct = (int) curr_node->left->val.var;
 
-OP_DEF(COS, "cos", "cos",
-{
-    curr_node->val.num = cos (RIGHT_NUM);
-})
-
-OP_DEF(LN, "ln", "ln",
-{
-    curr_node->val.num = log (RIGHT_NUM);
-})
-
-OP_DEF(TG, "tg", "tg",
-{
-    curr_node->val.num = tan (RIGHT_NUM);
-})
-
-OP_DEF(CTG, "ctg", "ctg",
-{
-    curr_node->val.num = 1 / tan (RIGHT_NUM);
-})
-
-OP_DEF(SQRT, "sqrt", "sqrt",
-{
-    curr_node->val.num = sqrt (RIGHT_NUM);
-})
-
-OP_DEF(OUT, "print", "out",
-{
-
-})
-
-OP_DEF(ASG, "", "ASSIGNMENT",
-{
-
-})
-
-OP_DEF(SEQ, "", "SEQUENCE",
-{
-
-})
-
-OP_DEF(IF, "", "IF",
-{
-
-})
-
-OP_DEF(WHILE, "", "WHILE",
-{
-
-})
-
-OP_DEF(FUNCT, "", "FUNCTION",
-{
-
-})
-
-OP_DEF(BODY, "", "BODY",
-{
-
-})
-
-OP_DEF(CALL, "", "CALL",
-{
-
+    trprint ("call %d:\n", num_of_funct);
 })
 
 //-----------------------------------------------------------------------------

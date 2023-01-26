@@ -118,7 +118,7 @@ Node *get_expression (char **grammar)
         char curr_op = **grammar;
         (*grammar)++;
 
-        Node *new_node   = NULL;
+        Node *new_node = NULL;
 
         value val = { 0 };
 
@@ -153,14 +153,18 @@ Node *get_expression (char **grammar)
 
 Node *get_grammar (char **grammar, Tree_info *info)
 {
-    if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n')   //handle empty lines
+    if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n') //handle empty lines
     {
         info->curr_line++;
 
         return get_grammar (&CURR_LINE, info);
     }
 
-    Node *comparison_node = NULL;
+    Node *comparison_node   = NULL; //comparison (like x>20 for example, in IF or WHILE grammar)
+    char *end_of_comparison = NULL;
+
+    ///HANDLE SPECIAL FUNCTIONS AND OPERATIONS
+    // (IF, WHILE, COMPARISON, FUNCTION'S INIT and others)
 
     #define HANDLE_OP(CONDITION, ...)    \
     if(CONDITION)                        \
@@ -176,6 +180,7 @@ Node *get_grammar (char **grammar, Tree_info *info)
 
     #undef HANDLE_OP
 
+    ///HANDLE GRAMMAR
     Node *root = get_expression (grammar);
 
     CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION: line %d\n", info->curr_line);

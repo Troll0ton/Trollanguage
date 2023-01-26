@@ -1,21 +1,12 @@
 funct a (){
-x=sin(3.14)
-y=0
+x=0
 
-if(x+10) y=100
-
-while(x){
-y=y+15
-x=x-1
-}
-
-if(y){
-x=x-56
+if((x)>(20)){
+y=666
 }
 else{
-y=1800
+y=777
 }
 
-print(y)
 print(y)
 }
