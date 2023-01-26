@@ -39,7 +39,7 @@ Node *get_brackets   (char **grammar);
 
 Node *get_str        (char **grammar);
 
-Node *get_bottom     (char **grammar);
+Node *get_syllable   (char **grammar);
 
 Node *get_pow        (char **grammar);
 

@@ -40,7 +40,7 @@ void  convert_while      (Node *curr_node, Tree_info *info);
 
 void  convert_assignment (Node *curr_node, Tree_info *info);
 
-void  print_values       (Node *curr_node, Tree_info *info);
+void  print_node         (Node *curr_node, Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

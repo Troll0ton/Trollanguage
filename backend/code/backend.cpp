@@ -180,7 +180,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
         if(!IS_OP(curr_node, SEQ))
         {
-            print_values (curr_node, info);
+            print_node (curr_node, info);
 
             trprint ("\n");
         }
@@ -189,7 +189,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-void print_values (Node *curr_node, Tree_info *info)
+void print_node (Node *curr_node, Tree_info *info)
 {
     ///HANDLE OPERATIONS
     if(IS_TYPE (curr_node, OP))

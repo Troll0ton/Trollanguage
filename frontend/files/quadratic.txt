@@ -1,15 +1,14 @@
 funct a (){
-a=100
-b=2
-c=1
+scan(a)
+scan(b)
+scan(c)
 
 D=b()
 
 if((D)>(0)) c()
-
-if((D)~(0)) d()
-
-if((D)<(0)) e()
+else if((D)~(0)) d()
+else if((D)<(0)) e()
+else print(123456)
 }
 
 

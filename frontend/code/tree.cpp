@@ -134,7 +134,7 @@ void save_tree (Node *curr_node, Tree_info *info)
 {
     trprint("{");
 
-    print_values (curr_node, info);
+    print_node (curr_node, info);
 
     if(curr_node->left || curr_node->right)
     {
@@ -160,7 +160,7 @@ void save_tree (Node *curr_node, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-void print_values (Node *curr_node, Tree_info *info)
+void print_node (Node *curr_node, Tree_info *info)
 {
     trprint ("%d", curr_node->type);
 

@@ -114,9 +114,9 @@ Node *copy_tree         (Node *orig_root, Tree_info *info);
 
 Node *copy_node         (Node *curr_node, Tree_info *info);
 
-void  print_values      (Node *curr_node, Tree_info *info);
+void  print_node        (Node *curr_node, Tree_info *info);
 
-void  create_graphviz_node       (Node *root, Tree_info *info);
+void  create_graphviz_node (Node *root, Tree_info *info);
 
 void  build_connections (Node *root, Tree_info *info);
 

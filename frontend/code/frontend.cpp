@@ -25,7 +25,7 @@ Node *get_mul_div (char **grammar)
         char curr_op = **grammar;
         (*grammar)++;
 
-        Node *new_node   = NULL;
+        Node *new_node = NULL;
 
         value val = { 0 };
 
@@ -101,7 +101,7 @@ Node *get_brackets (char **grammar)
 
     else
     {
-        new_node = get_bottom (grammar);
+        new_node = get_syllable (grammar);
     }
 
     return new_node;
@@ -312,7 +312,7 @@ Node *get_math_funct (char **grammar, char *name)
 
 #define VALUE_NUM val.num
 
-Node *get_bottom (char **grammar)
+Node *get_syllable (char **grammar)
 {
     Node *new_node = NULL;
 
