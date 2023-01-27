@@ -71,11 +71,75 @@ if((x)>(20)) y=78
 x=f()+78
 ~~~
 
--print ans scan functions:
+-print and scan functions:
 ~~~
 scan(x)
 print(y+909)
 ~~~
+
+-main function is a:
+~~~
+funct a (){
+...
+}
+~~~
+
+## Expression tree storage format (Trollanguage/COMMON/files/tree.txt)
+~~~
+{220
+{0a}
+{221
+{3}
+{217
+{217
+{217
+{212
+{3}
+{0a}
+}
+{216
+{0b}
+{11}
+}
+}
+{219
+{213
+{0a}
+{10}
+}
+{217
+{216
+{0b}
+{22
+{0b}
+{0a}
+}
+}
+{216
+{0a}
+{21
+{0a}
+{11}
+}
+}
+}
+}
+}
+{211
+{3}
+{0b}
+}
+}
+}
+}
+~~~
+Storing notes in a text file is as follows:
+-the first digit means its type,
+-the rest are the value of the cell.
+There are 4 different types of notes in total:
+0-VAR, 1-NUM, 2-OP, 3-NUL (null note). If the note format is VAR, then the variable's ASCII code follows. If the format of the note is NUM, then the numeric value follows.
+If the note format is OP, then the opcode follows.
+
 
 
 ### Unit tests
