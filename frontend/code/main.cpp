@@ -11,7 +11,7 @@ int main ()
 
     tree_info_ctor (&info);
 
-    info.root = get_sequence (&info);
+    info.root = get_statement (&info);
 
     simplify_tree (info.root, &info);
 

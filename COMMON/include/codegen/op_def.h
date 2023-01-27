@@ -88,7 +88,7 @@ OP_DEF(ASG, "", "ASSIGNMENT",
 
 })
 
-OP_DEF(SEQ, "", "SEQUENCE",
+OP_DEF(ST, "", "STATEMENT",
 {
 
 })

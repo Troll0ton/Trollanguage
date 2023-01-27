@@ -47,7 +47,7 @@ Node *get_math_funct (char **grammar, char *name);
 
 Node *get_assignment (char **grammar);
 
-Node *get_sequence   (Tree_info *info);
+Node *get_statement  (Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

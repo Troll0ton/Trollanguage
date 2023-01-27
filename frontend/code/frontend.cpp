@@ -196,7 +196,7 @@ Node *get_body (char **grammar, Tree_info *info)
     {
         info->curr_line++;
 
-        return get_sequence (info);
+        return get_statement (info);
     }
 
     (*grammar)++;
@@ -206,7 +206,7 @@ Node *get_body (char **grammar, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-Node *get_sequence (Tree_info *info)
+Node *get_statement (Tree_info *info)
 {
     Node *new_node = NULL;
 
@@ -224,7 +224,7 @@ Node *get_sequence (Tree_info *info)
 
         info->curr_line++;
 
-        INIT (new_node, SEQ, 0);
+        INIT (new_node, ST, 0);
 
         left_node = new_node;
     }

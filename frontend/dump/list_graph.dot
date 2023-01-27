@@ -10,11 +10,11 @@ fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (4) | a} " ];
 cell2 [style = filled, color = black, shape=record, 
 fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | BODY} " ];                         
 cell3 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | SEQUENCE} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | STATEMENT} " ];                         
 cell4 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | SEQUENCE} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | STATEMENT} " ];                         
 cell5 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | SEQUENCE} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | STATEMENT} " ];                         
 cell6 [style = filled, color = black, shape=record, 
 fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | scan} " ];                         
 cell7 [style = filled, color = black, shape=record, 
@@ -34,7 +34,7 @@ fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (4) | a} " ];
 cell14 [style = filled, color = black, shape=record, 
 fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (4) | 0} " ];                         
 cell15 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | SEQUENCE} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | STATEMENT} " ];                         
 cell16 [style = filled, color = black, shape=record, 
 fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (0) | ASSIGNMENT} " ];                         
 cell17 [style = filled, color = black, shape=record, 

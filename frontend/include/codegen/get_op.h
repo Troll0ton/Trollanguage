@@ -165,7 +165,7 @@ HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
     Node *funct_body = NULL;
     Node *left_node  = NULL;
 
-    Node *right_node = get_sequence (info);
+    Node *right_node = get_statement (info);
 
     INIT (funct_body, BODY, 0);
 
