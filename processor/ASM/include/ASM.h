@@ -5,10 +5,10 @@
 
 //-----------------------------------------------------------------------------
 
-#include "../include/lines_handle.h"
-#include "../include/input_output.h"
-#include "../include/stack.h"
-#include "../../COMMON/include/common.h"
+#include "ASM/include/lines_handle.h"
+#include "ASM/include/input_output.h"
+#include "ASM/include/stack.h"
+#include "COMMON/include/common.h"
 
 //-----------------------------------------------------------------------------
 

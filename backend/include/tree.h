@@ -5,9 +5,9 @@
 
 //-----------------------------------------------------------------------------
 
-#include "../include/lines_handle.h"
-#include "../include/input_output.h"
-#include "../../COMMON/include/common.h"
+#include "backend/include/lines_handle.h"
+#include "backend/include/input_output.h"
+#include "COMMON/include/common.h"
 
 //-----------------------------------------------------------------------------
 

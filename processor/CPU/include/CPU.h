@@ -5,8 +5,8 @@
 
 //-----------------------------------------------------------------------------
 
-#include "../include/stack.h"
-#include "../../COMMON/include/common.h"
+#include "CPU/include/stack.h"
+#include "COMMON/include/common.h"
 #include <math.h>
 
 //-----------------------------------------------------------------------------

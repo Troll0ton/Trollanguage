@@ -1,4 +1,4 @@
-#include "../include/tree.h"
+#include "frontend/include/tree.h"
 
 //-----------------------------------------------------------------------------
 
@@ -276,7 +276,7 @@ void create_graphviz_node (Node *root, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../../COMMON/include/codegen/op_def.h"
+            #include "COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 

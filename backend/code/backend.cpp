@@ -1,4 +1,4 @@
-#include "../include/backend.h"
+#include "backend/include/backend.h"
 
 //-----------------------------------------------------------------------------
 
@@ -155,7 +155,7 @@ void convert_to_asm (Node *curr_node, Tree_info *info)
     else
     //-----------------------------------------------------------------------------
 
-    #include "../include/codegen/convert.h"
+    #include "backend/include/codegen/convert.h"
 
     //-----------------------------------------------------------------------------
 
@@ -206,7 +206,7 @@ void print_node (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "../../COMMON/include/codegen/op_def.h"
+            #include "COMMON/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-#include "../include/ASM.h"
+#include "ASM/include/ASM.h"
 
 //-----------------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ void parse_cmd (Assembler *Asm, Command *cmd, Argument *arg)
 
             //-----------------------------------------------------------------------------
 
-            #include "../../COMMON/include/codegen/codegen.h"
+            #include "COMMON/include/codegen/codegen.h"
 
             //-----------------------------------------------------------------------------
 
@@ -211,7 +211,7 @@ void parse_arg (Assembler *Asm, Command *cmd, Argument *arg)
 
         //-----------------------------------------------------------------------------
 
-        #include "../../COMMON/include/codegen/Asm_codegen.h"
+        #include "COMMON/include/codegen/Asm_codegen.h"
 
         //-----------------------------------------------------------------------------
 
