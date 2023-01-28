@@ -276,7 +276,7 @@ void create_graphviz_node (Node *root, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "COMMON/include/codegen/op_def.h"
+            #include "common/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 

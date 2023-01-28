@@ -2,7 +2,7 @@
 //!                         OPTIMIZATION
 //}----------------------------------------------------------------------------
 
-#include "frontend/include/middleend.h"
+#include "frontend/include/optimization.h"
 
 //-----------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 
     //-----------------------------------------------------------------------------
 
-    #include "frontend/include/codegen/conditions.h"
+    #include "frontend/include/codegen/me_optimizations.h"
 
     //-----------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ bool simplify_const (Node *curr_node, Tree_info *info)
         {
             //-----------------------------------------------------------------------------
 
-            #include "COMMON/include/codegen/op_def.h"
+            #include "common/include/codegen/op_def.h"
 
             //-----------------------------------------------------------------------------
 
@@ -139,6 +139,5 @@ bool simplify_const (Node *curr_node, Tree_info *info)
 #undef COPY_RIGHT
 
 //-----------------------------------------------------------------------------
-
 
 

@@ -1,7 +1,7 @@
 //! @file frontend.h
 
-#ifndef MIDDLE_END
-#define MIDDLE_END
+#ifndef OPTIMIZATION
+#define OPTIMIZATION
 
 //-----------------------------------------------------------------------------
 
@@ -18,4 +18,4 @@ bool  simplify_const  (Node *curr_node, Tree_info *info);
 
 //-----------------------------------------------------------------------------
 
-#endif //MIDDLE_END
+#endif //OPTIMIZATION

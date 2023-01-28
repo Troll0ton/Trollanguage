@@ -1,5 +1,5 @@
 #include "frontend/include/frontend.h"
-#include "frontend/include/middleend.h"
+#include "frontend/include/optimization.h"
 
 //-----------------------------------------------------------------------------
 

@@ -285,7 +285,7 @@ Node *get_math_funct (char **grammar, char *name)
 
     //-----------------------------------------------------------------------------
 
-    #include "COMMON/include/codegen/op_def.h"
+    #include "common/include/codegen/op_def.h"
 
     //-----------------------------------------------------------------------------
 
