@@ -7,17 +7,35 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
     info->file_dump = fopen ("frontend/dump/tree_dump.html", "w+");
     info->file_tree = fopen ("COMMON/files/tree.txt",        "w+");
 
-    info->file_in   = fopen ("frontend/files/input.txt", "rb");
-    info->File_input = file_reader (info->file_in);
-    info->Text = lines_separator (info->File_input);
-    fclose (info->file_in);
-
     info->line      = line;
     info->log_file  = log_file;
     info->root      = NULL;
     info->var_value = DELETED_PAR;
 
     info->graph_num = 0;
+}
+
+//-----------------------------------------------------------------------------
+
+void text_info_ctor (Text_info *info)
+{
+    info->file_in = fopen ("frontend/files/input.txt", "rb");
+
+    info->File_input = file_reader (info->file_in);
+    info->Text = lines_separator (info->File_input);
+
+    fclose (info->file_in);
+
+    info->curr_line = 0;
+}
+
+//-----------------------------------------------------------------------------
+
+void text_info_dtor (Text_info *info)
+{
+    clear_mem (info->Text, info->File_input);
+
+    info->curr_line = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------
@@ -34,13 +52,10 @@ void tree_info_dtor (Tree_info *info)
     fclose (info->file_dump);
     fclose (info->file_tree);
 
-    clear_mem (info->Text, info->File_input);
-
     info->log_file  = NULL;
     info->line      = DELETED_PAR;
-    info->curr_line = DELETED_PAR;
-    info->graphviz_node = DELETED_PAR;
     info->var_value = DELETED_PAR;
+    info->graphviz_node = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------

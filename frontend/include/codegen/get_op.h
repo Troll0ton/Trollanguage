@@ -78,10 +78,10 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
     }
 
     Node *if_body    = NULL;
-    Node *left_node  = get_body (grammar, info);
+    Node *left_node  = get_body (grammar, tree_info, text_info);
     Node *right_node = NULL;
 
-    info->curr_line++;
+    text_info->curr_line++;
 
     char **curr_sym = &CURR_LINE;
 
@@ -89,12 +89,12 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
     {
         (*curr_sym) += O(ELSE);
 
-        right_node = get_body (curr_sym, info);
+        right_node = get_body (curr_sym, tree_info, text_info);
     }
 
     else
     {
-        info->curr_line--;
+        text_info->curr_line--;
 
         right_node = NULL;
     }
@@ -160,12 +160,12 @@ HANDLE_OP(!strncmp (*grammar, "funct", O(FUNCT)),
 
     Node *funct_name = get_str (grammar);
 
-    info->curr_line++;
+    text_info->curr_line++;
 
     Node *funct_body = NULL;
     Node *left_node  = NULL;
 
-    Node *right_node = get_statement (info);
+    Node *right_node = get_statement (tree_info, text_info);
 
     INIT (funct_body, BODY, 0);
 
@@ -200,7 +200,7 @@ HANDLE_OP(!strncmp (*grammar, "while", O(WHILE)),
         left_node = get_brackets (grammar);
     }
 
-    Node *right_node = get_body (grammar, info);
+    Node *right_node = get_body (grammar, tree_info, text_info);
 
     INIT (new_node, WHILE, 0);
 

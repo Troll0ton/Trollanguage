@@ -14,7 +14,7 @@
 //!
 //}----------------------------------------------------------------------------
 
-#define CURR_LINE info->Text[info->curr_line].begin_line
+#define CURR_LINE text_info->Text[text_info->curr_line].begin_line
 
 Node *get_mul_div (char **grammar)
 {
@@ -151,13 +151,13 @@ Node *get_expression (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-Node *get_grammar (char **grammar, Tree_info *info)
+Node *get_grammar (char **grammar, Tree_info *tree_info, Text_info *text_info)
 {
     if(**grammar == '\0' || **grammar == '\r' || **grammar == '\n') //handle empty lines
     {
-        info->curr_line++;
+        text_info->curr_line++;
 
-        return get_grammar (&CURR_LINE, info);
+        return get_grammar (&CURR_LINE, tree_info, text_info);
     }
 
     Node *comparison_node   = NULL; //comparison (like x>20 for example, in IF or WHILE grammar)
@@ -183,46 +183,46 @@ Node *get_grammar (char **grammar, Tree_info *info)
     ///HANDLE GRAMMAR
     Node *root = get_expression (grammar);
 
-    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION: line %d\n", info->curr_line);
+    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION: line %d\n", text_info->curr_line);
 
     return root;
 }
 
 //-----------------------------------------------------------------------------
 
-Node *get_body (char **grammar, Tree_info *info)
+Node *get_body (char **grammar, Tree_info *tree_info, Text_info *text_info)
 {
     if(**grammar == '{')
     {
-        info->curr_line++;
+        text_info->curr_line++;
 
-        return get_statement (info);
+        return get_statement (tree_info, text_info);
     }
 
     (*grammar)++;
 
-    return get_grammar (grammar, info);
+    return get_grammar (grammar, tree_info, text_info);
 }
 
 //-----------------------------------------------------------------------------
 
-Node *get_statement (Tree_info *info)
+Node *get_statement (Tree_info *tree_info, Text_info *text_info)
 {
     Node *new_node = NULL;
 
     value val = { 0 };
 
-    Node *left_node = get_grammar (&CURR_LINE, info);
+    Node *left_node = get_grammar (&CURR_LINE, tree_info, text_info);
 
-    nullify_tree_pars (info);
+    nullify_tree_pars (tree_info);
 
-    info->curr_line++;
+    text_info->curr_line++;
 
-    while(info->curr_line < info->File_input->num_of_lines && CURR_LINE[0] != '}')
+    while(text_info->curr_line < text_info->File_input->num_of_lines && CURR_LINE[0] != '}')
     {
-        Node *right_node = get_grammar (&CURR_LINE, info);
+        Node *right_node = get_grammar (&CURR_LINE, tree_info, text_info);
 
-        info->curr_line++;
+        text_info->curr_line++;
 
         INIT (new_node, ST, 0);
 

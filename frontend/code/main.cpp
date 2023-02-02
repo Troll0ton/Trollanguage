@@ -3,25 +3,29 @@
 
 //-----------------------------------------------------------------------------
 
-#define NUM_OF_LINES info.File_input->num_of_lines
+#define NUM_OF_LINES text_info.File_input->num_of_lines
 
 int main ()
 {
-    Tree_info info = { 0 };
+    Tree_info tree_info = { 0 };
+    Text_info text_info = { 0 };
 
-    tree_info_ctor (&info);
+    text_info_ctor (&text_info);
+    tree_info_ctor (&tree_info);
 
-    info.root = get_statement (&info);
+    tree_info.root = get_statement (&tree_info, &text_info);
 
-    simplify_tree (info.root, &info);
+    simplify_tree (tree_info.root, &tree_info);
 
-    save_tree (info.root, &info);
+    save_tree (tree_info.root, &tree_info);
 
-    tree_dump (&info);
+    tree_dump (&tree_info);
 
-    tree_dtor (info.root);
+    tree_dtor (tree_info.root);
 
-    tree_info_dtor (&info);
+    text_info_dtor (&text_info);
+
+    tree_info_dtor (&tree_info);
 
     return 0;
 }

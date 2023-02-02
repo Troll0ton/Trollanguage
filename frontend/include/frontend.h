@@ -27,9 +27,9 @@ enum OFFSETS
 
 //-----------------------------------------------------------------------------
 
-Node *get_grammar    (char **grammar, Tree_info *info);
+Node *get_grammar    (char **grammar, Tree_info *tree_info, Text_info *text_info);
 
-Node *get_body       (char **grammar, Tree_info *info);
+Node *get_body       (char **grammar, Tree_info *tree_info, Text_info *text_info);
 
 Node *get_expression (char **grammar);
 
@@ -47,7 +47,7 @@ Node *get_math_funct (char **grammar, char *name);
 
 Node *get_assignment (char **grammar);
 
-Node *get_statement  (Tree_info *info);
+Node *get_statement  (Tree_info *tree_info, Text_info *text_info);
 
 //-----------------------------------------------------------------------------
 
