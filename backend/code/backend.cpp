@@ -13,9 +13,9 @@ void create_asm_file (Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-#define CURR_LINE info->Text[info->curr_line].begin_line
+#define CURR_LINE text_info->Text[text_info->curr_line].begin_line
 
-Node *read_tree (Tree_info *info)
+Node *read_tree (Tree_info *tree_info, Text_info *text_info)
 {
     char sym = 0;
 
@@ -23,20 +23,20 @@ Node *read_tree (Tree_info *info)
 
     if(sym == '{')
     {
-        Node *new_node = init_node (info);
+        Node *new_node = init_node (text_info);
 
         char *parenth_pos = strchr (CURR_LINE, '}');
 
         if(parenth_pos == NULL)
         {
-            return handle_branch_node (info, new_node);
+            return handle_branch_node (tree_info, text_info, new_node);
         }
 
         else
         {
             *parenth_pos = '\0';
 
-            return handle_end_node (info, new_node);
+            return handle_end_node (tree_info, text_info, new_node);
         }
     }
 
@@ -50,7 +50,7 @@ Node *read_tree (Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-Node *init_node (Tree_info *info)
+Node *init_node (Text_info *text_info)
 {
     Node *new_node = NULL;
 
@@ -96,45 +96,45 @@ Node *init_node (Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-Node *handle_branch_node (Tree_info *info, Node *new_node)
+Node *handle_branch_node (Tree_info *tree_info, Text_info *text_info, Node *new_node)
 {
-    if(!info->root)
+    if(!tree_info->root)
     {
-        info->root = new_node;
+        tree_info->root = new_node;
     }
 
     else
     {
-        new_node->parent = info->curr_parent;
+        new_node->parent = tree_info->curr_parent;
     }
 
-    info->curr_parent = new_node;
+    tree_info->curr_parent = new_node;
 
-    info->curr_line++;
+    text_info->curr_line++;
 
-    new_node->left  = read_tree (info);
-    new_node->right = read_tree (info);
+    new_node->left  = read_tree (tree_info, text_info);
+    new_node->right = read_tree (tree_info, text_info);
 
-    info->curr_line++;
+    text_info->curr_line++;
 
     return new_node;
 }
 
 //-----------------------------------------------------------------------------
 
-Node *handle_end_node (Tree_info *info, Node *new_node)
+Node *handle_end_node (Tree_info *tree_info, Text_info *text_info, Node *new_node)
 {
-    if(!info->root)
+    if(!tree_info->root)
     {
-        info->root = new_node;
+        tree_info->root = new_node;
     }
 
     else if(new_node)
     {
-        new_node->parent = info->curr_parent;
+        new_node->parent = tree_info->curr_parent;
     }
 
-    info->curr_line++;
+    text_info->curr_line++;
 
     return new_node;
 }

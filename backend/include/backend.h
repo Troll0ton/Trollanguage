@@ -20,13 +20,13 @@
 
 void  create_asm_file    (Tree_info *info);
 
-Node *read_tree          (Tree_info *info);
+Node *read_tree          (Tree_info *tree_info, Text_info *text_info);
 
-Node *init_node          (Tree_info *info);
+Node *init_node          (Text_info *text_info);
 
-Node *handle_branch_node (Tree_info *info, Node *new_node);
+Node *handle_branch_node (Tree_info *tree_info, Text_info *text_info, Node *new_node);
 
-Node *handle_end_node    (Tree_info *info, Node *new_node);
+Node *handle_end_node    (Tree_info *tree_info, Text_info *text_info, Node *new_node);
 
 void  convert_to_asm     (Node *curr_node, Tree_info *info);
 

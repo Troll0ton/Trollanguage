@@ -65,17 +65,23 @@ enum TREE_OFFSETS
 
 //-----------------------------------------------------------------------------
 
-typedef struct Tree_info
+typedef struct Text_info
 {
     FILE  *file_in;
+    Line  *Text;
+    File  *File_input;
+    int    curr_line;
+} Text_info;
+
+//-----------------------------------------------------------------------------
+
+typedef struct Tree_info
+{
     FILE  *file_dump;
     FILE  *file_dot;
     FILE  *file_asm;
-    Line  *Text;
-    File  *File_input;
     Node  *root;
     Node  *curr_parent;
-    int    curr_line;
     double var_value;
     int    graphviz_node;
     int    curr_label;
@@ -97,6 +103,10 @@ enum SIDES
 //-----------------------------------------------------------------------------
 
 void  tree_info_ctor_   (Tree_info *info, const char* log_file, int line);
+
+void  text_info_ctor    (Text_info *info);
+
+void  text_info_dtor    (Text_info *info);
 
 void  nullify_tree_pars (Tree_info *info);
 

@@ -52,9 +52,9 @@ void tree_info_dtor (Tree_info *info)
     fclose (info->file_dump);
     fclose (info->file_tree);
 
-    info->log_file  = NULL;
-    info->line      = DELETED_PAR;
-    info->var_value = DELETED_PAR;
+    info->log_file      = NULL;
+    info->line          = DELETED_PAR;
+    info->var_value     = DELETED_PAR;
     info->graphviz_node = DELETED_PAR;
 }
 

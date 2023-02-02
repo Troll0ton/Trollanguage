@@ -69,7 +69,7 @@ HANDLE_OP(!strncmp (*grammar, "if", O(IF)),
     {
         condition = comparison_node;
 
-        *grammar = end_of_comparison;
+        *grammar  = end_of_comparison;
     }
 
     else

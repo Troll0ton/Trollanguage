@@ -4,21 +4,24 @@
 
 int main ()
 {
-    Tree_info info = { 0 };
+    Text_info text_info = { 0 };
+    text_info_ctor (&text_info);
 
-    tree_info_ctor (&info);
+    Tree_info tree_info = { 0 };
+    tree_info_ctor (&tree_info);
 
-    nullify_tree_pars (&info);
+    nullify_tree_pars (&tree_info);
 
-    read_tree (&info);
+    read_tree (&tree_info, &text_info);
 
-    tree_dump (&info);
+    tree_dump (&tree_info);
 
-    create_asm_file (&info);
+    create_asm_file (&tree_info);
 
-    tree_dtor (info.root);
+    tree_dtor (tree_info.root);
 
-    tree_info_dtor (&info);
+    text_info_dtor (&text_info);
+    tree_info_dtor (&tree_info);
 
     return 0;
 }

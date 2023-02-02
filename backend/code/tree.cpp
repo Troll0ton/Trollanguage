@@ -7,11 +7,6 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
     info->file_dump = fopen ("backend/dump/tree_dump.html", "w+");
     info->file_asm  = fopen ("COMMON/files/input.asm",      "w+");
 
-    info->file_in = fopen ("COMMON/files/tree.txt", "rb");
-    info->File_input = file_reader (info->file_in);
-    info->Text = lines_separator (info->File_input);
-    fclose (info->file_in);
-
     info->line      = line;
     info->log_file  = log_file;
     info->root      = NULL;
@@ -23,9 +18,31 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 
 //-----------------------------------------------------------------------------
 
+void text_info_ctor (Text_info *info)
+{
+    info->file_in = fopen ("COMMON/files/tree.txt", "rb");
+
+    info->File_input = file_reader (info->file_in);
+    info->Text = lines_separator (info->File_input);
+
+    fclose (info->file_in);
+
+    info->curr_line = 0;
+}
+
+//-----------------------------------------------------------------------------
+
+void text_info_dtor (Text_info *info)
+{
+    clear_mem (info->Text, info->File_input);
+
+    info->curr_line = DELETED_PAR;
+}
+
+//-----------------------------------------------------------------------------
+
 void nullify_tree_pars (Tree_info *info)
 {
-    info->curr_line = 0;
     info->graphviz_node = 0;
     info->root = NULL;
     info->curr_parent = NULL;
@@ -38,11 +55,8 @@ void tree_info_dtor (Tree_info *info)
     fclose (info->file_dump);
     fclose (info->file_asm);
 
-    clear_mem (info->Text, info->File_input);
-
     info->log_file   = NULL;
     info->line       = DELETED_PAR;
-    info->curr_line  = DELETED_PAR;
     info->graphviz_node  = DELETED_PAR;
     info->var_value  = DELETED_PAR;
     info->curr_label = DELETED_PAR;

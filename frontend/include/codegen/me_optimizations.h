@@ -51,7 +51,7 @@ COND_DEF(((IS_OP (curr_node, ADD)  ||
 
 COND_DEF((IS_OP (curr_node, MUL)  &&
          (IS_NULL (LEFT_NODE) ||
-          IS_NULL (RIGHT_NODE)  )),
+          IS_NULL (RIGHT_NODE)  )   ),
 {
     ASSIGN_NUM (curr_node, 0);
 
@@ -60,7 +60,7 @@ COND_DEF((IS_OP (curr_node, MUL)  &&
 })
 
 COND_DEF((IS_OP (curr_node, DIV) &&
-          IS_NULL (LEFT_NODE)  ),
+          IS_NULL (LEFT_NODE)      ),
 {
     ASSIGN_NUM (curr_node, 0);
 
